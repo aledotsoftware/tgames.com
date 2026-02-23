@@ -10,5 +10,8 @@
     "back_home": "Back to Home",
     "back_catalog": "← Back to Catalog",
     "description": "Description",
-    "instructions": "Instructions"
+    "instructions": "Instructions",
+    "like": "Like",
+    "dislike": "Dislike",
+    "report_bug": "Report Bug"
 }

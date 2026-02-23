@@ -37,7 +37,18 @@
       <div class="game-view-meta">
         <span class="meta-tag" v-if="data.game.category">{{ data.game.category }}</span>
         <span class="meta-stats">👁️ {{ data.game.views || 0 }}</span>
-        <span class="meta-stats">👍 {{ data.game.upvote || 0 }}</span>
+        
+        <div class="meta-actions" style="display: flex; gap: 1rem; margin-left: auto;">
+          <button @click="handleInteraction('like')" class="action-btn">
+            👍 {{ $t('like') }} <span>{{ data.game.upvote || 0 }}</span>
+          </button>
+          <button @click="handleInteraction('dislike')" class="action-btn">
+            👎 {{ $t('dislike') }} <span>{{ data.game.downvote || 0 }}</span>
+          </button>
+          <button @click="handleInteraction('report')" class="action-btn error-btn">
+            🚩 {{ $t('report_bug') }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -45,11 +56,30 @@
 
 <script setup>
 const route = useRoute()
-const { data, pending, error } = await useFetch(`/api/games/${route.params.slug}`)
+const { data, pending, error, refresh } = await useFetch(`/api/games/${route.params.slug}`)
 
 useHead({
   title: computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games')
 })
+
+const handleInteraction = async (type) => {
+  if (!data.value?.game?.id) return;
+  try {
+    const response = await $fetch('/api/interactions', {
+      method: 'POST',
+      body: { gameId: data.value.game.id, type }
+    })
+    
+    // Quick optimistic update or just refresh
+    if (response.success) {
+      if (type === 'like') data.value.game.upvote = (data.value.game.upvote || 0) + 1;
+      if (type === 'dislike') data.value.game.downvote = (data.value.game.downvote || 0) + 1;
+      if (type === 'report') alert('Reported bug successfully. / Reporte enviado.');
+    }
+  } catch(e) {
+    console.error('Failed to log interaction', e)
+  }
+}
 </script>
 
 <style scoped>
@@ -137,5 +167,34 @@ useHead({
   font-size: 0.875rem;
   display: flex;
   align-items: center;
+}
+
+.action-btn {
+  background: #222;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.action-btn:hover {
+  background: #333;
+  border-color: #666;
+}
+
+.action-btn.error-btn {
+  background: #3a1111;
+  border-color: #6a1a1a;
+  color: #ffbaba;
+}
+
+.action-btn.error-btn:hover {
+  background: #501515;
 }
 </style>

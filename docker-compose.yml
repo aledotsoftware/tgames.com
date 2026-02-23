@@ -16,6 +16,18 @@ services:
     depends_on:
       - redis
       - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tgames-pss-txn-01.rule=Host(`tgames-pss-txn-01.tudexnetworks.com`)"
+      - "traefik.http.routers.tgames-pss-txn-01.entrypoints=web"
+      - "traefik.http.routers.tgames-pss-txn-01.priority=100"
+      - "traefik.http.services.tgames-pss-txn-01.loadbalancer.server.port=3000"
+
+    networks:
+      app-tier:
+        driver: bridge
+      dokploy-network:
+        external: true
 
   redis:
     image: redis:alpine

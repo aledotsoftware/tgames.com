@@ -10,5 +10,8 @@
     "back_home": "Volver al inicio",
     "back_catalog": "← Volver al catálogo",
     "description": "Descripción",
-    "instructions": "Instrucciones"
+    "instructions": "Instrucciones",
+    "like": "Me gusta",
+    "dislike": "No me gusta",
+    "report_bug": "Reportar Error"
 }
