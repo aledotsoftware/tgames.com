@@ -39,6 +39,10 @@
         <span class="meta-stats">👁️ {{ data.game.views || 0 }}</span>
         
         <div class="meta-actions" style="display: flex; gap: 1rem; margin-left: auto;">
+          <button @click="toggleFavorite(data.game)" class="action-btn">
+            <span v-if="isFavorite(data.game.id)">❤️ {{ $t('remove_favorite') }}</span>
+            <span v-else>🤍 {{ $t('add_favorite') }}</span>
+          </button>
           <button @click="handleInteraction('like')" class="action-btn">
             👍 {{ $t('like') }} <span>{{ data.game.upvote || 0 }}</span>
           </button>
@@ -58,6 +62,11 @@
 const route = useRoute()
 const { locale } = useI18n()
 const localePath = useLocalePath()
+const { isFavorite, toggleFavorite, loadFavorites } = useFavorites()
+
+onMounted(() => {
+  loadFavorites()
+})
 
 const { data, pending, error, refresh } = await useFetch(`/api/games/${route.params.slug}`, {
   query: { lang: locale }

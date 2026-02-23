@@ -13,5 +13,8 @@
     "instructions": "Istruzioni",
     "like": "Mi piace",
     "dislike": "Non mi piace",
-    "report_bug": "Segnala Bug"
+    "report_bug": "Segnala Bug",
+    "for_you": "Per te",
+    "add_favorite": "Aggiungi ai preferiti",
+    "remove_favorite": "Rimuovi dai preferiti"
 }
