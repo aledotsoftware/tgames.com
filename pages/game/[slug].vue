@@ -58,9 +58,16 @@
 const route = useRoute()
 const { locale } = useI18n()
 const localePath = useLocalePath()
+const { addToRecentlyPlayed } = useRecentlyPlayed()
 
 const { data, pending, error, refresh } = await useFetch(`/api/games/${route.params.slug}`, {
   query: { lang: locale }
+})
+
+onMounted(() => {
+  if (data.value?.game) {
+    addToRecentlyPlayed(data.value.game)
+  }
 })
 
 useHead({

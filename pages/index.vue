@@ -1,5 +1,24 @@
 <template>
   <div>
+    <div v-if="history.length > 0" style="margin-bottom: 3rem;">
+      <h1 class="font-logo text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem;">{{ $t('recently_played') }}</h1>
+      <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+        <NuxtLink
+          v-for="game in history"
+          :key="game.id"
+          :to="localePath(`/game/${game.slug}`)"
+          class="game-card"
+        >
+          <div style="position: relative;">
+            <img :src="game.thumb_2 || game.thumb_1 || game.thumb_small" :alt="game.title" loading="lazy" class="game-thumb" />
+          </div>
+          <div class="game-info">
+            <h2 class="game-title">{{ game.title }}</h2>
+          </div>
+        </NuxtLink>
+      </div>
+    </div>
+
     <h1 class="font-logo text-center" style="margin-bottom: 2rem; font-size: 2rem;">{{ $t('featured') }}</h1>
     
     <div v-if="pending" class="text-center">{{ $t('loading_catalog') }}</div>
@@ -26,6 +45,7 @@
 <script setup>
 const { locale } = useI18n()
 const localePath = useLocalePath()
+const { history } = useRecentlyPlayed()
 
 // Load games directly with useFetch
 // The server API will handle the cache-aside pattern with Redis per language
