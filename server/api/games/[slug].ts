@@ -4,10 +4,22 @@ export default defineEventHandler(async (event) => {
     const slug = getRouterParam(event, 'slug')
 
     try {
+        const query = getQuery(event)
+        const lang = query.lang || 'es'
+
         const db = useDB()
         const [rows]: any = await db.execute(
-            `SELECT * FROM games WHERE slug = ? AND published = 1 LIMIT 1`,
-            [slug]
+            `SELECT g.*, 
+                    COALESCE(t1.translation, g.title) as title,
+                    COALESCE(t2.translation, g.description) as description,
+                    COALESCE(t3.translation, g.instructions) as instructions
+             FROM games g
+             LEFT JOIN translations t1 ON t1.content_id = g.id AND t1.content_type = 'game' AND t1.field = 'title' AND t1.language = ?
+             LEFT JOIN translations t2 ON t2.content_id = g.id AND t2.content_type = 'game' AND t2.field = 'description' AND t2.language = ?
+             LEFT JOIN translations t3 ON t3.content_id = g.id AND t3.content_type = 'game' AND t3.field = 'instructions' AND t3.language = ?
+             WHERE g.slug = ? AND g.published = 1 
+             LIMIT 1`,
+            [lang, lang, lang, slug]
         )
 
         if (!rows || rows.length === 0) {

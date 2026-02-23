@@ -120,3 +120,22 @@ Localization
 Change language to local language for both admin and visitor page.
 Blog
 With blog, you can create a news page, article and more.
+
+
+traducciones de contenido totales o parciales a :
+languages:
+ar
+es
+it
+zh
+de
+en
+fr
+hi
+ja
+ko
+nl
+pt
+ru
+sv
+tr
