@@ -16,7 +16,16 @@
         class="search-item"
         @click="query = ''"
       >
-        <img :src="game.thumb_small || game.thumb_1" :alt="game.title" class="search-thumb" />
+        <NuxtImg
+          :src="game.thumb_small || game.thumb_1"
+          :alt="game.title"
+          class="search-thumb"
+          width="48"
+          height="48"
+          format="webp"
+          quality="80"
+          fit="cover"
+        />
         <span class="search-title">{{ game.title }}</span>
       </NuxtLink>
     </div>

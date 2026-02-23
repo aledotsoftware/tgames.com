@@ -1,7 +1,7 @@
 {
-  "_hash": "dl03OhuYvP8mu8N6c3zAtobHvsDXy7pMRLXuHUaqF-8",
+  "_hash": "UN7yLcm0VtsAR8Z4e4gWp5lB0uaPLpH0-aLgSJTePH8",
   "project": {
-    "rootDir": "/src"
+    "rootDir": "/app"
   },
   "versions": {
     "nuxt": "3.21.1"
