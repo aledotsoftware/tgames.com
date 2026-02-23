@@ -26,6 +26,8 @@
 <script setup>
 import { ref } from 'vue'
 
+const localePath = useLocalePath()
+
 const query = ref('')
 const results = ref([])
 let searchTimeout = null

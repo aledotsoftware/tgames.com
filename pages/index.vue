@@ -27,4 +27,5 @@
 // Load games directly with useFetch
 // The server API will handle the cache-aside pattern with Redis
 const { data, pending, error } = await useFetch('/api/games')
+const localePath = useLocalePath()
 </script>
