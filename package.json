@@ -3,11 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "build": "npm run update-i18n && nuxt build",
+    "dev": "npm run update-i18n && nuxt dev",
+    "generate": "npm run update-i18n && nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "update-i18n": "node scripts/fetch-languages.js"
   },
   "dependencies": {
     "dotenv": "^17.3.1",

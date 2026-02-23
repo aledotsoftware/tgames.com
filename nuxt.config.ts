@@ -1,4 +1,27 @@
 import { defineNuxtConfig } from 'nuxt/config'
+import fs from 'fs'
+import path from 'path'
+
+// Function to load locales
+function loadLocales() {
+  const localesPath = path.resolve('i18n/locales.json')
+  if (fs.existsSync(localesPath)) {
+    try {
+      return JSON.parse(fs.readFileSync(localesPath, 'utf-8'))
+    } catch (e) {
+      console.warn('Failed to parse locales.json, falling back to defaults.')
+    }
+  } else {
+    console.warn('locales.json not found, falling back to defaults.')
+  }
+  return [
+    { code: 'en', file: 'en.json' },
+    { code: 'es', file: 'es.json' },
+    { code: 'it', file: 'it.json' }
+  ]
+}
+
+const locales = loadLocales()
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -10,14 +33,10 @@ export default defineNuxtConfig({
 
   i18n: {
     lazy: true,
-    langDir: 'locales/',
+    langDir: 'i18n/locales/',
     strategy: 'prefix',
     defaultLocale: 'es',
-    locales: [
-      { code: 'en', file: 'en.json' },
-      { code: 'es', file: 'es.json' },
-      { code: 'it', file: 'it.json' }
-    ],
+    locales: locales,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
