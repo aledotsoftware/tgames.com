@@ -51,6 +51,23 @@
         </div>
       </div>
     </div>
+
+    <div v-if="relatedGames.length > 0" class="related-games-section">
+      <h3>{{ $t('related_games') }}</h3>
+      <div class="related-games-carousel">
+        <NuxtLink
+          v-for="game in relatedGames"
+          :key="game.id"
+          :to="localePath(`/game/${game.slug}`)"
+          class="related-game-card"
+        >
+          <div class="card-thumb">
+             <img :src="game.thumb_small || game.thumb_1" :alt="game.title" loading="lazy">
+          </div>
+          <div class="card-title">{{ game.title }}</div>
+        </NuxtLink>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -146,6 +163,19 @@ useHead({
   link: [
     { rel: 'canonical', href: canonicalUrl }
   ]
+})
+
+const { data: relatedData } = await useFetch('/api/games/related', {
+  query: {
+    category: computed(() => data.value?.game?.category),
+    lang: locale
+  },
+  lazy: true
+})
+
+const relatedGames = computed(() => {
+  if (!relatedData.value?.games || !data.value?.game?.id) return []
+  return relatedData.value.games.filter(g => g.id !== data.value.game.id)
 })
 
 const handleInteraction = async (type) => {
@@ -282,5 +312,83 @@ const handleInteraction = async (type) => {
 
 .action-btn.error-btn:hover {
   background: #501515;
+}
+
+.related-games-section {
+  margin-top: 3rem;
+  border-top: 1px solid #333;
+  padding-top: 2rem;
+}
+
+.related-games-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.related-games-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+}
+
+.related-games-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.related-games-carousel::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.related-games-carousel::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.related-game-card {
+  flex: 0 0 200px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  transition: transform 0.2s, border-color 0.2s;
+  scroll-snap-align: start;
+}
+
+.related-game-card:hover {
+  transform: translateY(-4px);
+  border-color: #666;
+}
+
+.card-thumb {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: #222;
+  overflow: hidden;
+}
+
+.card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.related-game-card:hover .card-thumb img {
+  transform: scale(1.05);
+}
+
+.card-title {
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 </style>
