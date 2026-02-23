@@ -1,40 +1,45 @@
 <template>
-  <div class="search-container">
-    <input 
-      v-model="query" 
-      @input="onSearch"
-      type="text" 
-      class="search-input" 
-      :placeholder="$t('search_placeholder')" 
-      aria-label="Buscar juegos"
-    />
-    <div v-if="results.length > 0 && query" class="search-dropdown">
-      <NuxtLink 
-        v-for="game in results" 
-        :key="game.id" 
-        :to="localePath(`/game/${game.slug}`)"
-        class="search-item"
-        @click="query = ''"
-      >
-        <NuxtImg
-          :src="game.thumb_small || game.thumb_1"
-          :alt="game.title"
-          class="search-thumb"
-          width="48"
-          height="48"
-          format="webp"
-          quality="80"
-          fit="cover"
-        />
-        <span class="search-title">{{ game.title }}</span>
-      </NuxtLink>
+  <div class="premium-search-container" v-click-outside="closeSearch">
+    <div class="search-input-wrapper" :class="{ 'is-active': query }">
+      <span class="search-icon">🔍</span>
+      <input 
+        v-model="query" 
+        @input="onSearch"
+        type="text" 
+        class="premium-search-input" 
+        :placeholder="$t('search_placeholder')" 
+        aria-label="Buscar juegos"
+      />
+      <button v-if="query" @click="query = ''; results = []" class="clear-btn">✕</button>
     </div>
+    
+    <Transition name="fade-slide">
+      <div v-if="results.length > 0 && query" class="premium-search-dropdown shadow-2xl">
+        <NuxtLink 
+          v-for="game in results" 
+          :key="game.id" 
+          :to="localePath(`/game/${game.slug}`)"
+          class="premium-search-item"
+          @click="closeSearch"
+        >
+          <div class="item-thumb-wrapper">
+            <img
+              :src="game.thumb_small || game.thumb_1"
+              :alt="game.title"
+              class="item-thumb"
+            />
+          </div>
+          <div class="item-details">
+            <span class="item-title">{{ game.title }}</span>
+            <span class="item-meta" v-if="game.category">{{ game.category }}</span>
+          </div>
+        </NuxtLink>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 const { locale } = useI18n()
 const localePath = useLocalePath()
 
@@ -49,7 +54,6 @@ const onSearch = () => {
     return
   }
   
-  // Debounce API calls for typing
   searchTimeout = setTimeout(async () => {
     try {
       const response = await $fetch(`/api/search?q=${encodeURIComponent(query.value)}&lang=${locale.value}`)
@@ -61,72 +65,149 @@ const onSearch = () => {
     }
   }, 300)
 }
+
+const closeSearch = () => {
+  query.value = ''
+  results.value = []
+}
+
+// Simple click outside directive logic
+const vClickOutside = {
+  mounted(el, binding) {
+    el.clickOutsideEvent = (event) => {
+      if (!(el === event.target || el.contains(event.target))) {
+        binding.value(event);
+      }
+    };
+    document.addEventListener("click", el.clickOutsideEvent);
+  },
+  unmounted(el) {
+    document.removeEventListener("click", el.clickOutsideEvent);
+  },
+};
 </script>
 
 <style scoped>
-.search-container {
+.premium-search-container {
   position: relative;
   width: 100%;
-  max-width: 400px;
 }
 
-.search-input {
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0 1rem;
+  transition: var(--transition-smooth);
+}
+
+.search-input-wrapper.is-active,
+.search-input-wrapper:focus-within {
+  border-color: var(--border-glow);
+  background: var(--bg-secondary);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+}
+
+.search-icon {
+  font-size: 0.9rem;
+  opacity: 0.5;
+  margin-right: 0.75rem;
+}
+
+.premium-search-input {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #333;
-  border-radius: 4px;
-  background-color: transparent;
-  color: #fff;
-  font-family: inherit;
-  font-size: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  padding: 0.75rem 0;
+  font-size: 0.9rem;
   outline: none;
-  transition: border-color 0.2s;
 }
 
-.search-input:focus {
-  border-color: #fff;
+.clear-btn {
+  font-size: 0.8rem;
+  opacity: 0.5;
+  padding: 0.5rem;
 }
 
-.search-dropdown {
+.clear-btn:hover { opacity: 1; }
+
+.premium-search-dropdown {
   position: absolute;
-  top: 100%;
+  top: recalc(100% + 10px);
   left: 0;
   right: 0;
-  margin-top: 0.5rem;
-  background-color: #000;
-  border: 1px solid #333;
-  border-radius: 4px;
-  max-height: 400px;
+  background: var(--bg-secondary);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  max-height: 480px;
   overflow-y: auto;
-  z-index: 50;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  z-index: 1100;
+  padding: 0.5rem;
 }
 
-.search-item {
+.premium-search-item {
   display: flex;
   align-items: center;
   padding: 0.75rem;
-  border-bottom: 1px solid #111;
-  transition: background-color 0.2s;
+  border-radius: 12px;
+  transition: var(--transition-smooth);
+  gap: 1rem;
 }
 
-.search-item:last-child {
-  border-bottom: none;
+.premium-search-item:hover {
+  background: var(--bg-tertiary);
 }
 
-.search-item:hover {
-  background-color: #111;
+.item-thumb-wrapper {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #111;
 }
 
-.search-thumb {
-  width: 48px;
-  height: 48px;
+.item-thumb {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 4px;
-  margin-right: 1rem;
 }
 
-.search-title {
+.item-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.item-title {
   font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-meta {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+
+/* Transitions */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.2s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>

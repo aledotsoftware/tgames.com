@@ -7,7 +7,7 @@ export default defineCachedEventHandler(async (event) => {
         const category = query.category
 
         if (!category) {
-             return {
+            return {
                 success: true,
                 games: []
             }
@@ -15,7 +15,7 @@ export default defineCachedEventHandler(async (event) => {
 
         const db = useDB()
 
-        const [rows] = await db.execute(
+        const [rows] = await db.query(
             `SELECT g.id, g.slug, g.thumb_1, g.thumb_2, g.thumb_small,
                     COALESCE(t.translation, g.title) as title
              FROM games g

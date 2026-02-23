@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         const lang = query.lang || 'es'
 
         const db = useDB()
-        const [rows]: any = await db.execute(
+        const [rows]: any = await db.query(
             `SELECT g.*, 
                     COALESCE(t1.translation, g.title) as title,
                     COALESCE(t2.translation, g.description) as description,

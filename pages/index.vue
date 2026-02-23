@@ -1,29 +1,67 @@
 <template>
   <div>
-    <h1 class="font-logo text-center" style="margin-bottom: 2rem; font-size: 2rem;">{{ $t('featured') }}</h1>
-    
-    <div v-if="error" class="text-center" style="color:red;">{{ $t('error_catalog') }} {{ error.message }}</div>
+    <!-- Hero Section / Featured Game Highlight -->
+    <section class="hero-section animate-fade-in">
+      <div class="hero-content">
+        <h1 class="hero-title font-logo">Llegar y Jugar.</h1>
+        <p class="hero-subtitle">La colección definitiva de juegos web minimalistas, sin esperas y sin complicaciones.</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">+26k</span>
+            <span class="stat-label">Juegos</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value">⚡</span>
+            <span class="stat-label">Carga instantánea</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <div v-else class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
-      <NuxtLink
-        v-for="game in games"
-        :key="game.id"
-        :to="localePath(`/game/${game.slug}`)"
-        class="game-card"
-      >
-        <div style="position: relative;">
-          <img :src="game.thumb_2 || game.thumb_1 || game.thumb_small" :alt="game.title" loading="lazy" class="game-thumb" />
-        </div>
-        <div class="game-info">
-          <h2 class="game-title">{{ game.title }}</h2>
-        </div>
-      </NuxtLink>
+    <!-- Games Section -->
+    <section class="games-section section-padding">
+      <div class="section-header">
+        <h2 class="section-title">{{ $t('featured') }}</h2>
+        <div class="section-line"></div>
+      </div>
       
-      <!-- Skeletons while loading -->
-      <SkeletonGameCard v-for="n in (pending && games.length === 0 ? 12 : (loadingMore ? 6 : 0))" :key="'loading-' + n" />
-    </div>
+      <div v-if="error" class="error-state">
+        <p>{{ $t('error_catalog') }} {{ error.message }}</p>
+      </div>
 
-    <div ref="sentinel" style="height: 20px; margin-top: 2rem;"></div>
+      <div v-else class="games-grid">
+        <NuxtLink
+          v-for="(game, index) in games"
+          :key="game.id"
+          :to="localePath(`/game/${game.slug}`)"
+          class="game-card hover-lift"
+          :style="{ animationDelay: (index % 10) * 0.05 + 's' }"
+        >
+          <div class="thumb-wrapper">
+            <img 
+              :src="game.thumb_2 || game.thumb_1 || game.thumb_small" 
+              :alt="game.title" 
+              loading="lazy" 
+              class="game-thumb" 
+            />
+            <div class="card-overlay">
+              <span class="play-btn">Jugar</span>
+            </div>
+          </div>
+          <div class="game-info">
+            <h3 class="game-title">{{ game.title }}</h3>
+          </div>
+        </NuxtLink>
+        
+        <!-- Skeletons while loading -->
+        <SkeletonGameCard v-for="n in (pending && games.length === 0 ? 12 : (loadingMore ? 6 : 0))" :key="'loading-' + n" />
+      </div>
+
+      <div ref="sentinel" class="scroll-sentinel">
+        <div v-if="loadingMore" class="loading-spinner"></div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -31,8 +69,6 @@
 const { locale } = useI18n()
 const localePath = useLocalePath()
 
-// Load games directly with useFetch
-// The server API will handle the cache-aside pattern with Redis per language
 const { data, pending, error } = await useFetch('/api/games', {
   query: { lang: locale }
 })
@@ -42,12 +78,10 @@ const page = ref(1)
 const loadingMore = ref(false)
 const hasMore = ref(true)
 
-// Initialize games from initial fetch
 if (data.value && data.value.games) {
     games.value = [...data.value.games]
 }
 
-// Watch for locale/data changes to reset list
 watch(data, (newData) => {
     if (newData && newData.games) {
         games.value = [...newData.games]
@@ -90,7 +124,7 @@ onMounted(() => {
             loadMoreGames()
         }
     }, {
-        rootMargin: '200px', // Load before reaching bottom
+        rootMargin: '400px',
         threshold: 0.1
     })
 
@@ -109,3 +143,148 @@ onUnmounted(() => {
     if (observer) observer.disconnect()
 })
 </script>
+
+<style scoped>
+.hero-section {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1rem;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 3rem;
+}
+
+.hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 30px;
+  background: var(--border-color);
+}
+
+.section-header {
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--border-color), transparent);
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: var(--transition-smooth);
+}
+
+.game-card:hover .card-overlay {
+  opacity: 1;
+}
+
+.play-btn {
+  background: var(--accent);
+  color: #000;
+  padding: 0.5rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+  transform: translateY(10px);
+  transition: var(--transition-smooth);
+}
+
+.game-card:hover .play-btn {
+  transform: translateY(0);
+}
+
+.scroll-sentinel {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--bg-tertiary);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-state {
+  padding: 4rem;
+  text-align: center;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  color: #ff4444;
+}
+
+@media (max-width: 640px) {
+  .games-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+  .hero-stats { gap: 1rem; }
+  .stat-value { font-size: 1.2rem; }
+}
+</style>
