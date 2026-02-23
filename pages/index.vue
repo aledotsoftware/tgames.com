@@ -24,8 +24,12 @@
 </template>
 
 <script setup>
-// Load games directly with useFetch
-// The server API will handle the cache-aside pattern with Redis
-const { data, pending, error } = await useFetch('/api/games')
+const { locale } = useI18n()
 const localePath = useLocalePath()
+
+// Load games directly with useFetch
+// The server API will handle the cache-aside pattern with Redis per language
+const { data, pending, error } = await useFetch('/api/games', {
+  query: { lang: locale }
+})
 </script>

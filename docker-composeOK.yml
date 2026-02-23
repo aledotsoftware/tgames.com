@@ -1,0 +1,61 @@
+services:
+  nuxt-app:
+    build: .
+    container_name: nuxt_dev
+    expose:
+      - "3000"
+    volumes:
+      - .:/src
+      - /src/node_modules
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tgames-pss-txn-01.rule=Host(`tgames-pss-txn-01.tudexnetworks.com`)"
+      - "traefik.http.routers.tgames-pss-txn-01.entrypoints=web"
+      - "traefik.http.routers.tgames-pss-txn-01.priority=100"
+      - "traefik.http.services.tgames-pss-txn-01.loadbalancer.server.port=3000"
+
+    networks:
+      - dokploy-network
+      - app-tier
+
+  redis:
+    image: redis:alpine
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --save 60 1 --loglevel warning
+    networks:
+      - app-tier
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tudexgames
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./tudexgames.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-tier
+
+networks:
+  dokploy-network:
+    external: true
+  app-tier:
+    driver: bridge
+
+volumes:
+  redis_data:
+  db_data:
