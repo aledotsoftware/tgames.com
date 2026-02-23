@@ -63,8 +63,30 @@ const { data, pending, error, refresh } = await useFetch(`/api/games/${route.par
   query: { lang: locale }
 })
 
-useHead({
-  title: computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games')
+const url = useRequestURL()
+
+useSeoMeta({
+  title: () => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games',
+  ogTitle: () => data.value?.game?.title,
+  twitterTitle: () => data.value?.game?.title,
+  description: () => data.value?.game?.description,
+  ogDescription: () => data.value?.game?.description,
+  twitterDescription: () => data.value?.game?.description,
+  ogImage: () => {
+    const game = data.value?.game
+    if (!game) return null
+    const img = game.thumb_2 || game.thumb_1 || game.thumb_small
+    if (!img) return null
+    return img.startsWith('http') ? img : `${url.origin}${img}`
+  },
+  twitterImage: () => {
+    const game = data.value?.game
+    if (!game) return null
+    const img = game.thumb_2 || game.thumb_1 || game.thumb_small
+    if (!img) return null
+    return img.startsWith('http') ? img : `${url.origin}${img}`
+  },
+  twitterCard: 'summary_large_image',
 })
 
 const handleInteraction = async (type) => {
