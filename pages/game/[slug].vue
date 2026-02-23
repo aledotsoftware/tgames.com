@@ -64,7 +64,55 @@ const { data, pending, error, refresh } = await useFetch(`/api/games/${route.par
 })
 
 useHead({
-  title: computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games')
+  title: computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games'),
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: computed(() => {
+        const game = data.value?.game
+        if (!game) return '{}'
+
+        const origin = 'https://tudexgames.com'
+        const imageUrl = game.thumb_1 || game.thumb_2 || game.thumb_small || ''
+        const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${origin}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`
+
+        const totalVotes = (game.upvote || 0) + (game.downvote || 0)
+        let ratingValue = 0
+        if (totalVotes > 0) {
+          ratingValue = ((game.upvote || 0) / totalVotes) * 5
+        }
+
+        const schema = {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": game.title,
+          "description": (game.description || '').replace(/<[^>]*>/g, ''),
+          "image": absoluteImageUrl,
+          "url": `${origin}${localePath(`/game/${game.slug}`)}`,
+          "applicationCategory": "Game",
+          "genre": game.category,
+          "operatingSystem": "Web Browser",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        }
+
+        if (totalVotes > 0) {
+          schema.aggregateRating = {
+            "@type": "AggregateRating",
+            "ratingValue": ratingValue.toFixed(1),
+            "ratingCount": totalVotes,
+            "bestRating": "5",
+            "worstRating": "0"
+          }
+        }
+
+        return JSON.stringify(schema).replace(/</g, '\\u003c')
+      })
+    }
+  ]
 })
 
 const handleInteraction = async (type) => {
