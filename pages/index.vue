@@ -13,7 +13,15 @@
         class="game-card"
       >
         <div style="position: relative;">
-          <img :src="game.thumb_2 || game.thumb_1 || game.thumb_small" :alt="game.title" loading="lazy" class="game-thumb" />
+          <NuxtImg
+            :src="game.thumb_2 || game.thumb_1 || game.thumb_small"
+            :alt="game.title"
+            loading="lazy"
+            class="game-thumb"
+            format="webp"
+            quality="80"
+            width="400"
+          />
         </div>
         <div class="game-info">
           <h2 class="game-title">{{ game.title }}</h2>

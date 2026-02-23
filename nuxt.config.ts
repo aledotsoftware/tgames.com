@@ -5,8 +5,17 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   modules: [
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@nuxt/image'
   ],
+
+  image: {
+    domains: ['tudexgames.com'],
+    alias: {
+      '/thumbs': 'https://tudexgames.com/thumbs',
+      '/games': 'https://tudexgames.com/games'
+    }
+  },
 
   i18n: {
     lazy: true,
