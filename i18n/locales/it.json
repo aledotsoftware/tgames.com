@@ -1,0 +1,14 @@
+{
+    "site_title": "Tudex Games - Clicca e Gioca",
+    "search_placeholder": "Cerca giochi...",
+    "featured": "In evidenza",
+    "loading_catalog": "Caricamento catalogo...",
+    "error_catalog": "Si è verificato un errore durante il caricamento dei giochi:",
+    "loading_game": "Caricamento gioco...",
+    "game_not_found": "Gioco non trovato",
+    "error_prefix": "Errore:",
+    "back_home": "Torna alla Home",
+    "back_catalog": "← Torna al Catalogo",
+    "description": "Descrizione",
+    "instructions": "Istruzioni"
+}

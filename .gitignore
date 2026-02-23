@@ -1,0 +1,30 @@
+# Node/Nuxt modules
+node_modules/
+.nuxt/
+.output/
+dist/
+
+# Development configurations
+.env
+.DS_Store
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database dump files
+*.sql
+*.sqlite
+
+# Nuxt devtools
+.nuxt-devtools/
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

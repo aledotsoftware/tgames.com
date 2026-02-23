@@ -68,3 +68,55 @@ Dockerización: Todo el stack (Nuxt, Node, Redis) correrá en contenedores aisla
 
 3. Experiencia: "Click & Play"
 Foco Total: Optimizaremos el flujo para PC, Tablet y Mobile bajo la premisa de que el usuario debe estar jugando en menos de dos clics desde que ingresa al sitio.
+
+
+Fetch Games
+Import free HTML5 games from Game Distributor.
+Game Upload
+
+<select name="distributor" class="form-control" id="distributor-options">
+				<option value="" disabled="" selected="" hidden="">Choose game distributor...</option>
+				<option value="#gamemonetize">GameMonetize</option>
+				<option value="#gamepix">GamePix</option>
+				<option value="#4j">4J</option>
+				<option value="#wanted5games">Wanted5Games</option>
+				<option value="#gamearter">GameArter</option>
+				<option value="#gameflare">Gameflare</option>
+				<option value="#y8">Y8</option>
+				<option value="#gamezop">Gamezop</option>
+				<option value="#htmlgames">HTMLGAMES</option>
+				<option value="#famobi">Famobi</option>
+			</select>
+
+
+
+
+Upload your own HTML5 game files and host it on your server. y poder jugar en tudexgames o distribuirlos a terceros como lo hacen los otros sitios web de juegos como gamemonetize, gamepix, 4j, wanted5games, gamearter, gameflare, y8, gamezop, htmlgames, famobi, etc. (solo los juegos cargados aqui)
+
+
+Remote Upload
+You can add a game from external source with game URL.
+JSON Importer
+Bulk import games with JSON data, useful for site migration.
+Themes
+CloudArcade come with 2 free themes, there also premium themes available.
+Updater
+You can update CMS through Admin dashboard with a single click.
+Backup
+If something wrong after update, you can go back to previous version.
+Thumbnails
+You can import and generate small thumbnails from game source.
+SEO Friendly
+CloudArcade optimized for SEO and page speed for better experience.
+Plugins
+Extend our features using Plugin without touching internal code.
+Statistics
+Observe the growth of your site with built-in statistics.
+Player Base
+Let visitor joined your CloudArcade site as Player to gain popularity.
+Leaderboard
+Player can submit a game score and then show it on your site.
+Localization
+Change language to local language for both admin and visitor page.
+Blog
+With blog, you can create a news page, article and more.

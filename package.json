@@ -10,8 +10,14 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "dotenv": "^17.3.1",
+    "ioredis": "^5.9.3",
+    "mysql2": "^3.17.4",
     "nuxt": "^3.10.0",
     "vue": "^3.4.0",
     "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/i18n": "^10.2.3"
   }
 }
