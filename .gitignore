@@ -17,6 +17,7 @@ yarn-error.log*
 # Database dump files
 *.sql
 *.sqlite
+!tudexgames.sql.gz
 
 # Nuxt devtools
 .nuxt-devtools/

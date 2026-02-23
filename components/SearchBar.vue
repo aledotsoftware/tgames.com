@@ -26,6 +26,7 @@
 <script setup>
 import { ref } from 'vue'
 
+const { locale } = useI18n()
 const localePath = useLocalePath()
 
 const query = ref('')
@@ -42,7 +43,7 @@ const onSearch = () => {
   // Debounce API calls for typing
   searchTimeout = setTimeout(async () => {
     try {
-      const response = await $fetch(`/api/search?q=${encodeURIComponent(query.value)}`)
+      const response = await $fetch(`/api/search?q=${encodeURIComponent(query.value)}&lang=${locale.value}`)
       if (response.success) {
         results.value = response.games
       }

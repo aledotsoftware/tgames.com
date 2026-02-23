@@ -46,7 +46,7 @@ services:
       MYSQL_DATABASE: tudexgames
     volumes:
       - db_data:/var/lib/mysql
-      - ./tudexgames.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./tudexgames.sql.gz:/docker-entrypoint-initdb.d/init.sql.gz
     networks:
       - app-tier
 

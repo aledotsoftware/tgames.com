@@ -2,16 +2,20 @@ import { useDB } from '../../utils/db'
 
 export default defineCachedEventHandler(async (event) => {
     try {
+        const query = getQuery(event)
+        const lang = query.lang || 'es'
+
         const db = useDB()
 
-        // Fetch top trending / new games (limit to 60 for fast initial render)
-        // We only select the fields required for the catalog view mapping "game-thumb", "title", "slug"
         const [rows] = await db.execute(
-            `SELECT id, title, slug, thumb_1, thumb_2, thumb_small 
-       FROM games 
-       WHERE published = 1 
-       ORDER BY upvote DESC, views DESC 
-       LIMIT 60`
+            `SELECT g.id, g.slug, g.thumb_1, g.thumb_2, g.thumb_small, 
+                    COALESCE(t.translation, g.title) as title
+             FROM games g
+             LEFT JOIN translations t ON t.content_id = g.id AND t.content_type = 'game' AND t.field = 'title' AND t.language = ?
+             WHERE g.published = 1 
+             ORDER BY g.upvote DESC, g.views DESC 
+             LIMIT 60`,
+            [lang]
         )
 
         return {
@@ -20,8 +24,6 @@ export default defineCachedEventHandler(async (event) => {
         }
     } catch (error: any) {
         console.error('DB Error:', error)
-
-        // Throw error so Nitro unstorage doesn't cache failed db states
         throw createError({
             statusCode: 500,
             statusMessage: 'Error connecting to database: ' + error.message
@@ -30,7 +32,10 @@ export default defineCachedEventHandler(async (event) => {
 }, {
     base: 'redis',
     name: 'games-catalog',
-    getKey: () => 'trending',
+    getKey: (event) => {
+        const query = getQuery(event)
+        return `trending-${query.lang || 'es'}`
+    },
     maxAge: 60 * 60, // 1 hour TTL Cache!
     swr: true // Serve stale while revalidating
 })
