@@ -4,21 +4,22 @@ let pool: mysql.Pool;
 
 export const useDB = () => {
     if (!pool) {
-        console.log('Initializing DB Pool with:', {
-            host: process.env.DB_HOST,
-            port: process.env.DB_PORT,
-            user: process.env.DB_USER,
-            database: process.env.DB_NAME
-        });
+        const config = useRuntimeConfig();
+        const dbConfig = config.database;
+
+        console.log('Initializing DB Pool with RuntimeConfig');
+
         pool = mysql.createPool({
-            host: process.env.DB_HOST || 'localhost',
-            port: Number(process.env.DB_PORT) || 3306,
-            user: process.env.DB_USER || 'root',
-            password: process.env.DB_PASS || '',
-            database: process.env.DB_NAME || 'tudexgames',
+            host: dbConfig.host,
+            port: dbConfig.port,
+            user: dbConfig.user,
+            password: dbConfig.pass,
+            database: dbConfig.name,
             waitForConnections: true,
             connectionLimit: 10,
-            queueLimit: 0
+            queueLimit: 0,
+            // Enable named placeholders if needed, but we use positional
+            namedPlaceholders: true
         });
     }
     return pool;

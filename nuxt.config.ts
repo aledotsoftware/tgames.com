@@ -40,7 +40,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    langDir: 'i18n/locales/',
+    langDir: 'locales/',
     strategy: 'prefix',
     defaultLocale: 'es',
     vueI18n: './i18n.config.ts',
@@ -66,6 +66,17 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_redirected',
       redirectOn: 'root',
     }
+  },
+
+  runtimeConfig: {
+    database: {
+      host: process.env.DB_HOST || 'db',
+      port: Number(process.env.DB_PORT) || 3306,
+      user: process.env.DB_USER || 'root',
+      pass: process.env.DB_PASS || 'root',
+      name: process.env.DB_NAME || 'tudexgames'
+    },
+    redisUrl: process.env.REDIS_URL || 'redis://redis:6379'
   },
 
   app: {
