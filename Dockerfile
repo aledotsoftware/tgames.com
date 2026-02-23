@@ -13,4 +13,4 @@ COPY . .
 # Exponemos el puerto por defecto de Nuxt
 EXPOSE 3000
 
-CMD ["npm", "run", "dev", "--", "-o", "0.0.0.0"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

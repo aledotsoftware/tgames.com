@@ -1,0 +1,93 @@
+
+> dev
+> nuxt dev -o 0.0.0.0
+
+│
+●  Nuxt 3.21.1 (with Nitro 2.13.1, Vite 7.3.1 and Vue 3.5.28)
+
+ 
+              █▀▀▀▀▀▀▀█▀██▀▀███▀█▀▀▀▀▀▀▀█
+              █ █▀▀▀█ █▄▄ ▀  ▀█▀█ █▀▀▀█ █
+              █ █   █ █▀▀ ▀█ ██ █ █   █ █
+              █ ▀▀▀▀▀ █ █▀▄▀▄▀█▀█ ▀▀▀▀▀ █
+              █▀▀▀██▀▀█ ▀ ▄▄█ ▄ ▀▀▀▀██▀▀█
+              █▄▄ ▀▄▀▀▀█▄▄▀█▀  ▀  ██ ▀▄ █
+              █▀▄▄▄▄▄▀▀▄ █▀▀█▀▀█▀ ▄█▄██▀█
+              █▀ ▀█▀ ▀█▄▄██ ▀  ▀█▄█▀▀▀▄ █
+              █▀▀▀██▀▀█ ▀█▄▄█▀▄ ▀ ▀▀██▀██
+              █▀▀▀▀▀▀▀█▄ ▀▀█▀ █ █▀█ ▀▄█ █
+              █ █▀▀▀█ █▄▀█▀▀█▀▀ ▀▀▀ ▀█▄ █
+              █ █   █ █▀█▄█ ▄█▀▀██  ▄▄ ▀█
+              █ ▀▀▀▀▀ █  ▀▄ ▀   ▀█▄▄▀██▀█
+              ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 
+  ➜ Local:    http://0.0.0.0:3000/
+  ➜ Network:  http://172.20.0.2:3000/ [QR code]
+
+  ➜ DevTools: press Shift + Alt + D in the browser (v3.2.1)
+
+✔ Vite client built in 51ms
+✔ Vite server built in 85ms
+
+ ERROR  Pre-transform error: Failed to resolve import "#app-manifest" from "node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /src/node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f:12:22
+  10 |    }
+  11 |    if (false) {
+  12 |      manifest = import("#app-manifest");
+     |                        ^
+  13 |    } else {
+  14 |      manifest = $fetch(buildAssetsURL(builds/meta/${useRuntimeConfig().app.buildId}.json), {
+
+
+ ERROR  Pre-transform error: Failed to resolve import "#app-manifest" from "node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /src/node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f:12:22
+  10 |    }
+  11 |    if (false) {
+  12 |      manifest = import("#app-manifest");
+     |                        ^
+  13 |    } else {
+  14 |      manifest = $fetch(buildAssetsURL(builds/meta/${useRuntimeConfig().app.buildId}.json), { (x2)
+
+
+ ERROR  Pre-transform error: Failed to resolve import "#app-manifest" from "node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /src/node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f:12:22
+  10 |    }
+  11 |    if (false) {
+  12 |      manifest = import("#app-manifest");
+     |                        ^
+  13 |    } else {
+  14 |      manifest = $fetch(buildAssetsURL(builds/meta/${useRuntimeConfig().app.buildId}.json), { (x3)
+
+
+ ERROR  Pre-transform error: Failed to resolve import "#app-manifest" from "node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /src/node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f:12:22
+  10 |    }
+  11 |    if (false) {
+  12 |      manifest = import("#app-manifest");
+     |                        ^
+  13 |    } else {
+  14 |      manifest = $fetch(buildAssetsURL(builds/meta/${useRuntimeConfig().app.buildId}.json), { (x4)
+
+
+ ERROR  Pre-transform error: Failed to resolve import "#app-manifest" from "node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /src/node_modules/nuxt/dist/app/composables/manifest.js?v=fde0f08f:12:22
+  10 |    }
+  11 |    if (false) {
+  12 |      manifest = import("#app-manifest");
+     |                        ^
+  13 |    } else {
+  14 |      manifest = $fetch(buildAssetsURL(builds/meta/${useRuntimeConfig().app.buildId}.json), { (x5)
+
+[nitro] ✔ Nuxt Nitro server built in 607ms
+ℹ Vite server warmed up in 1ms
+ℹ Vite client warmed up in 1ms
+npm error path /src
+npm error command failed
+npm error signal SIGTERM
+npm error command sh -c nuxt dev -o 0.0.0.0
+npm error A complete log of this run can be found in: /root/.npm/_logs/2026-02-23T03_28_17_425Z-debug-0.log
