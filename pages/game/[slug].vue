@@ -51,6 +51,23 @@
         </div>
       </div>
     </div>
+
+    <div v-if="relatedGames.length > 0" class="related-games-section">
+      <h3>{{ $t('related_games') }}</h3>
+      <div class="related-games-carousel">
+        <NuxtLink
+          v-for="game in relatedGames"
+          :key="game.id"
+          :to="localePath(`/game/${game.slug}`)"
+          class="related-game-card"
+        >
+          <div class="card-thumb">
+             <img :src="game.thumb_small || game.thumb_1" :alt="game.title" loading="lazy">
+          </div>
+          <div class="card-title">{{ game.title }}</div>
+        </NuxtLink>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -63,56 +80,102 @@ const { data, pending, error, refresh } = await useFetch(`/api/games/${route.par
   query: { lang: locale }
 })
 
+const stripHtml = (html) => {
+  if (!html) return ''
+  return html.replace(/<[^>]*>/g, '')
+}
+
+const gameTitle = computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games')
+const gameDescription = computed(() => data.value?.game?.description ? stripHtml(data.value.game.description).substring(0, 160) : 'Juega los mejores juegos online gratis en Tudex Games.')
+const gameFullDescription = computed(() => data.value?.game?.description ? stripHtml(data.value.game.description) : 'Juega los mejores juegos online gratis en Tudex Games.')
+
+const gameImage = computed(() => {
+  if (!data.value?.game) return 'https://tudexgames.com/logo.png'
+  const img = data.value.game.thumb_2 || data.value.game.thumb_1 || data.value.game.thumb_small
+  if (!img) return 'https://tudexgames.com/logo.png'
+  if (img.startsWith('http')) return img
+  return `https://tudexgames.com${img.startsWith('/') ? '' : '/'}${img}`
+})
+
+const canonicalUrl = computed(() => {
+  const currentSlug = route.params.slug
+  const currentLocale = locale.value
+  return `https://tudexgames.com/${currentLocale}/game/${currentSlug}/`
+})
+
+useSeoMeta({
+  title: gameTitle,
+  description: gameDescription,
+  ogTitle: gameTitle,
+  ogDescription: gameFullDescription,
+  ogImage: gameImage,
+  ogUrl: canonicalUrl,
+  twitterCard: 'summary_large_image',
+  twitterTitle: gameTitle,
+  twitterDescription: gameDescription,
+  twitterImage: gameImage
+})
+
 useHead({
-  title: computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games'),
   script: [
     {
       type: 'application/ld+json',
-      innerHTML: computed(() => {
-        const game = data.value?.game
-        if (!game) return '{}'
+      children: computed(() => {
+        if (!data.value?.game) return '{}'
 
-        const origin = 'https://tudexgames.com'
-        const imageUrl = game.thumb_1 || game.thumb_2 || game.thumb_small || ''
-        const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${origin}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`
-
-        const totalVotes = (game.upvote || 0) + (game.downvote || 0)
-        let ratingValue = 0
-        if (totalVotes > 0) {
-          ratingValue = ((game.upvote || 0) / totalVotes) * 5
-        }
+        const upvotes = data.value.game.upvote || 0
+        const downvotes = data.value.game.downvote || 0
+        const totalVotes = upvotes + downvotes
 
         const schema = {
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          "name": game.title,
-          "description": (game.description || '').replace(/<[^>]*>/g, ''),
-          "image": absoluteImageUrl,
-          "url": `${origin}${localePath(`/game/${game.slug}`)}`,
-          "applicationCategory": "Game",
-          "genre": game.category,
-          "operatingSystem": "Web Browser",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
+          '@context': 'https://schema.org',
+          '@type': 'VideoGame',
+          name: data.value.game.title,
+          description: gameFullDescription.value,
+          image: gameImage.value,
+          url: canonicalUrl.value,
+          genre: data.value.game.category || 'Game',
+          applicationCategory: 'Game',
+          operatingSystem: 'Web Browser',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock'
           }
         }
 
         if (totalVotes > 0) {
-          schema.aggregateRating = {
-            "@type": "AggregateRating",
-            "ratingValue": ratingValue.toFixed(1),
-            "ratingCount": totalVotes,
-            "bestRating": "5",
-            "worstRating": "0"
-          }
+           const ratingValue = (upvotes / totalVotes) * 5
+           schema.aggregateRating = {
+             '@type': 'AggregateRating',
+             ratingValue: ratingValue.toFixed(1),
+             ratingCount: totalVotes,
+             bestRating: '5',
+             worstRating: '1'
+           }
         }
 
-        return JSON.stringify(schema).replace(/</g, '\\u003c')
+        return JSON.stringify(schema)
       })
     }
+  ],
+  link: [
+    { rel: 'canonical', href: canonicalUrl }
   ]
+})
+
+const { data: relatedData } = await useFetch('/api/games/related', {
+  query: {
+    category: computed(() => data.value?.game?.category),
+    lang: locale
+  },
+  lazy: true
+})
+
+const relatedGames = computed(() => {
+  if (!relatedData.value?.games || !data.value?.game?.id) return []
+  return relatedData.value.games.filter(g => g.id !== data.value.game.id)
 })
 
 const handleInteraction = async (type) => {
@@ -249,5 +312,83 @@ const handleInteraction = async (type) => {
 
 .action-btn.error-btn:hover {
   background: #501515;
+}
+
+.related-games-section {
+  margin-top: 3rem;
+  border-top: 1px solid #333;
+  padding-top: 2rem;
+}
+
+.related-games-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.related-games-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+}
+
+.related-games-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.related-games-carousel::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.related-games-carousel::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.related-game-card {
+  flex: 0 0 200px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  transition: transform 0.2s, border-color 0.2s;
+  scroll-snap-align: start;
+}
+
+.related-game-card:hover {
+  transform: translateY(-4px);
+  border-color: #666;
+}
+
+.card-thumb {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: #222;
+  overflow: hidden;
+}
+
+.card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.related-game-card:hover .card-thumb img {
+  transform: scale(1.05);
+}
+
+.card-title {
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 </style>
