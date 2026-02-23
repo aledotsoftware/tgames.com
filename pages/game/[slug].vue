@@ -63,8 +63,89 @@ const { data, pending, error, refresh } = await useFetch(`/api/games/${route.par
   query: { lang: locale }
 })
 
+const stripHtml = (html) => {
+  if (!html) return ''
+  return html.replace(/<[^>]*>/g, '')
+}
+
+const gameTitle = computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games')
+const gameDescription = computed(() => data.value?.game?.description ? stripHtml(data.value.game.description).substring(0, 160) : 'Juega los mejores juegos online gratis en Tudex Games.')
+const gameFullDescription = computed(() => data.value?.game?.description ? stripHtml(data.value.game.description) : 'Juega los mejores juegos online gratis en Tudex Games.')
+
+const gameImage = computed(() => {
+  if (!data.value?.game) return 'https://tudexgames.com/logo.png'
+  const img = data.value.game.thumb_2 || data.value.game.thumb_1 || data.value.game.thumb_small
+  if (!img) return 'https://tudexgames.com/logo.png'
+  if (img.startsWith('http')) return img
+  return `https://tudexgames.com${img.startsWith('/') ? '' : '/'}${img}`
+})
+
+const canonicalUrl = computed(() => {
+  const currentSlug = route.params.slug
+  const currentLocale = locale.value
+  return `https://tudexgames.com/${currentLocale}/game/${currentSlug}/`
+})
+
+useSeoMeta({
+  title: gameTitle,
+  description: gameDescription,
+  ogTitle: gameTitle,
+  ogDescription: gameFullDescription,
+  ogImage: gameImage,
+  ogUrl: canonicalUrl,
+  twitterCard: 'summary_large_image',
+  twitterTitle: gameTitle,
+  twitterDescription: gameDescription,
+  twitterImage: gameImage
+})
+
 useHead({
-  title: computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games')
+  script: [
+    {
+      type: 'application/ld+json',
+      children: computed(() => {
+        if (!data.value?.game) return '{}'
+
+        const upvotes = data.value.game.upvote || 0
+        const downvotes = data.value.game.downvote || 0
+        const totalVotes = upvotes + downvotes
+
+        const schema = {
+          '@context': 'https://schema.org',
+          '@type': 'VideoGame',
+          name: data.value.game.title,
+          description: gameFullDescription.value,
+          image: gameImage.value,
+          url: canonicalUrl.value,
+          genre: data.value.game.category || 'Game',
+          applicationCategory: 'Game',
+          operatingSystem: 'Web Browser',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock'
+          }
+        }
+
+        if (totalVotes > 0) {
+           const ratingValue = (upvotes / totalVotes) * 5
+           schema.aggregateRating = {
+             '@type': 'AggregateRating',
+             ratingValue: ratingValue.toFixed(1),
+             ratingCount: totalVotes,
+             bestRating: '5',
+             worstRating: '1'
+           }
+        }
+
+        return JSON.stringify(schema)
+      })
+    }
+  ],
+  link: [
+    { rel: 'canonical', href: canonicalUrl }
+  ]
 })
 
 const handleInteraction = async (type) => {
