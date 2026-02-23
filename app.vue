@@ -5,12 +5,12 @@
         <NuxtLink :to="localePath('/')" class="logo font-logo">tudexgames</NuxtLink>
         <nav style="flex: 1; display: flex; justify-content: flex-end; align-items: center; margin-left: 2rem; gap: 1rem;">
           
-          <div class="lang-switcher" style="display: flex; gap: 0.5rem; font-size: 0.8rem;">
-            <NuxtLink :to="switchLocalePath('en')" :class="{ active: locale === 'en' }">EN</NuxtLink>
-            <span style="color: #444;">|</span>
-            <NuxtLink :to="switchLocalePath('es')" :class="{ active: locale === 'es' }">ES</NuxtLink>
-            <span style="color: #444;">|</span>
-            <NuxtLink :to="switchLocalePath('it')" :class="{ active: locale === 'it' }">IT</NuxtLink>
+          <div class="lang-switcher">
+            <select :value="locale" @change="e => setLocale(e.target.value)" class="lang-select">
+              <option v-for="loc in locales" :key="loc.code" :value="loc.code">
+                {{ loc.code.toUpperCase() }}
+              </option>
+            </select>
           </div>
 
           <SearchBar />
@@ -25,19 +25,24 @@
 </template>
 
 <script setup>
-const { locale } = useI18n()
+const { locale, locales, setLocale } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 </script>
 
 <style>
-.lang-switcher a {
-  color: #888;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.lang-switcher a:hover, .lang-switcher a.active {
+.lang-select {
+  background-color: #111;
   color: #fff;
-  font-weight: bold;
+  border: 1px solid #333;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.lang-select:hover {
+  border-color: #666;
 }
 </style>

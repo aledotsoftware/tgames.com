@@ -85,6 +85,54 @@ import { NuxtModule, ModuleDependencyMeta } from '@nuxt/schema'
          it: {
             domain: string,
          },
+
+         ar: {
+            domain: string,
+         },
+
+         de: {
+            domain: string,
+         },
+
+         fr: {
+            domain: string,
+         },
+
+         hi: {
+            domain: string,
+         },
+
+         ja: {
+            domain: string,
+         },
+
+         ko: {
+            domain: string,
+         },
+
+         nl: {
+            domain: string,
+         },
+
+         pt: {
+            domain: string,
+         },
+
+         ru: {
+            domain: string,
+         },
+
+         sv: {
+            domain: string,
+         },
+
+         tr: {
+            domain: string,
+         },
+
+         zh: {
+            domain: string,
+         },
       },
    },
   }
