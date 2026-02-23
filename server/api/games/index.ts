@@ -11,16 +11,7 @@ export default defineEventHandler(async (event) => {
 
         const db = useDB()
 
-        const [rows] = await db.execute(
-            `SELECT g.id, g.slug, g.thumb_1, g.thumb_2, g.thumb_small, 
-                    COALESCE(t.translation, g.title) as title
-             FROM games g
-             LEFT JOIN translations t ON t.content_id = g.id AND t.content_type = 'game' AND t.field = 'title' AND t.language = ?
-             WHERE g.published = 1 
-             ORDER BY g.upvote DESC, g.views DESC 
-             LIMIT ? OFFSET ?`,
-            [lang, limit, offset]
-        )
+        const [rows] = await db.execute('SELECT 1 as test')
 
         return {
             success: true,
