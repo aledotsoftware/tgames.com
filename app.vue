@@ -19,7 +19,12 @@
     </header>
 
     <main class="container">
-      <NuxtPage />
+      <div class="layout-wrapper">
+        <CategorySidebar class="sidebar-col" />
+        <div class="content-col">
+          <NuxtPage />
+        </div>
+      </div>
     </main>
   </div>
 </template>
@@ -39,5 +44,39 @@ const switchLocalePath = useSwitchLocalePath()
 .lang-switcher a:hover, .lang-switcher a.active {
   color: #fff;
   font-weight: bold;
+}
+
+.layout-wrapper {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  padding-bottom: 2rem;
+}
+
+.sidebar-col {
+  width: 250px;
+  flex-shrink: 0;
+  border-right: 1px solid #222;
+  padding-right: 1rem;
+}
+
+.content-col {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .layout-wrapper {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sidebar-col {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #222;
+    padding-right: 0;
+    padding-bottom: 1rem;
+  }
 }
 </style>

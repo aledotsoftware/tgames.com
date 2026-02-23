@@ -13,5 +13,8 @@
     "instructions": "Instructions",
     "like": "Like",
     "dislike": "Dislike",
-    "report_bug": "Report Bug"
+    "report_bug": "Report Bug",
+    "categories": "Categories",
+    "category": "Category",
+    "filter_by_category": "Filter by category"
 }
