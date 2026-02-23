@@ -2,13 +2,15 @@
   <div>
     <h1 class="font-logo text-center" style="margin-bottom: 2rem; font-size: 2rem;">{{ $t('featured') }}</h1>
     
-    <div v-if="pending" class="text-center">{{ $t('loading_catalog') }}</div>
-    <div v-else-if="error" class="text-center" style="color:red;">{{ $t('error_catalog') }} {{ error.message }}</div>
+    <div v-if="error" class="text-center" style="color:red;">{{ $t('error_catalog') }} {{ error.message }}</div>
 
-    <div v-else>
-      <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+    <div v-else class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+      <template v-if="pending">
+        <SkeletonGameCard v-for="n in 12" :key="n" />
+      </template>
+      <template v-else>
         <NuxtLink
-          v-for="game in games"
+          v-for="game in data?.games"
           :key="game.id"
           :to="localePath(`/game/${game.slug}`)"
           class="game-card"
@@ -20,15 +22,7 @@
             <h2 class="game-title">{{ game.title }}</h2>
           </div>
         </NuxtLink>
-      </div>
-
-      <!-- Sentinel for Infinite Scroll -->
-      <div ref="sentinel" style="height: 20px; margin: 20px 0;"></div>
-
-      <!-- Loading Indicator -->
-      <div v-if="loadingMore" class="text-center" style="padding: 20px;">
-        {{ $t('loading_catalog') || 'Loading...' }}
-      </div>
+      </template>
     </div>
   </div>
 </template>
