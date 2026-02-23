@@ -4,12 +4,13 @@ let pool: mysql.Pool;
 
 export const useDB = () => {
     if (!pool) {
+        console.log('HARDCODED POOL INIT');
         pool = mysql.createPool({
-            host: process.env.DB_HOST || 'localhost',
-            port: Number(process.env.DB_PORT) || 3306,
-            user: process.env.DB_USER || 'root',
-            password: process.env.DB_PASS || '',
-            database: process.env.DB_NAME || 'tudexgames',
+            host: '172.20.0.3',
+            port: 3306,
+            user: 'root',
+            password: 'root',
+            database: 'tudexgames',
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0

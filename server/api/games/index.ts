@@ -1,6 +1,7 @@
 import { useDB } from '../../utils/db'
+console.log('GAMES API LOADED');
 
-export default defineCachedEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
     try {
         const query = getQuery(event)
         const lang = query.lang || 'es'
@@ -32,16 +33,4 @@ export default defineCachedEventHandler(async (event) => {
             statusMessage: 'Error connecting to database: ' + error.message
         })
     }
-}, {
-    base: 'redis',
-    name: 'games-catalog',
-    getKey: (event) => {
-        const query = getQuery(event)
-        const lang = query.lang || 'es'
-        const page = query.page || '1'
-        const limit = query.limit || '60'
-        return `trending-${lang}-p${page}-l${limit}`
-    },
-    maxAge: 60 * 60, // 1 hour TTL Cache!
-    swr: true // Serve stale while revalidating
 })

@@ -5,25 +5,25 @@
     <div v-if="error" class="text-center" style="color:red;">{{ $t('error_catalog') }} {{ error.message }}</div>
 
     <div v-else class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
-      <template v-if="pending">
-        <SkeletonGameCard v-for="n in 12" :key="n" />
-      </template>
-      <template v-else>
-        <NuxtLink
-          v-for="game in data?.games"
-          :key="game.id"
-          :to="localePath(`/game/${game.slug}`)"
-          class="game-card"
-        >
-          <div style="position: relative;">
-            <img :src="game.thumb_2 || game.thumb_1 || game.thumb_small" :alt="game.title" loading="lazy" class="game-thumb" />
-          </div>
-          <div class="game-info">
-            <h2 class="game-title">{{ game.title }}</h2>
-          </div>
-        </NuxtLink>
-      </template>
+      <NuxtLink
+        v-for="game in games"
+        :key="game.id"
+        :to="localePath(`/game/${game.slug}`)"
+        class="game-card"
+      >
+        <div style="position: relative;">
+          <img :src="game.thumb_2 || game.thumb_1 || game.thumb_small" :alt="game.title" loading="lazy" class="game-thumb" />
+        </div>
+        <div class="game-info">
+          <h2 class="game-title">{{ game.title }}</h2>
+        </div>
+      </NuxtLink>
+      
+      <!-- Skeletons while loading -->
+      <SkeletonGameCard v-for="n in (pending && games.length === 0 ? 12 : (loadingMore ? 6 : 0))" :key="'loading-' + n" />
     </div>
+
+    <div ref="sentinel" style="height: 20px; margin-top: 2rem;"></div>
   </div>
 </template>
 

@@ -42,21 +42,13 @@ services:
     image: mysql:8.0
     container_name: mysql_db
     ports:
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
       - "3307:3306"
-=======
-      - "3306:3306"
->>>>>>> Stashed changes
-=======
-      - "3306:3306"
->>>>>>> Stashed changes
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: tudexgames
     volumes:
       - db_data:/var/lib/mysql
-      - ./tudexgames.sql.gz:/docker-entrypoint-initdb.d/init.sql.gz
+      - ./tudexgames.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-tier
 
