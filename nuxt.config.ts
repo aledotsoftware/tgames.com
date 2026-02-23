@@ -5,8 +5,38 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   modules: [
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@vite-pwa/nuxt'
   ],
+
+  pwa: {
+    manifest: {
+      name: 'Tudex Games',
+      short_name: 'TudexGames',
+      description: 'Llegar y Jugar - Plataforma de juegos web rápida y minimalista.',
+      theme_color: '#000000',
+      background_color: '#000000',
+      icons: [
+        {
+          src: 'pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: 'pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png'
+        }
+      ]
+    },
+    workbox: {
+      navigateFallback: '/'
+    },
+    devOptions: {
+      enabled: true,
+      type: 'module'
+    }
+  },
 
   i18n: {
     lazy: true,
