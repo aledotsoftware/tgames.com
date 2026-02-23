@@ -14,9 +14,5 @@
     "like": "Like",
     "dislike": "Dislike",
     "report_bug": "Report Bug",
-    "error_404_title": "Page Not Found",
-    "error_404_desc": "The page you are looking for does not exist.",
-    "error_500_title": "Server Error",
-    "error_500_desc": "An internal server error occurred.",
-    "go_home": "Go Home"
+    "related_games": "Related Games"
 }

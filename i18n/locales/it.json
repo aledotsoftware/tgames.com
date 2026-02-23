@@ -14,9 +14,5 @@
     "like": "Mi piace",
     "dislike": "Non mi piace",
     "report_bug": "Segnala Bug",
-    "error_404_title": "Pagina non trovata",
-    "error_404_desc": "La pagina che stai cercando non esiste.",
-    "error_500_title": "Errore del Server",
-    "error_500_desc": "Si è verificato un errore interno del server.",
-    "go_home": "Vai alla Home"
+    "related_games": "Giochi Correlati"
 }
