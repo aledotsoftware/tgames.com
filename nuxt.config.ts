@@ -30,7 +30,8 @@ export default defineNuxtConfig({
       ]
     },
     workbox: {
-      navigateFallback: '/'
+      navigateFallback: '/',
+      navigateFallbackAllowlist: [/^\/[a-z]{2}(\/|$)/, /^\/$/]
     },
     devOptions: {
       enabled: true,
@@ -39,10 +40,10 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    lazy: true,
-    langDir: 'locales/',
+    langDir: 'i18n/locales/',
     strategy: 'prefix',
     defaultLocale: 'es',
+    vueI18n: './i18n.config.ts',
     locales: [
       { code: 'en', file: 'en.json' },
       { code: 'es', file: 'es.json' },

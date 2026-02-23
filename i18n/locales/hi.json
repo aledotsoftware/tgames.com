@@ -1,1 +1,17 @@
-﻿{}
+{
+    "site_title": "Tudex Games - Llegar y Jugar",
+    "search_placeholder": "Buscar juegos...",
+    "featured": "Destacados",
+    "loading_catalog": "Cargando catálogo...",
+    "error_catalog": "Ocurrió un error cargando los juegos:",
+    "loading_game": "Cargando juego...",
+    "game_not_found": "Juego no encontrado",
+    "error_prefix": "Error:",
+    "back_home": "Volver al inicio",
+    "back_catalog": "← Volver al catálogo",
+    "description": "Descripción",
+    "instructions": "Instrucciones",
+    "like": "Me gusta",
+    "dislike": "No me gusta",
+    "report_bug": "Reportar Error"
+}

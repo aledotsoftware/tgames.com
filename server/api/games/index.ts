@@ -1,7 +1,6 @@
 import { useDB } from '../../utils/db'
-console.log('GAMES API LOADED');
 
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
     try {
         const query = getQuery(event)
         const lang = query.lang || 'es'
@@ -11,17 +10,38 @@ export default defineEventHandler(async (event) => {
 
         const db = useDB()
 
-        const [rows] = await db.execute('SELECT 1 as test')
+        const [rows] = await db.query(
+            `SELECT g.id, g.slug, g.thumb_1, g.thumb_2, g.thumb_small, 
+                    COALESCE(t.translation, g.title) as title
+             FROM games g
+             LEFT JOIN translations t ON t.content_id = g.id AND t.content_type = 'game' AND t.field = 'title' AND t.language = ?
+             WHERE g.published = 1 
+             ORDER BY g.upvote DESC, g.views DESC 
+             LIMIT ? OFFSET ?`,
+            [lang, limit, offset]
+        )
 
         return {
             success: true,
             games: rows
         }
     } catch (error: any) {
-        console.error('DB Error:', error)
+        console.error('API Error /api/games:', error)
         throw createError({
             statusCode: 500,
-            statusMessage: 'Error connecting to database: ' + error.message
+            statusMessage: 'Database Error: ' + error.message
         })
     }
+}, {
+    base: 'redis',
+    name: 'games-catalog',
+    getKey: (event) => {
+        const query = getQuery(event)
+        const lang = query.lang || 'es'
+        const page = query.page || '1'
+        const limit = query.limit || '60'
+        return `trending-${lang}-p${page}-l${limit}`
+    },
+    maxAge: 60 * 60, // 1 hour TTL Cache!
+    swr: true // Serve stale while revalidating
 })
