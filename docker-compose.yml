@@ -4,6 +4,8 @@ services:
     container_name: nuxt_dev
     expose:
       - "3000"
+    ports:
+      - "3000:3000"
     volumes:
       - .:/src
       - /src/node_modules
@@ -41,12 +43,14 @@ services:
   db:
     image: mysql:8.0
     container_name: mysql_db
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: tudexgames
     volumes:
       - db_data:/var/lib/mysql
-      - ./tudexgames.sql.gz:/docker-entrypoint-initdb.d/init.sql.gz
+      - ./tudexgames.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-tier
 
