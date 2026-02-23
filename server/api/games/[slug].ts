@@ -1,6 +1,6 @@
 import { useDB } from '../../utils/db'
 
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
     const slug = getRouterParam(event, 'slug')
 
     try {
@@ -36,4 +36,14 @@ export default defineEventHandler(async (event) => {
             statusMessage: error.message
         })
     }
+}, {
+    group: 'api',
+    name: 'game-detail',
+    getKey: (event) => {
+        const slug = getRouterParam(event, 'slug')
+        const query = getQuery(event)
+        return `game-${slug}-${query.lang || 'es'}`
+    },
+    maxAge: 60 * 60, // 1 hour
+    swr: true
 })

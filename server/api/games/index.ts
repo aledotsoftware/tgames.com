@@ -30,7 +30,7 @@ export default defineCachedEventHandler(async (event) => {
         })
     }
 }, {
-    base: 'redis',
+    group: 'api',
     name: 'games-catalog',
     getKey: (event) => {
         const query = getQuery(event)

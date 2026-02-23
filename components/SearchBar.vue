@@ -64,7 +64,7 @@ const onSearch = () => {
 .search-input {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #333;
+  border: 1px solid #fff;
   border-radius: 4px;
   background-color: transparent;
   color: #fff;
@@ -76,6 +76,7 @@ const onSearch = () => {
 
 .search-input:focus {
   border-color: #fff;
+  background-color: #000;
 }
 
 .search-dropdown {
@@ -85,20 +86,20 @@ const onSearch = () => {
   right: 0;
   margin-top: 0.5rem;
   background-color: #000;
-  border: 1px solid #333;
+  border: 1px solid #fff;
   border-radius: 4px;
   max-height: 400px;
   overflow-y: auto;
   z-index: 50;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .search-item {
   display: flex;
   align-items: center;
   padding: 0.75rem;
-  border-bottom: 1px solid #111;
-  transition: background-color 0.2s;
+  border-bottom: 1px solid #fff;
+  transition: background-color 0.2s, color 0.2s;
+  color: #fff;
 }
 
 .search-item:last-child {
@@ -106,7 +107,8 @@ const onSearch = () => {
 }
 
 .search-item:hover {
-  background-color: #111;
+  background-color: #fff;
+  color: #000;
 }
 
 .search-thumb {
@@ -115,6 +117,7 @@ const onSearch = () => {
   object-fit: cover;
   border-radius: 4px;
   margin-right: 1rem;
+  border: 1px solid #fff;
 }
 
 .search-title {

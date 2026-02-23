@@ -1,0 +1,17 @@
+{
+    "site_title": "Tudex Games - Click and Play",
+    "search_placeholder": "Search games...",
+    "featured": "Featured",
+    "loading_catalog": "Loading catalog...",
+    "error_catalog": "An error occurred while loading games:",
+    "loading_game": "Loading game...",
+    "game_not_found": "Game not found",
+    "error_prefix": "Error:",
+    "back_home": "Back to Home",
+    "back_catalog": "← Back to Catalog",
+    "description": "Description",
+    "instructions": "Instructions",
+    "like": "Like",
+    "dislike": "Dislike",
+    "report_bug": "Report Bug"
+}
