@@ -13,5 +13,7 @@
     "instructions": "Istruzioni",
     "like": "Mi piace",
     "dislike": "Non mi piace",
-    "report_bug": "Segnala Bug"
+    "report_bug": "Segnala Bug",
+    "cinema_mode": "Modalità Cinema",
+    "exit_cinema_mode": "Esci Modalità Cinema"
 }

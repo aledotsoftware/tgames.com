@@ -13,5 +13,7 @@
     "instructions": "Instructions",
     "like": "Like",
     "dislike": "Dislike",
-    "report_bug": "Report Bug"
+    "report_bug": "Report Bug",
+    "cinema_mode": "Cinema Mode",
+    "exit_cinema_mode": "Exit Cinema Mode"
 }

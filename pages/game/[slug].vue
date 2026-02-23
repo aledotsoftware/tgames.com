@@ -9,10 +9,18 @@
   <div v-else class="game-view-container">
     <div class="game-view-header">
       <h1 class="game-view-title">{{ data.game.title }}</h1>
-      <NuxtLink :to="localePath('/')" class="back-link">{{ $t('back_catalog') }}</NuxtLink>
+      <div class="header-actions">
+        <button @click="toggleCinemaMode" class="cinema-btn">
+          <span class="icon">⛶</span> {{ $t('cinema_mode') }}
+        </button>
+        <NuxtLink :to="localePath('/')" class="back-link">{{ $t('back_catalog') }}</NuxtLink>
+      </div>
     </div>
 
-    <div class="game-player" v-if="data.game.url">
+    <div class="game-player" :class="{ 'cinema-mode': isCinemaMode }" v-if="data.game.url">
+      <button v-if="isCinemaMode" @click="toggleCinemaMode" class="exit-cinema-btn">
+        ✕ {{ $t('exit_cinema_mode') }}
+      </button>
       <!-- Using an iframe mapped directly to the url stored in your database -->
       <iframe 
         :src="data.game.url" 
@@ -85,6 +93,26 @@ const handleInteraction = async (type) => {
     console.error('Failed to log interaction', e)
   }
 }
+
+const isCinemaMode = ref(false)
+
+const toggleCinemaMode = () => {
+  isCinemaMode.value = !isCinemaMode.value
+}
+
+const handleKeydown = (e) => {
+  if (e.key === 'Escape' && isCinemaMode.value) {
+    isCinemaMode.value = false
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <style scoped>
@@ -201,5 +229,72 @@ const handleInteraction = async (type) => {
 
 .action-btn.error-btn:hover {
   background: #501515;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.cinema-btn {
+  background: #222;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.cinema-btn:hover {
+  background: #333;
+  border-color: #666;
+}
+
+.game-player.cinema-mode {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.game-player.cinema-mode iframe {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none;
+}
+
+.exit-cinema-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 10000;
+  font-weight: bold;
+}
+
+.exit-cinema-btn:hover {
+  background: #fff;
+  color: #000;
 }
 </style>
