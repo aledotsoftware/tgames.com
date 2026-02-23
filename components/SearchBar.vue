@@ -17,7 +17,10 @@
         @click="query = ''"
       >
         <img :src="game.thumb_small || game.thumb_1" :alt="game.title" class="search-thumb" />
-        <span class="search-title">{{ game.title }}</span>
+        <div class="search-info">
+          <span class="search-title">{{ game.title }}</span>
+          <span v-if="game.category" class="search-category">{{ game.category }}</span>
+        </div>
       </NuxtLink>
     </div>
   </div>
@@ -119,5 +122,18 @@ const onSearch = () => {
 
 .search-title {
   font-size: 0.95rem;
+}
+
+.search-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-category {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 </style>

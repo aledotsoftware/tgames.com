@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
         const db = useDB()
         // Perform simple Like search over game title for fast results natively
         const [rows] = await db.execute(
-            `SELECT id, title, slug, thumb_small, thumb_1 
+            `SELECT id, title, slug, thumb_small, thumb_1, category
        FROM games 
        WHERE title LIKE ? AND published = 1 
        LIMIT 10`,
