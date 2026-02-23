@@ -57,6 +57,7 @@
 <script setup>
 const route = useRoute()
 const { data, pending, error, refresh } = await useFetch(`/api/games/${route.params.slug}`)
+const localePath = useLocalePath()
 
 useHead({
   title: computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Cargando... - Tudex Games')
