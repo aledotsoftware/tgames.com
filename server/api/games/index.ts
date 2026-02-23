@@ -4,6 +4,7 @@ export default defineCachedEventHandler(async (event) => {
     try {
         const query = getQuery(event)
         const lang = query.lang || 'es'
+        const offset = Number(query.offset) || 0
 
         const db = useDB()
 
@@ -14,8 +15,8 @@ export default defineCachedEventHandler(async (event) => {
              LEFT JOIN translations t ON t.content_id = g.id AND t.content_type = 'game' AND t.field = 'title' AND t.language = ?
              WHERE g.published = 1 
              ORDER BY g.upvote DESC, g.views DESC 
-             LIMIT 60`,
-            [lang]
+             LIMIT 60 OFFSET ?`,
+            [lang, offset]
         )
 
         return {
@@ -34,7 +35,8 @@ export default defineCachedEventHandler(async (event) => {
     name: 'games-catalog',
     getKey: (event) => {
         const query = getQuery(event)
-        return `trending-${query.lang || 'es'}`
+        const offset = query.offset || 0
+        return `trending-${query.lang || 'es'}-${offset}`
     },
     maxAge: 60 * 60, // 1 hour TTL Cache!
     swr: true // Serve stale while revalidating

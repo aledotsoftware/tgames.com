@@ -13,5 +13,7 @@
     "instructions": "Instrucciones",
     "like": "Me gusta",
     "dislike": "No me gusta",
-    "report_bug": "Reportar Error"
+    "report_bug": "Reportar Error",
+    "load_more": "Cargar más",
+    "loading": "Cargando..."
 }
