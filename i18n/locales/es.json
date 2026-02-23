@@ -13,5 +13,10 @@
     "instructions": "Instrucciones",
     "like": "Me gusta",
     "dislike": "No me gusta",
-    "report_bug": "Reportar Error"
+    "report_bug": "Reportar Error",
+    "error_404_title": "Página no encontrada",
+    "error_404_desc": "La página que buscas no existe.",
+    "error_500_title": "Error del Servidor",
+    "error_500_desc": "Ocurrió un error interno del servidor.",
+    "go_home": "Ir al Inicio"
 }
