@@ -43,7 +43,11 @@ services:
     container_name: mysql_db
     ports:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       - "3307:3306"
+=======
+      - "3306:3306"
+>>>>>>> Stashed changes
 =======
       - "3306:3306"
 >>>>>>> Stashed changes
