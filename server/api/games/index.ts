@@ -1,9 +1,10 @@
 import { useDB } from '../../utils/db'
+import { getValidLang } from '../../utils/validation'
 
 export default defineCachedEventHandler(async (event) => {
     try {
         const query = getQuery(event)
-        const lang = query.lang || 'es'
+        const lang = getValidLang(query.lang)
         const page = parseInt(query.page as string) || 1
         const limit = parseInt(query.limit as string) || 60
         const offset = (page - 1) * limit
@@ -37,7 +38,7 @@ export default defineCachedEventHandler(async (event) => {
     name: 'games-catalog',
     getKey: (event) => {
         const query = getQuery(event)
-        const lang = query.lang || 'es'
+        const lang = getValidLang(query.lang)
         const page = query.page || '1'
         const limit = query.limit || '60'
         return `trending-${lang}-p${page}-l${limit}`
