@@ -19,7 +19,7 @@
 
 .skeleton-thumb {
   width: 100%;
-  aspect-ratio: 16/9;
+  aspect-ratio: 1/1;
   background-color: var(--bg-tertiary);
   animation: pulse 2s infinite ease-in-out;
 }

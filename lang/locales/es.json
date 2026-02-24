@@ -13,5 +13,11 @@
     "instructions": "Instrucciones",
     "like": "Me gusta",
     "dislike": "No me gusta",
-    "report_bug": "Reportar Error"
+    "report_bug": "Reportar Error",
+    "play": "Jugar",
+    "category": "Categoría",
+    "views": "Vistas",
+    "date": "Fecha",
+    "related_games": "Juegos relacionados",
+    "feedback_report": "Feedback recibido. Gracias por tu reporte."
 }

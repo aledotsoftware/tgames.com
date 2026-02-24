@@ -13,7 +13,7 @@
 
           <div class="lang-switcher-wrap">
             <div class="custom-select-container">
-              <select :value="locale" @change="e => setLocale(e.target.value)" class="premium-lang-select">
+              <select :value="locale" @change="handleLanguageChange" class="premium-lang-select">
                 <option v-for="loc in locales" :key="loc.code" :value="loc.code">
                   {{ loc.code.toUpperCase() }}
                 </option>
@@ -54,6 +54,12 @@
 <script setup>
 const { locale, locales, setLocale } = useI18n()
 const localePath = useLocalePath()
+const switchLocalePath = useSwitchLocalePath()
+
+const handleLanguageChange = (event) => {
+  const newLocale = event.target.value
+  navigateTo(switchLocalePath(newLocale))
+}
 </script>
 
 <style>

@@ -19,7 +19,7 @@
       <!-- Breadcrumbs / Top Nav -->
       <nav class="game-nav container">
         <NuxtLink :to="localePath('/')" class="nav-back">
-          <span class="arrow">←</span> {{ $t('back_catalog') }}
+           {{ $t('back_catalog') }}
         </NuxtLink>
       </nav>
 
@@ -76,15 +76,15 @@
           <aside class="side-info">
             <div class="meta-card glass-panel">
               <div class="meta-row" v-if="data.game.category">
-                <span class="label">Categoría</span>
+                <span class="label">{{ $t('category') }}</span>
                 <span class="value tag">{{ data.game.category }}</span>
               </div>
               <div class="meta-row">
-                <span class="label">Vistas</span>
+                <span class="label">{{ $t('views') }}</span>
                 <span class="value">{{ data.game.views || 0 }}</span>
               </div>
               <div class="meta-row" v-if="data.game.published_at">
-                <span class="label">Fecha</span>
+                <span class="label">{{ $t('date') }}</span>
                 <span class="value">{{ new Date(data.game.published_at).toLocaleDateString() }}</span>
               </div>
             </div>
@@ -97,7 +97,7 @@
       <!-- Related Games Section -->
       <section v-if="relatedGames.length > 0" class="related-section container">
         <div class="section-header">
-          <h2>Juegos relacionados</h2>
+          <h2>{{ $t('related_games') }}</h2>
           <div class="section-line"></div>
         </div>
         <div class="related-grid">
@@ -120,7 +120,7 @@
 
 <script setup>
 const route = useRoute()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
 const { data, pending, error } = await useFetch(`/api/games/${route.params.slug}`, {
@@ -163,7 +163,7 @@ const handleInteraction = async (type) => {
     if (response.success) {
       if (type === 'like') data.value.game.upvote = (data.value.game.upvote || 0) + 1;
       if (type === 'dislike') data.value.game.downvote = (data.value.game.downvote || 0) + 1;
-      if (type === 'report') alert('Feedback received. Gracias por tu reporte.');
+      if (type === 'report') alert(t('feedback_report'));
     }
   } catch(e) { console.error(e) }
 }
