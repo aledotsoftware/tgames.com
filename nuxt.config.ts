@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
+  srcDir: '.',
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
 
