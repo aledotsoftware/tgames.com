@@ -12,7 +12,7 @@
           class="game-card hover-lift" :style="{ animationDelay: (index % 10) * 0.05 + 's' }">
           <div class="thumb-wrapper">
             <NuxtImg :src="game.thumb_2 || game.thumb_1 || game.thumb_small" :alt="game.title" loading="lazy"
-              class="game-thumb" format="webp" sizes="160px sm:240px md:300px" />
+              class="game-thumb" sizes="300px sm:400px md:300px" format="webp" />
             <div class="card-overlay">
               <span class="play-btn">{{ $t('play') }}</span>
             </div>

@@ -14,7 +14,8 @@ export default defineNuxtConfig({
   image: {
     domains: ['tudexgames.com'],
     alias: {
-      '/thumbs': 'https://tudexgames.com/thumbs'
+      '/thumbs': 'https://tudexgames.com/thumbs',
+      '/games': 'https://tudexgames.com/games'
     }
   },
 
@@ -50,7 +51,7 @@ export default defineNuxtConfig({
 
   i18n: {
     lazy: false,
-    langDir: '../locales',
+    langDir: 'locales',
     strategy: 'prefix',
     defaultLocale: 'es',
     locales: [
