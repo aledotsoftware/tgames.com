@@ -38,10 +38,11 @@ export default defineEventHandler(async (event) => {
             success: true
         }
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Interaction API Error:', error)
+        const statusCode = (typeof error === 'object' && error !== null && 'statusCode' in error) ? (error as { statusCode: number }).statusCode : 500
         throw createError({
-            statusCode: error.statusCode || 500,
+            statusCode,
             statusMessage: 'Error handling interaction'
         })
     }
