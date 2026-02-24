@@ -24,9 +24,10 @@ export default defineEventHandler(async (event) => {
             games: rows
         }
     } catch (error: any) {
+        console.error('Search API Error:', error)
         return {
             success: false,
-            error: error.message
+            error: 'Internal Server Error'
         }
     }
 })

@@ -35,7 +35,7 @@ export default defineCachedEventHandler(async (event) => {
         console.error('DB Error:', error)
         throw createError({
             statusCode: 500,
-            statusMessage: 'Error connecting to database: ' + error.message
+            statusMessage: 'Internal Server Error'
         })
     }
 }, {

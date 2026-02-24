@@ -29,7 +29,7 @@ export default defineCachedEventHandler(async (event) => {
         console.error('API Error /api/games:', error)
         throw createError({
             statusCode: 500,
-            statusMessage: 'Database Error: ' + error.message
+            statusMessage: 'Internal Server Error'
         })
     }
 }, {
