@@ -6,8 +6,17 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/i18n',
-    '@vite-pwa/nuxt'
+    '@vite-pwa/nuxt',
+    '@nuxt/image'
   ],
+
+  image: {
+    domains: ['tudexgames.com'],
+    alias: {
+      '/thumbs': 'https://tudexgames.com/thumbs',
+      '/games': 'https://tudexgames.com/games'
+    }
+  },
 
   pwa: {
     manifest: {
@@ -41,26 +50,25 @@ export default defineNuxtConfig({
 
   i18n: {
     lazy: false,
-    langDir: '',
+    langDir: 'locales',
     strategy: 'prefix',
     defaultLocale: 'es',
-    vueI18n: '~/i18n/i18n.config.ts',
     locales: [
-      { code: 'en', file: '~/i18n/locales/en.json' },
-      { code: 'es', file: '~/i18n/locales/es.json' },
-      { code: 'it', file: '~/i18n/locales/it.json' },
-      { code: 'ar', file: '~/i18n/locales/ar.json' },
-      { code: 'de', file: '~/i18n/locales/de.json' },
-      { code: 'fr', file: '~/i18n/locales/fr.json' },
-      { code: 'hi', file: '~/i18n/locales/hi.json' },
-      { code: 'ja', file: '~/i18n/locales/ja.json' },
-      { code: 'ko', file: '~/i18n/locales/ko.json' },
-      { code: 'nl', file: '~/i18n/locales/nl.json' },
-      { code: 'pt', file: '~/i18n/locales/pt.json' },
-      { code: 'ru', file: '~/i18n/locales/ru.json' },
-      { code: 'sv', file: '~/i18n/locales/sv.json' },
-      { code: 'tr', file: '~/i18n/locales/tr.json' },
-      { code: 'zh', file: '~/i18n/locales/zh.json' }
+      { code: 'en', file: 'en.json' },
+      { code: 'es', file: 'es.json' },
+      { code: 'it', file: 'it.json' },
+      { code: 'ar', file: 'ar.json' },
+      { code: 'de', file: 'de.json' },
+      { code: 'fr', file: 'fr.json' },
+      { code: 'hi', file: 'hi.json' },
+      { code: 'ja', file: 'ja.json' },
+      { code: 'ko', file: 'ko.json' },
+      { code: 'nl', file: 'nl.json' },
+      { code: 'pt', file: 'pt.json' },
+      { code: 'ru', file: 'ru.json' },
+      { code: 'sv', file: 'sv.json' },
+      { code: 'tr', file: 'tr.json' },
+      { code: 'zh', file: 'zh.json' }
     ],
     detectBrowserLanguage: {
       useCookie: true,
