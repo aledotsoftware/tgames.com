@@ -1,6 +1,6 @@
-/// <reference types="@nuxtjs/i18n" />
 /// <reference types="@vite-pwa/nuxt" />
 /// <reference types="@nuxt/image" />
+/// <reference types="@nuxtjs/i18n" />
 /// <reference types="@nuxt/devtools" />
 /// <reference types="@nuxt/telemetry" />
 /// <reference path="types/nitro-layouts.d.ts" />

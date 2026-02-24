@@ -127,8 +127,6 @@ const { data, pending, error } = await useFetch(`/api/games/${route.params.slug}
   query: { lang: locale }
 })
 
-const stripHtml = (html) => html ? html.replace(/<[^>]*>/g, '') : ''
-
 const gameTitle = computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Juego - Tudex Games')
 const gameDesc = computed(() => data.value?.game?.description ? stripHtml(data.value.game.description).substring(0, 160) : 'Juega en Tudex Games.')
 
