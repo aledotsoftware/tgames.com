@@ -1,5 +1,5 @@
-/// <reference types="@vite-pwa/nuxt" />
 /// <reference types="@nuxtjs/i18n" />
+/// <reference types="@vite-pwa/nuxt" />
 /// <reference types="@nuxt/image" />
 /// <reference types="@nuxt/devtools" />
 /// <reference types="@nuxt/telemetry" />
