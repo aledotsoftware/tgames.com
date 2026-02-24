@@ -31,9 +31,13 @@ export default defineCachedEventHandler(async (event) => {
             game: rows[0]
         }
     } catch (error: any) {
+        if (error.statusCode) {
+            throw error
+        }
+        console.error('Game detail error:', error)
         throw createError({
-            statusCode: error.statusCode || 500,
-            statusMessage: error.message
+            statusCode: 500,
+            statusMessage: 'Internal Server Error'
         })
     }
 }, {
