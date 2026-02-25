@@ -119,10 +119,10 @@ export default defineNuxtConfig({
     }
   },
 
-  routeRules: {
-    '/thumbs/**': { proxy: 'https://tudexgames.com/thumbs/**' },
-    '/games/**': { proxy: 'https://tudexgames.com/games/**' }
-  },
+  // routeRules: {
+  //   '/thumbs/**': { proxy: 'https://tudexgames.com/thumbs/**' },
+  //   '/games/**': { proxy: 'https://tudexgames.com/games/**' }
+  // },
 
   compatibilityDate: '2024-04-03'
 })
