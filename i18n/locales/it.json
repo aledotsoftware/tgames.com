@@ -19,5 +19,11 @@
     "views": "Views",
     "date": "Date",
     "related_games": "Related Games",
-    "feedback_report": "Feedback received. Thank you for your report."
+    "feedback_report": "Feedback received. Thank you for your report.",
+    "all_rights": "All rights reserved.",
+    "go_home": "Volver al inicio",
+    "error_404_title": "Página no encontrada",
+    "error_404_desc": "Lo sentimos, pero la página que buscas no existe o ha sido eliminada.",
+    "error_500_title": "Error interno del servidor",
+    "error_500_desc": "Algo salió mal en nuestro lado. Estamos trabajando para solucionarlo."
 }

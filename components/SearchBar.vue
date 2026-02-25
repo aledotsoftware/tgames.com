@@ -8,7 +8,7 @@
         type="text" 
         class="premium-search-input" 
         :placeholder="$t('search_placeholder')" 
-        aria-label="Buscar juegos"
+        :aria-label="$t('search_placeholder')"
       />
       <button v-if="query" @click="query = ''; results = []" class="clear-btn">✕</button>
     </div>

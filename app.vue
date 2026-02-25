@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; {{ new Date().getFullYear() }} Tudex Games. All rights reserved.</p>
+          <p>&copy; {{ new Date().getFullYear() }} Tudex Games. {{ $t('all_rights') }}</p>
         </div>
       </div>
     </footer>
