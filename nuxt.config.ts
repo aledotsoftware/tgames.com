@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   ],
 
   image: {
-    domains: ['tudexgames.com'],
+    domains: ['tudexgames.com', '*.gamemonetize.com'],
     alias: {
       '/thumbs': 'https://tudexgames.com/thumbs',
       '/games': 'https://tudexgames.com/games'
