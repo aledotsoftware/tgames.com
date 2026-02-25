@@ -11,7 +11,7 @@
 .skeleton-card {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@
   height: 1rem;
   width: 80%;
   background-color: var(--bg-tertiary);
-  border-radius: 4px;
+  border-radius: 0;
   animation: pulse 2s infinite ease-in-out 0.2s;
 }
 

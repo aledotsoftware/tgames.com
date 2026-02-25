@@ -97,18 +97,17 @@ const vClickOutside = {
   position: relative;
   display: flex;
   align-items: center;
-  background: var(--bg-tertiary);
+  background: var(--bg-color);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 0 1rem;
   transition: var(--transition-smooth);
 }
 
 .search-input-wrapper.is-active,
 .search-input-wrapper:focus-within {
-  border-color: var(--border-glow);
-  background: var(--bg-secondary);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+  border-color: var(--text-primary);
+  background: var(--bg-color);
 }
 
 .search-icon {
@@ -140,10 +139,9 @@ const vClickOutside = {
   top: recalc(100% + 10px);
   left: 0;
   right: 0;
-  background: var(--bg-secondary);
-  backdrop-filter: var(--glass-blur);
+  background: var(--bg-color);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 0;
   max-height: 480px;
   overflow-y: auto;
   z-index: 1100;
@@ -154,22 +152,29 @@ const vClickOutside = {
   display: flex;
   align-items: center;
   padding: 0.75rem;
-  border-radius: 12px;
+  border-radius: 0;
   transition: var(--transition-smooth);
   gap: 1rem;
 }
 
 .premium-search-item:hover {
-  background: var(--bg-tertiary);
+  background: var(--text-primary);
+  color: var(--bg-color);
+}
+
+.premium-search-item:hover .item-title,
+.premium-search-item:hover .item-meta {
+  color: var(--bg-color);
 }
 
 .item-thumb-wrapper {
   flex-shrink: 0;
   width: 50px;
   height: 50px;
-  border-radius: 8px;
+  border-radius: 0;
   overflow: hidden;
-  background: #111;
+  background: #000;
+  border: 1px solid var(--border-color);
 }
 
 .item-thumb {

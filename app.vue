@@ -45,9 +45,6 @@
         </div>
       </div>
     </footer>
-
-    <!-- Global Background Elements for depth -->
-    <div class="bg-glow"></div>
   </div>
 </template>
 
@@ -79,12 +76,12 @@ const handleLanguageChange = (event) => {
 
 .logo-text {
   font-size: 1.75rem;
-  color: var(--accent);
+  color: var(--text-primary); /* White */
   transition: var(--transition-smooth);
 }
 
 .logo-text:hover {
-  text-shadow: 0 0 15px var(--accent-glow);
+  opacity: 0.8;
 }
 
 .nav-actions {
@@ -110,11 +107,11 @@ const handleLanguageChange = (event) => {
 
 .premium-lang-select {
   appearance: none;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
+  background: var(--bg-color); /* Black */
+  border: 1px solid var(--border-color); /* White */
+  color: var(--text-primary); /* White */
   padding: 0.5rem 2rem 0.5rem 1rem;
-  border-radius: 8px;
+  border-radius: 0; /* Architectural/Sharp */
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
@@ -123,8 +120,9 @@ const handleLanguageChange = (event) => {
 }
 
 .premium-lang-select:hover {
-  border-color: var(--border-glow);
-  background: var(--bg-secondary);
+  background: var(--text-primary); /* Invert to White */
+  color: var(--bg-color); /* Black text */
+  border-color: var(--text-primary);
 }
 
 .select-arrow {
@@ -136,8 +134,13 @@ const handleLanguageChange = (event) => {
   height: 0;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 4px solid var(--text-dim);
+  border-top: 4px solid var(--text-primary); /* White arrow */
   pointer-events: none;
+  transition: border-top-color 0.2s ease;
+}
+
+.premium-lang-select:hover + .select-arrow {
+  border-top-color: var(--bg-color); /* Black arrow on hover */
 }
 
 .main-content {
@@ -146,7 +149,7 @@ const handleLanguageChange = (event) => {
 }
 
 .main-footer {
-  background: var(--bg-secondary);
+  background: var(--bg-color);
   border-top: 1px solid var(--border-color);
   padding: 4rem 0 2rem;
   margin-top: 4rem;
@@ -160,7 +163,7 @@ const handleLanguageChange = (event) => {
 }
 
 .footer-brand p {
-  color: var(--text-dim);
+  color: var(--text-primary);
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
@@ -169,20 +172,8 @@ const handleLanguageChange = (event) => {
   border-top: 1px solid var(--border-color);
   padding-top: 2rem;
   text-align: center;
-  color: var(--text-dim);
+  color: var(--text-primary);
   font-size: 0.8rem;
-}
-
-/* Background Depth Elements */
-.bg-glow {
-  position: fixed;
-  top: -10%;
-  right: -5%;
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: -1;
 }
 
 @media (max-width: 640px) {

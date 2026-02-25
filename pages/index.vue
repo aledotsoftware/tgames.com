@@ -119,60 +119,6 @@
 </script>
 
 <style scoped>
-  .hero-section {
-    min-height: 40vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 4rem 1rem;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
-  }
-
-  .hero-title {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-  }
-
-  .hero-subtitle {
-    font-size: 1.25rem;
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto 3rem;
-  }
-
-  .hero-stats {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-  }
-
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-  }
-
-  .stat-divider {
-    width: 1px;
-    height: 30px;
-    background: var(--border-color);
-  }
-
   .section-header {
     margin-bottom: 3rem;
     display: flex;
@@ -190,7 +136,7 @@
   .section-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(to right, var(--border-color), transparent);
+    background: var(--border-color); /* Solid white line */
   }
 
   .games-grid {
@@ -202,7 +148,8 @@
   .card-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    /* Transparent background for strict binary palette - no dimming/grays */
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -215,10 +162,11 @@
   }
 
   .play-btn {
-    background: var(--accent);
-    color: #000;
+    background: var(--text-primary); /* White */
+    color: var(--bg-color); /* Black */
     padding: 0.5rem 1.5rem;
-    border-radius: 999px;
+    border: 1px solid var(--bg-color); /* Ensure visibility if overlay is transparent? Or just rely on contrast */
+    border-radius: 0; /* Architectural/Sharp */
     font-weight: 700;
     transform: translateY(10px);
     transition: var(--transition-smooth);
@@ -238,8 +186,8 @@
   .loading-spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid var(--bg-tertiary);
-    border-top-color: var(--accent);
+    border: 3px solid var(--bg-color);
+    border-top-color: var(--text-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -253,23 +201,16 @@
   .error-state {
     padding: 4rem;
     text-align: center;
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    color: #ff4444;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 0;
   }
 
   @media (max-width: 640px) {
     .games-grid {
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 1rem;
-    }
-
-    .hero-stats {
-      gap: 1rem;
-    }
-
-    .stat-value {
-      font-size: 1.2rem;
     }
   }
 </style>

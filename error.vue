@@ -62,7 +62,7 @@ const message = computed(() => {
 
 .error-desc {
   font-size: 1.1rem;
-  color: #ccc;
+  color: #fff;
   margin-bottom: 2rem;
 }
 
