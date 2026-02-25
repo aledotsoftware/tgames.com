@@ -103,7 +103,9 @@ export default defineNuxtConfig({
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Inter:wght@400;500;600&display=swap' }
       ],
       script: [
-        { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9896533792719232', crossorigin: 'anonymous', async: true }
+        { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9896533792719232', crossorigin: 'anonymous', async: true },
+        { src: 'https://www.googletagmanager.com/gtag/js?id=G-WS88X834MF', async: true },
+        { innerHTML: 'window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag(\'js\', new Date());\ngtag(\'config\', \'G-WS88X834MF\');' }
       ]
     }
   },
