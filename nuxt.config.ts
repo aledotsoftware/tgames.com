@@ -50,7 +50,6 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    lazy: false,
     langDir: 'locales',
     strategy: 'prefix',
     defaultLocale: 'es',
@@ -112,7 +111,7 @@ export default defineNuxtConfig({
 
   nitro: {
     storage: {
-      redis: {
+      cache: {
         driver: 'redis',
         url: process.env.REDIS_URL || 'redis://localhost:6379'
       }

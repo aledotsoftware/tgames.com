@@ -1,24 +1,24 @@
 :root {
-  /* Nuanced Dark Palette */
-  --bg-color: hsl(0, 0%, 0%);
-  --bg-secondary: hsl(0, 0%, 5%);
-  --bg-tertiary: hsl(0, 0%, 10%);
-  --text-primary: hsl(0, 0%, 100%);
-  --text-secondary: hsl(0, 0%, 70%);
-  --text-dim: hsl(0, 0%, 45%);
+  /* Binary Palette - Absolute Minimalism */
+  --bg-color: #000000;
+  --bg-secondary: #000000;
+  --bg-tertiary: #000000;
+  --text-primary: #FFFFFF;
+  --text-secondary: #FFFFFF;
+  --text-dim: #FFFFFF;
 
-  /* Accent: Pure White for Binary feel, but with subtle hints */
-  --accent: hsl(0, 0%, 100%);
-  --accent-glow: hsla(0, 0%, 100%, 0.15);
+  /* Accent */
+  --accent: #FFFFFF;
+  --accent-glow: transparent;
 
   /* Borders & Dividers */
-  --border-color: hsl(0, 0%, 15%);
-  --border-glow: hsl(0, 0%, 25%);
+  --border-color: #FFFFFF;
+  --border-glow: #FFFFFF;
 
-  /* Glassmorphism */
-  --glass-bg: hsla(0, 0%, 0%, 0.7);
-  --glass-border: hsla(0, 0%, 100%, 0.1);
-  --glass-blur: blur(12px);
+  /* Solid - No Glass to avoid grays */
+  --glass-bg: #000000;
+  --glass-border: #FFFFFF;
+  --glass-blur: none;
 
   /* Spacing */
   --container-max: 1400px;
@@ -117,7 +117,7 @@ button {
 
 .hover-lift:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.05);
+  /* No shadow - Absolute Minimalism */
 }
 
 /* Animations */
@@ -163,7 +163,7 @@ button {
 
 .game-card:hover {
   border-color: var(--border-glow);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.03);
+  /* No shadow - Absolute Minimalism */
 }
 
 .game-card .thumb-wrapper {
@@ -185,7 +185,7 @@ button {
 
 .game-card .game-info {
   padding: 1.25rem;
-  background: linear-gradient(to top, var(--bg-secondary), transparent);
+  background: var(--bg-secondary);
 }
 
 .game-card .game-title {
