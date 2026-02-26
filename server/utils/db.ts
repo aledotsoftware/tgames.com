@@ -7,8 +7,6 @@ export const useDB = () => {
         const config = useRuntimeConfig();
         const dbConfig = config.database;
 
-        console.log('Initializing DB Pool with RuntimeConfig');
-
         pool = mysql.createPool({
             host: dbConfig.host,
             port: dbConfig.port,
