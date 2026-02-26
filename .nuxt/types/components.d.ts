@@ -14,6 +14,7 @@ type HydrationStrategies = {
 type LazyComponent<T> = DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }> & T
 
 interface _GlobalComponents {
+  SearchBarSpec: typeof import("../../components/SearchBar.spec")['default']
   SearchBar: typeof import("../../components/SearchBar.vue")['default']
   SkeletonGameCard: typeof import("../../components/SkeletonGameCard.vue")['default']
   NuxtWelcome: typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -49,6 +50,7 @@ interface _GlobalComponents {
   Html: typeof import("../../node_modules/nuxt/dist/head/runtime/components")['Html']
   Body: typeof import("../../node_modules/nuxt/dist/head/runtime/components")['Body']
   NuxtIsland: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-island")['default']
+  LazySearchBarSpec: LazyComponent<typeof import("../../components/SearchBar.spec")['default']>
   LazySearchBar: LazyComponent<typeof import("../../components/SearchBar.vue")['default']>
   LazySkeletonGameCard: LazyComponent<typeof import("../../components/SkeletonGameCard.vue")['default']>
   LazyNuxtWelcome: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
