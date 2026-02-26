@@ -62,14 +62,14 @@
       <div class="game-content-wrap container section-padding">
         <div class="content-grid">
           <div class="main-info">
-            <section class="info-block glass-panel" v-if="data.game.description">
+            <section class="info-block glass-panel" v-if="sanitizedDescription">
               <h3>{{ $t('description') }}</h3>
-              <div class="content-text" v-html="data.game.description"></div>
+              <div class="content-text" v-html="sanitizedDescription"></div>
             </section>
 
-            <section class="info-block glass-panel" v-if="data.game.instructions">
+            <section class="info-block glass-panel" v-if="sanitizedInstructions">
               <h3>{{ $t('instructions') }}</h3>
-              <div class="content-text" v-html="data.game.instructions"></div>
+              <div class="content-text" v-html="sanitizedInstructions"></div>
             </section>
           </div>
 
@@ -119,6 +119,8 @@
 </template>
 
 <script setup>
+import DOMPurify from 'isomorphic-dompurify'
+
 const route = useRoute()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
@@ -131,6 +133,14 @@ const stripHtml = (html) => html ? html.replace(/<[^>]*>/g, '') : ''
 
 const gameTitle = computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : t('site_title'))
 const gameDesc = computed(() => data.value?.game?.description ? stripHtml(data.value.game.description).substring(0, 160) : t('site_title'))
+
+const sanitizedDescription = computed(() => {
+  return data.value?.game?.description ? DOMPurify.sanitize(data.value.game.description) : ''
+})
+
+const sanitizedInstructions = computed(() => {
+  return data.value?.game?.instructions ? DOMPurify.sanitize(data.value.game.instructions) : ''
+})
 
 useSeoMeta({
   title: gameTitle,
