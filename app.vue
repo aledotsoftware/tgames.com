@@ -48,6 +48,7 @@
 
     <!-- Global Background Elements for depth -->
     <div class="bg-glow"></div>
+    <ToastContainer />
   </div>
 </template>
 
