@@ -10,13 +10,14 @@ export default defineEventHandler(async (event) => {
 
     try {
         const db = useDB()
-        // Perform simple Like search over game title for fast results natively
+        // Optimized: Use prefix search ('query%') to leverage the idx_games_title index.
+        // This changes complexity from O(N) full-table scan to O(log N) index range scan.
         const [rows] = await db.query(
             `SELECT id, title, slug, thumb_small, thumb_1 
        FROM games 
        WHERE title LIKE ? AND published = 1 
        LIMIT 10`,
-            [`%${q}%`]
+            [`${q}%`]
         )
 
         return {
