@@ -1,6 +1,6 @@
 import { useDB } from '../utils/db'
 
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
     const query = getQuery(event)
     const q = query.q as string
 
@@ -29,4 +29,13 @@ export default defineEventHandler(async (event) => {
             error: error.message
         }
     }
+}, {
+    base: 'redis',
+    name: 'search',
+    getKey: (event) => {
+        const query = getQuery(event)
+        return `search-${query.q || ''}-${query.lang || 'es'}`
+    },
+    maxAge: 60 * 60, // 1 hour TTL
+    swr: true
 })
