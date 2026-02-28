@@ -31,29 +31,11 @@ export default defineCachedEventHandler(async (event) => {
             game: rows[0]
         }
     } catch (error: unknown) {
-        let statusCode = 500
-        let statusMessage = 'Unknown Error'
-
-        if (error && typeof error === 'object') {
-            if ('statusCode' in error) {
-                const code = Number((error as any).statusCode)
-                if (!isNaN(code)) {
-                    statusCode = code
-                }
-            }
-
-            if ('message' in error) {
-                statusMessage = String((error as any).message)
-            } else if ('statusMessage' in error) {
-                statusMessage = String((error as any).statusMessage)
-            }
-        } else if (typeof error === 'string') {
-            statusMessage = error
-        }
-
+        const statusCode = (typeof error === 'object' && error !== null && 'statusCode' in error) ? (error as { statusCode: number }).statusCode : 500
+        const message = error instanceof Error ? error.message : 'Unknown error'
         throw createError({
             statusCode,
-            statusMessage
+            statusMessage: message
         })
     }
 }, {
