@@ -21,7 +21,8 @@
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^10.2.3",
+    "@types/node": "^20.0.0",
     "@vite-pwa/nuxt": "^1.1.1",
-    "@types/node": "^20.0.0"
+    "vitest": "^4.0.18"
   }
 }
