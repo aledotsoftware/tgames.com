@@ -27,10 +27,10 @@ export default defineCachedEventHandler(async (event) => {
         }
     } catch (error: unknown) {
         console.error('API Error /api/games:', error)
-        const message = error instanceof Error ? error.message : 'Unknown error'
+        const errorMessage = error instanceof Error ? error.message : String(error)
         throw createError({
             statusCode: 500,
-            statusMessage: 'Database Error: ' + message
+            statusMessage: 'Database Error: ' + errorMessage
         })
     }
 }, {

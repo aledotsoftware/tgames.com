@@ -2,7 +2,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
   srcDir: '.',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   css: ['~/assets/css/main.css'],
 
   modules: [
@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   ],
 
   image: {
-    domains: ['tudexgames.com'],
+    domains: ['tudexgames.com', '*.gamemonetize.com'],
     alias: {
       '/thumbs': 'https://tudexgames.com/thumbs',
       '/games': 'https://tudexgames.com/games'
@@ -50,7 +50,6 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    lazy: false,
     langDir: 'locales',
     strategy: 'prefix',
     defaultLocale: 'es',
@@ -101,6 +100,11 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Inter:wght@400;500;600&display=swap' }
+      ],
+      script: [
+        { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9896533792719232', crossorigin: 'anonymous', async: true },
+        { src: 'https://www.googletagmanager.com/gtag/js?id=G-WS88X834MF', async: true },
+        { innerHTML: 'window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag(\'js\', new Date());\ngtag(\'config\', \'G-WS88X834MF\');' }
       ]
     }
   },
@@ -114,10 +118,10 @@ export default defineNuxtConfig({
     }
   },
 
-  routeRules: {
-    '/thumbs/**': { proxy: 'https://tudexgames.com/thumbs/**' },
-    '/games/**': { proxy: 'https://tudexgames.com/games/**' }
-  },
+  // routeRules: {
+  //   '/thumbs/**': { proxy: 'https://tudexgames.com/thumbs/**' },
+  //   '/games/**': { proxy: 'https://tudexgames.com/games/**' }
+  // },
 
   compatibilityDate: '2024-04-03'
 })
