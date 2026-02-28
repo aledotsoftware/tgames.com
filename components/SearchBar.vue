@@ -8,7 +8,7 @@
         type="text" 
         class="premium-search-input" 
         :placeholder="$t('search_placeholder')" 
-        aria-label="Buscar juegos"
+        :aria-label="$t('search_placeholder')"
       />
       <button v-if="query" @click="query = ''; results = []" class="clear-btn">✕</button>
     </div>
@@ -71,20 +71,6 @@ const closeSearch = () => {
   results.value = []
 }
 
-// Simple click outside directive logic
-const vClickOutside = {
-  mounted(el, binding) {
-    el.clickOutsideEvent = (event) => {
-      if (!(el === event.target || el.contains(event.target))) {
-        binding.value(event);
-      }
-    };
-    document.addEventListener("click", el.clickOutsideEvent);
-  },
-  unmounted(el) {
-    document.removeEventListener("click", el.clickOutsideEvent);
-  },
-};
 </script>
 
 <style scoped>
