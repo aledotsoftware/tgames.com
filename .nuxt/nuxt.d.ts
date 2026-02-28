@@ -1,4 +1,3 @@
-/// <reference types="@nuxtjs/i18n" />
 /// <reference types="@vite-pwa/nuxt" />
 /// <reference types="@nuxt/telemetry" />
 /// <reference types="@nuxt/image" />
