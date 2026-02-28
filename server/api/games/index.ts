@@ -5,8 +5,7 @@ export default defineCachedEventHandler(async (event) => {
     try {
         const query = getQuery(event)
         const lang = query.lang || 'es'
-        const { page, limit } = validatePagination(query)
-        const offset = (page - 1) * limit
+        const { page, limit, offset } = validatePagination(query)
 
         const db = useDB()
 

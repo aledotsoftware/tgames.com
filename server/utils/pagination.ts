@@ -9,5 +9,7 @@ export const validatePagination = (query: any) => {
     // Cap the limit to a maximum of 100
     if (limit > 100) limit = 100
 
-    return { page, limit }
+    const offset = (page - 1) * limit
+
+    return { page, limit, offset }
 }
