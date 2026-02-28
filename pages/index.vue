@@ -255,7 +255,7 @@
     text-align: center;
     background: var(--bg-secondary);
     border-radius: 12px;
-    color: #ff4444;
+    color: var(--text-primary);
   }
 
   @media (max-width: 640px) {
