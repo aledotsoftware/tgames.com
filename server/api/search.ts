@@ -2,9 +2,12 @@ import { useDB } from '../utils/db'
 
 export default defineCachedEventHandler(async (event) => {
     const query = getQuery(event)
-    const q = query.q as string
+    const rawQ = query.q
+    // Handle array case by taking the first element
+    const q = Array.isArray(rawQ) ? rawQ[0] : rawQ
 
-    if (!q || q.length < 2) {
+    // Validate that q is a string and meets minimum length
+    if (!q || typeof q !== 'string' || q.length < 2) {
         return { success: true, games: [] }
     }
 
