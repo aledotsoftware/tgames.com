@@ -48,19 +48,21 @@
   })
 
   const games = ref([])
-  const page = ref(1)
+  const cursor = ref(null)
   const loadingMore = ref(false)
   const hasMore = ref(true)
 
   if (data.value && data.value.games) {
     games.value = [...data.value.games]
+    cursor.value = data.value.nextCursor || null
+    hasMore.value = !!data.value.nextCursor
   }
 
   watch(data, (newData) => {
     if (newData && newData.games) {
       games.value = [...newData.games]
-      page.value = 1
-      hasMore.value = true
+      cursor.value = newData.nextCursor || null
+      hasMore.value = !!newData.nextCursor
     }
   })
 
@@ -69,16 +71,17 @@
 
     loadingMore.value = true
     try {
-      page.value++
       const res = await $fetch('/api/games', {
         query: {
           lang: locale.value,
-          page: page.value
+          ...(cursor.value && { cursor: cursor.value })
         }
       })
 
       if (res.games && res.games.length > 0) {
         games.value.push(...res.games)
+        cursor.value = res.nextCursor || null
+        hasMore.value = !!res.nextCursor
       } else {
         hasMore.value = false
       }
