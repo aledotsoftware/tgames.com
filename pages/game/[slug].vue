@@ -27,6 +27,7 @@
       <div class="game-stage shadow-xl">
         <div class="stage-inner" v-if="data.game.url">
           <iframe 
+            ref="gameIframeRef"
             :src="data.game.url" 
             frameborder="0" 
             allowfullscreen="true"
@@ -119,6 +120,7 @@
 </template>
 
 <script setup>
+const gameIframeRef = ref(null)
 const route = useRoute()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
@@ -170,7 +172,7 @@ const handleInteraction = async (type) => {
 }
 
 const toggleFullscreen = () => {
-    const stage = document.querySelector('.stage-inner iframe')
+    const stage = gameIframeRef.value
     if (stage) {
         if (stage.requestFullscreen) stage.requestFullscreen()
         else if (stage.webkitRequestFullscreen) stage.webkitRequestFullscreen()
