@@ -122,6 +122,7 @@
 const route = useRoute()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
+const toast = useToast()
 
 const { data, pending, error } = await useFetch(`/api/games/${route.params.slug}`, {
   query: { lang: locale }
@@ -129,8 +130,8 @@ const { data, pending, error } = await useFetch(`/api/games/${route.params.slug}
 
 const stripHtml = (html) => html ? html.replace(/<[^>]*>/g, '') : ''
 
-const gameTitle = computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : 'Juego - Tudex Games')
-const gameDesc = computed(() => data.value?.game?.description ? stripHtml(data.value.game.description).substring(0, 160) : 'Juega en Tudex Games.')
+const gameTitle = computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : t('site_title'))
+const gameDesc = computed(() => data.value?.game?.description ? stripHtml(data.value.game.description).substring(0, 160) : t('site_title'))
 
 useSeoMeta({
   title: gameTitle,
@@ -163,7 +164,7 @@ const handleInteraction = async (type) => {
     if (response.success) {
       if (type === 'like') data.value.game.upvote = (data.value.game.upvote || 0) + 1;
       if (type === 'dislike') data.value.game.downvote = (data.value.game.downvote || 0) + 1;
-      if (type === 'report') alert(t('feedback_report'));
+      if (type === 'report') toast.add({ message: t('feedback_report'), type: 'success' });
     }
   } catch(e) { console.error(e) }
 }

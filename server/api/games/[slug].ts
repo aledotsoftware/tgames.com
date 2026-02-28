@@ -30,14 +30,12 @@ export default defineCachedEventHandler(async (event) => {
             success: true,
             game: rows[0]
         }
-    } catch (error: any) {
-        if (error.statusCode) {
-            throw error
-        }
-        console.error('API Error /api/games/[slug]:', error)
+    } catch (error: unknown) {
+        const statusCode = (typeof error === 'object' && error !== null && 'statusCode' in error) ? (error as { statusCode: number }).statusCode : 500
+        const message = error instanceof Error ? error.message : 'Unknown error'
         throw createError({
-            statusCode: 500,
-            statusMessage: 'Internal Server Error'
+            statusCode,
+            statusMessage: message
         })
     }
 }, {
