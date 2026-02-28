@@ -16,8 +16,8 @@ export const useDB = () => {
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0,
-            // Enable named placeholders if needed, but we use positional
-            namedPlaceholders: true
+            // Use positional placeholders
+            namedPlaceholders: false
         });
     }
     return pool;
