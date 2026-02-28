@@ -30,8 +30,22 @@ export default defineEventHandler(async (event) => {
         } else if (type === 'dislike') {
             await db.execute(`UPDATE games SET downvote = downvote + 1 WHERE id = ?`, [id])
         } else if (type === 'report') {
-            // Placeholder since there isn't an explicit "bug_reports" table, just log for now
-            console.log(`[Report Bug] Game ID ${id} was reported!`)
+            const ip = getRequestIP(event, { xForwardedFor: true }) || 'Unknown'
+
+            await db.execute(
+                `INSERT INTO action_logs (user_id, username, user_role, action_type, object_type, object_id, object_name, details)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                [
+                    0,
+                    'Guest',
+                    'guest',
+                    'report',
+                    'game',
+                    id,
+                    `Game #${id}`,
+                    `Reported from IP: ${ip}`
+                ]
+            )
         }
 
         return {
