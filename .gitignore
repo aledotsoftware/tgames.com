@@ -31,3 +31,4 @@ yarn-error.log*
 *.sln
 /.nuxt
 .nuxt/manifest/latest.json
+tsconfig.json

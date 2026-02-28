@@ -32,7 +32,8 @@ El sistema sigue un enfoque de **Minimalismo Absoluto**:
 - **Base de Datos:** MySQL para persistencia (el catálogo reside en una ubicación remota, lo que hace vital la capa de caché).
 - **Caché (El Escudo):** [Redis](https://redis.io/) actúa como un "escudo de datos" entre la aplicación y la DB remota.
 - **Internacionalización (i18n):** `@nuxtjs/i18n` (frontend) + tabla `translations` (backend) con soporte para 15 idiomas.
-
+  - **Uso Estándar:** La configuración estricta de `langDir` (`locales`) requiere que los archivos JSON estén alojados dentro de la carpeta `i18n/locales/` en la raíz (ej. `i18n/locales/en.json`).
+  - **En el código:** Se debe usar siempre `$t('key')` en los templates o `const { t } = useI18n()` en el script de Vue para asegurar traducciones reactivas. No se debe quemar (hardcodear) texto en los componentes.
 ### Infraestructura
 - **Contenerización:** Docker para orquestación de App + Redis.
 - **PWA:** Diseño adaptativo que se comporta como una App nativa.
