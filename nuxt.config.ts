@@ -50,7 +50,6 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    lazy: false,
     langDir: 'locales',
     strategy: 'prefix',
     defaultLocale: 'es',
