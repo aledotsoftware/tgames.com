@@ -1,11 +1,11 @@
 import { useDB } from '../../utils/db'
+import { validatePagination } from '../../utils/pagination'
 
 export default defineCachedEventHandler(async (event) => {
     try {
         const query = getQuery(event)
         const lang = query.lang || 'es'
-        const page = parseInt(query.page as string) || 1
-        const limit = parseInt(query.limit as string) || 60
+        const { page, limit } = validatePagination(query)
         const offset = (page - 1) * limit
 
         const db = useDB()
@@ -25,11 +25,12 @@ export default defineCachedEventHandler(async (event) => {
             success: true,
             games: rows
         }
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('API Error /api/games:', error)
+        const errorMessage = error instanceof Error ? error.message : String(error)
         throw createError({
             statusCode: 500,
-            statusMessage: 'Database Error: ' + error.message
+            statusMessage: 'Database Error: ' + errorMessage
         })
     }
 }, {
@@ -38,8 +39,7 @@ export default defineCachedEventHandler(async (event) => {
     getKey: (event) => {
         const query = getQuery(event)
         const lang = query.lang || 'es'
-        const page = query.page || '1'
-        const limit = query.limit || '60'
+        const { page, limit } = validatePagination(query)
         return `trending-${lang}-p${page}-l${limit}`
     },
     maxAge: 60 * 60, // 1 hour TTL Cache!

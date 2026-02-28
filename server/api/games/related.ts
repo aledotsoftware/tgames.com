@@ -31,11 +31,12 @@ export default defineCachedEventHandler(async (event) => {
             success: true,
             games: rows
         }
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('DB Error:', error)
+        const message = error instanceof Error ? error.message : 'Unknown error'
         throw createError({
             statusCode: 500,
-            statusMessage: 'Internal Server Error'
+            statusMessage: 'Error connecting to database: ' + message
         })
     }
 }, {

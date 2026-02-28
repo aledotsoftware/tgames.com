@@ -41,13 +41,10 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; {{ new Date().getFullYear() }} Tudex Games. All rights reserved.</p>
+          <p>&copy; {{ new Date().getFullYear() }} Tudex Games. {{ $t('all_rights') }}</p>
         </div>
       </div>
     </footer>
-
-    <!-- Global Background Elements for depth -->
-    <div class="bg-glow"></div>
   </div>
 </template>
 
@@ -84,7 +81,7 @@ const handleLanguageChange = (event) => {
 }
 
 .logo-text:hover {
-  text-shadow: 0 0 15px var(--accent-glow);
+  text-shadow: none;
 }
 
 .nav-actions {
@@ -171,18 +168,6 @@ const handleLanguageChange = (event) => {
   text-align: center;
   color: var(--text-dim);
   font-size: 0.8rem;
-}
-
-/* Background Depth Elements */
-.bg-glow {
-  position: fixed;
-  top: -10%;
-  right: -5%;
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: -1;
 }
 
 @media (max-width: 640px) {
