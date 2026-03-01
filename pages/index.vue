@@ -11,8 +11,8 @@
         <NuxtLink v-for="(game, index) in games" :key="game.id" :to="localePath(`/game/${game.slug}`)"
           class="game-card hover-lift" :style="{ animationDelay: (index % 10) * 0.05 + 's' }">
           <div class="thumb-wrapper">
-            <NuxtImg :src="game.thumb_2 || game.thumb_1 || game.thumb_small" :alt="game.title" loading="lazy"
-              class="game-thumb" sizes="300px sm:400px md:300px" format="webp" />
+            <img :src="'/_ipx/w_300&f_webp/' + (game.thumb_2 || game.thumb_1 || game.thumb_small)" :alt="game.title" loading="lazy"
+              class="game-thumb" />
             <div class="card-overlay">
               <span class="play-btn">{{ $t('play') }}</span>
             </div>

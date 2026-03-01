@@ -24,7 +24,7 @@
         >
           <div class="item-thumb-wrapper">
             <img
-              :src="game.thumb_small || game.thumb_1"
+              :src="'/_ipx/w_300&f_webp/' + (game.thumb_small || game.thumb_1)"
               :alt="game.title"
               class="item-thumb"
             />
