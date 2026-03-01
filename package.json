@@ -24,11 +24,6 @@
     "@nuxtjs/i18n": "^10.2.3",
     "@types/node": "^20.0.0",
     "@vite-pwa/nuxt": "^1.1.1",
-    "@vitejs/plugin-vue": "^6.0.4",
-    "@vue/test-utils": "^2.4.6",
-    "happy-dom": "^20.7.0",
-    "unenv": "^2.0.0-rc.24",
-    "unplugin-auto-import": "^21.0.0",
     "vitest": "^4.0.18"
   }
 }
