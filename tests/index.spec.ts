@@ -26,9 +26,21 @@ describe('pages/index.vue', () => {
         }))
         vi.stubGlobal('useFetch', useFetchMock)
 
+        vi.stubGlobal('useI18n', vi.fn(() => ({ locale: ref('es'), t: vi.fn((key) => key) })))
+        vi.stubGlobal('useLocalePath', vi.fn(() => vi.fn((path) => path)))
+        vi.stubGlobal('useHead', vi.fn())
+        vi.stubGlobal('useSeoMeta', vi.fn())
+        vi.stubGlobal('useRuntimeConfig', vi.fn(() => ({ public: {} })))
+
+        vi.stubGlobal('useRoute', vi.fn(() => ({ path: '/' })))
+
         // Reset fetch mock
-        const fetchMock = global.$fetch as any
-        fetchMock.mockClear()
+        if (global.$fetch) {
+            const fetchMock = global.$fetch as any
+            if (fetchMock.mockClear) {
+                fetchMock.mockClear()
+            }
+        }
     })
 
     afterEach(() => {
@@ -52,7 +64,17 @@ describe('pages/index.vue', () => {
                 })
             }
         })
-        const wrapper = mount(SuspenseWrapper)
+        const wrapper = mount(SuspenseWrapper, {
+            global: {
+                mocks: {
+                    $t: (msg: string) => msg
+                },
+                stubs: {
+                    NuxtLink: true,
+                    SkeletonGameCard: true,
+                }
+            }
+        })
         await flushPromises()
         return wrapper
     }
@@ -71,8 +93,8 @@ describe('pages/index.vue', () => {
     })
 
     it('triggers loadMoreGames when sentinel intersects', async () => {
-        const fetchMock = global.$fetch as any
-        fetchMock.mockResolvedValueOnce({ games: [{ id: 2, title: 'Game 2', slug: 'game-2' }] })
+        const fetchMock = vi.fn().mockResolvedValue({ games: [{ id: 2, title: 'Game 2', slug: 'game-2' }] })
+        vi.stubGlobal('$fetch', fetchMock)
 
         const wrapper = await mountComponent()
 
@@ -91,8 +113,8 @@ describe('pages/index.vue', () => {
     })
 
     it('stops fetching when hasMore is false', async () => {
-        const fetchMock = global.$fetch as any
-        fetchMock.mockResolvedValueOnce({ games: [] }) // Empty games array
+        const fetchMock = vi.fn().mockResolvedValue({ games: [] })
+        vi.stubGlobal('$fetch', fetchMock)
 
         const wrapper = await mountComponent()
 
