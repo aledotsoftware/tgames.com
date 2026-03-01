@@ -24,6 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `bug_reports`
+--
+
+CREATE TABLE `bug_reports` (
+  `id` int UNSIGNED NOT NULL,
+  `game_id` smallint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `action_logs`
 --
 
@@ -477,6 +489,13 @@ ALTER TABLE `action_logs`
   ADD KEY `idx_time` (`created_at`);
 
 --
+-- Indices de la tabla `bug_reports`
+--
+ALTER TABLE `bug_reports`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_bug_reports_game_id` (`game_id`);
+
+--
 -- Indices de la tabla `categories`
 --
 ALTER TABLE `categories`
@@ -652,6 +671,12 @@ ALTER TABLE `votelogs`
 --
 ALTER TABLE `action_logs`
   MODIFY `id` smallint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `bug_reports`
+--
+ALTER TABLE `bug_reports`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categories`

@@ -88,22 +88,7 @@ export default defineEventHandler(async (event) => {
         if (type === 'like' || type === 'dislike') {
             bufferInteraction(id, type)
         } else if (type === 'report') {
-            const ip = getRequestIP(event, { xForwardedFor: true }) || 'Unknown'
-
-            await db.execute(
-                `INSERT INTO action_logs (user_id, username, user_role, action_type, object_type, object_id, object_name, details)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-                [
-                    0,
-                    'Guest',
-                    'guest',
-                    'report',
-                    'game',
-                    id,
-                    `Game #${id}`,
-                    `Reported from IP: ${ip}`
-                ]
-            )
+            await db.execute(`INSERT INTO bug_reports (game_id) VALUES (?)`, [id])
         }
 
         return {
