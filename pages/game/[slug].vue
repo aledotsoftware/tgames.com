@@ -109,7 +109,7 @@
             class="related-card hover-lift"
           >
             <div class="rel-thumb">
-               <img :src="game.thumb_small || game.thumb_1" :alt="game.title" loading="lazy">
+               <img :src="'/_ipx/w_300&f_webp/' + (game.thumb_small || game.thumb_1)" :alt="game.title" loading="lazy">
             </div>
             <div class="rel-title">{{ game.title }}</div>
           </NuxtLink>
