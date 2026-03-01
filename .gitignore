@@ -32,3 +32,5 @@ yarn-error.log*
 /.nuxt
 .nuxt/manifest/latest.json
 tsconfig.json
+\ncoverage/
+\nauto-imports.d.ts
