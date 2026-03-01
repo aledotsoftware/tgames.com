@@ -1,5 +1,65 @@
 import { useDB } from '../utils/db'
 
+// Write-behind buffer for interactions
+const interactionBuffer = new Map<number, { likes: number, dislikes: number }>()
+const FLUSH_INTERVAL_MS = 5000
+
+let isFlushing = false
+let flushInterval: NodeJS.Timeout | null = null
+
+async function flushInteractions() {
+    if (isFlushing || interactionBuffer.size === 0) return
+
+    isFlushing = true
+    const db = useDB()
+
+    // Create a snapshot of the buffer and clear it
+    const snapshot = new Map(interactionBuffer)
+    interactionBuffer.clear()
+
+    try {
+        for (const [id, counts] of snapshot.entries()) {
+            if (counts.likes > 0 && counts.dislikes > 0) {
+                await db.execute(
+                    `UPDATE games SET upvote = upvote + ?, downvote = downvote + ? WHERE id = ?`,
+                    [counts.likes, counts.dislikes, id]
+                )
+            } else if (counts.likes > 0) {
+                await db.execute(
+                    `UPDATE games SET upvote = upvote + ? WHERE id = ?`,
+                    [counts.likes, id]
+                )
+            } else if (counts.dislikes > 0) {
+                await db.execute(
+                    `UPDATE games SET downvote = downvote + ? WHERE id = ?`,
+                    [counts.dislikes, id]
+                )
+            }
+        }
+    } catch (error) {
+        console.error('Error flushing interactions:', error)
+        // Note: in a production scenario, we might want to put failed updates back into the buffer
+        // but for this simple optimization, we'll log the error.
+    } finally {
+        isFlushing = false
+    }
+}
+
+// Start the flush interval if it's not already running
+if (!flushInterval) {
+    flushInterval = setInterval(flushInteractions, FLUSH_INTERVAL_MS)
+}
+
+function bufferInteraction(gameId: number, type: 'like' | 'dislike') {
+    const current = interactionBuffer.get(gameId) || { likes: 0, dislikes: 0 }
+    if (type === 'like') {
+        current.likes++
+    } else {
+        current.dislikes++
+    }
+    interactionBuffer.set(gameId, current)
+}
+
 export default defineEventHandler(async (event) => {
     if (event.method !== 'POST') {
         throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' })
@@ -25,10 +85,8 @@ export default defineEventHandler(async (event) => {
 
         const db = useDB()
 
-        if (type === 'like') {
-            await db.execute(`UPDATE games SET upvote = upvote + 1 WHERE id = ?`, [id])
-        } else if (type === 'dislike') {
-            await db.execute(`UPDATE games SET downvote = downvote + 1 WHERE id = ?`, [id])
+        if (type === 'like' || type === 'dislike') {
+            bufferInteraction(id, type)
         } else if (type === 'report') {
             const ip = getRequestIP(event, { xForwardedFor: true }) || 'Unknown'
 
