@@ -1,0 +1,22 @@
+<<<<<<< SEARCH
+        // Mock useFetch correctly with reactive wrapper
+        const useFetchMock = vi.fn(() => ({
+            data: ref({ games: [{ id: 1, title: 'Game 1', slug: 'game-1' }] }),
+            pending: ref(false),
+            error: ref(null)
+        }))
+        vi.stubGlobal('useFetch', useFetchMock)
+=======
+        // Mock useFetch correctly with reactive wrapper
+        const useFetchMock = vi.fn(() => ({
+            data: ref({ games: [{ id: 1, title: 'Game 1', slug: 'game-1' }] }),
+            pending: ref(false),
+            error: ref(null)
+        }))
+        vi.stubGlobal('useFetch', useFetchMock)
+
+        vi.stubGlobal('useI18n', vi.fn(() => ({ locale: ref('es'), t: vi.fn((key) => key) })))
+        vi.stubGlobal('useLocalePath', vi.fn(() => vi.fn((path) => path)))
+        vi.stubGlobal('useHead', vi.fn())
+        vi.stubGlobal('useRuntimeConfig', vi.fn(() => ({ public: {} })))
+>>>>>>> REPLACE

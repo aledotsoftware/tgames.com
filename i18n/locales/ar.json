@@ -19,11 +19,11 @@
     "views": "مشاهدات",
     "date": "التاريخ",
     "related_games": "ألعاب ذات صلة",
-    "feedback_report": "تم استلام ملاحظاتك. شكرا لك.",
-    "all_rights": "All rights reserved.",
-    "go_home": "Volver al inicio",
-    "error_404_title": "Página no encontrada",
-    "error_404_desc": "Lo sentimos, pero la página que buscas no existe o ha sido eliminada.",
-    "error_500_title": "Error interno del servidor",
-    "error_500_desc": "Algo salió mal en nuestro lado. Estamos trabajando para solucionarlo."
+    "feedback_report": "تم استلام الملاحظات. شكرا لك على تقريرك.",
+    "all_rights": "جميع الحقوق محفوظة.",
+    "go_home": "الذهاب إلى الرئيسية",
+    "error_404_title": "الصفحة غير موجودة",
+    "error_404_desc": "عذرًا، لكن الصفحة التي تبحث عنها غير موجودة أو تمت إزالتها.",
+    "error_500_title": "خطأ داخلي في الخادم",
+    "error_500_desc": "حدث خطأ ما من جانبنا. نحن نعمل على إصلاحه."
 }
