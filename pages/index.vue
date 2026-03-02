@@ -216,7 +216,7 @@
 
   .play-btn {
     background: var(--accent);
-    color: #000;
+    color: #000000;
     padding: 0.5rem 1.5rem;
     border-radius: 999px;
     font-weight: 700;

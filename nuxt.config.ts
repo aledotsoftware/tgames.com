@@ -21,8 +21,8 @@ export default defineNuxtConfig({
 
   pwa: {
     manifest: {
-      name: 'Tudex Games',
-      short_name: 'TudexGames',
+      name: 'tudexgames',
+      short_name: 'tudexgames',
       description: 'Llegar y Jugar - Plataforma de juegos web rápida y minimalista.',
       theme_color: '#000000',
       background_color: '#000000',
@@ -91,7 +91,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Tudex Games - Llegar y Jugar',
+      title: 'tudexgames - Llegar y Jugar',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -118,10 +118,11 @@ export default defineNuxtConfig({
     }
   },
 
-  // routeRules: {
-  //   '/thumbs/**': { proxy: 'https://tudexgames.com/thumbs/**' },
-  //   '/games/**': { proxy: 'https://tudexgames.com/games/**' }
-  // },
+  routeRules: {
+    '/game/**': { swr: 3600 },
+    '/': { prerender: true },
+    '/**': { isr: true }
+  },
 
   compatibilityDate: '2024-04-03'
 })

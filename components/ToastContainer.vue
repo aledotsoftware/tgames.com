@@ -32,11 +32,11 @@ const { toasts, remove } = useToast()
 
 .toast {
   pointer-events: auto;
-  background: var(--bg-tertiary, #111);
-  color: var(--text-primary, #fff);
+  background: var(--bg-tertiary, #000000);
+  color: var(--text-primary, #ffffff);
   padding: 1rem 1.5rem;
   border-radius: 8px;
-  border: 1px solid var(--border-color, #333);
+  border: 1px solid var(--border-color, #ffffff);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   display: flex;
@@ -46,9 +46,9 @@ const { toasts, remove } = useToast()
   max-width: 400px;
 }
 
-.toast.success { border-color: var(--accent, #4ade80); }
-.toast.error { border-color: #ff4444; }
-.toast.warning { border-color: #fbbf24; }
+.toast.success { border-color: var(--accent, #ffffff); }
+.toast.error { border-color: #ffffff; }
+.toast.warning { border-color: #ffffff; }
 
 .toast-enter-active,
 .toast-leave-active {
