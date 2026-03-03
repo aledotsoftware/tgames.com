@@ -160,6 +160,7 @@
       ],
       "#app-manifest": [
         "./manifest/meta/955071be-6901-44aa-a65d-e1b9dc5ab901.json"
+        "./manifest/meta/dev"
       ],
       "#components": [
         "./components"
