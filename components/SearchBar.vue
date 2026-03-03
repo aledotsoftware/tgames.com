@@ -155,7 +155,7 @@ const closeSearch = () => {
   height: 50px;
   border-radius: 8px;
   overflow: hidden;
-  background: #111;
+  background: #000000;
 }
 
 .item-thumb {

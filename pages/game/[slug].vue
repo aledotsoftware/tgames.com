@@ -132,7 +132,7 @@ const { data, pending, error } = await useFetch(`/api/games/${route.params.slug}
 
 const stripHtml = (html) => html ? html.replace(/<[^>]*>/g, '') : ''
 
-const gameTitle = computed(() => data.value?.game?.title ? `${data.value.game.title} - Tudex Games` : t('site_title'))
+const gameTitle = computed(() => data.value?.game?.title ? `${data.value.game.title} - tudexgames` : t('site_title'))
 const gameDesc = computed(() => data.value?.game?.description ? stripHtml(data.value.game.description).substring(0, 160) : t('site_title'))
 
 useSeoMeta({
@@ -221,7 +221,7 @@ const toggleFullscreen = () => {
 .nav-back:hover { color: var(--accent); }
 
 .game-stage {
-  background: #050505;
+  background: #000000;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
   padding: 2rem 0;
@@ -230,7 +230,7 @@ const toggleFullscreen = () => {
 .stage-inner {
   max-width: fit-content;
   margin: 0 auto;
-  background: #000;
+  background: #000000;
   border-radius: 8px;
   box-shadow: 0 0 100px rgba(0,0,0,0.8);
   overflow: hidden;
@@ -276,8 +276,8 @@ const toggleFullscreen = () => {
 }
 
 .btn-danger:hover {
-  border-color: #ff4444;
-  color: #ff4444;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 
 .content-grid {
@@ -325,7 +325,7 @@ const toggleFullscreen = () => {
 
 .tag {
   background: var(--accent);
-  color: #000;
+  color: #000000;
   padding: 0.1rem 0.6rem;
   border-radius: 4px;
   font-size: 0.75rem;
