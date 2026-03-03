@@ -37,7 +37,6 @@
             <p>{{ $t('site_title') }}</p>
           </div>
           <div class="footer-links">
-            <!-- Add future links here -->
           </div>
         </div>
         <div class="footer-bottom">
