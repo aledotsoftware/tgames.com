@@ -119,11 +119,9 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/game/**': { swr: 3600 },
-    '/': { prerender: true },
-    '/**': { isr: true }
     '/': { prerender: true },
     '/game/**': { swr: 3600 },
+    '/**': { isr: true },
     '/thumbs/**': { proxy: 'https://tudexgames.com/thumbs/**' },
     '/games/**': { proxy: 'https://tudexgames.com/games/**' }
   },
