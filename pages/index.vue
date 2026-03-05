@@ -126,7 +126,7 @@
     justify-content: center;
     text-align: center;
     padding: 4rem 1rem;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    background: #000000;
   }
 
   .hero-title {
@@ -190,7 +190,7 @@
   .section-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(to right, var(--border-color), transparent);
+    background: #ffffff;
   }
 
   .games-grid {
@@ -202,7 +202,7 @@
   .card-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: #000000;
     display: flex;
     align-items: center;
     justify-content: center;

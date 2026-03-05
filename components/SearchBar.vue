@@ -94,12 +94,12 @@ const closeSearch = () => {
 .search-input-wrapper:focus-within {
   border-color: var(--border-glow);
   background: var(--bg-secondary);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+  box-shadow: 0 0 0 2px #ffffff;
 }
 
 .search-icon {
   font-size: 0.9rem;
-  opacity: 0.5;
+  opacity: 1;
   margin-right: 0.75rem;
 }
 
@@ -115,11 +115,14 @@ const closeSearch = () => {
 
 .clear-btn {
   font-size: 0.8rem;
-  opacity: 0.5;
+  opacity: 1;
   padding: 0.5rem;
 }
 
-.clear-btn:hover { opacity: 1; }
+.clear-btn:hover {
+  background: #ffffff;
+  color: #000000;
+}
 
 .premium-search-dropdown {
   position: absolute;
