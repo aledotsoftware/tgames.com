@@ -94,12 +94,10 @@ const closeSearch = () => {
 .search-input-wrapper:focus-within {
   border-color: var(--border-glow);
   background: var(--bg-secondary);
-  box-shadow: 0 0 0 2px #ffffff;
 }
 
 .search-icon {
   font-size: 0.9rem;
-  opacity: 1;
   margin-right: 0.75rem;
 }
 
@@ -115,7 +113,6 @@ const closeSearch = () => {
 
 .clear-btn {
   font-size: 0.8rem;
-  opacity: 1;
   padding: 0.5rem;
 }
 
@@ -191,12 +188,11 @@ const closeSearch = () => {
 /* Transitions */
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
 .fade-slide-enter-from,
 .fade-slide-leave-to {
-  opacity: 0;
   transform: translateY(-10px);
 }
 </style>

@@ -37,7 +37,6 @@ const { toasts, remove } = useToast()
   padding: 1rem 1.5rem;
   border-radius: 8px;
   border: 1px solid var(--border-color, #ffffff);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -52,12 +51,11 @@ const { toasts, remove } = useToast()
 
 .toast-enter-active,
 .toast-leave-active {
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .toast-enter-from,
 .toast-leave-to {
-  opacity: 0;
   transform: translateY(20px);
 }
 </style>
