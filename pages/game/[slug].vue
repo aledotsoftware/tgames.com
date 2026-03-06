@@ -65,12 +65,12 @@
           <div class="main-info">
             <section class="info-block glass-panel" v-if="data.game.description">
               <h3>{{ $t('description') }}</h3>
-              <div class="content-text" v-html="data.game.description"></div>
+              <div class="content-text" v-html="sanitizeHtml(data.game.description)"></div>
             </section>
 
             <section class="info-block glass-panel" v-if="data.game.instructions">
               <h3>{{ $t('instructions') }}</h3>
-              <div class="content-text" v-html="data.game.instructions"></div>
+              <div class="content-text" v-html="sanitizeHtml(data.game.instructions)"></div>
             </section>
           </div>
 

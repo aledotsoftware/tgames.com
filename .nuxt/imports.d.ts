@@ -32,6 +32,7 @@ export { useRouteBaseName, useLocalePath, useLocaleRoute, useSwitchLocalePath, u
 export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';
 export { defineLazyHydrationComponent } from '#app/composables/lazy-hydration';
 export { useToast, Toast } from '../composables/useToast';
+export { sanitizeHtml } from '../utils/sanitize';
 export { stripHtml } from '../utils/strings';
 export { useI18n } from 'vue-i18n';
 export { usePWA, useTransparentPwaIcon, useMaskablePwaIcon, useFaviconPwaIcon, useApplePwaIcon, useAppleSplashScreenPwaIcon } from '../node_modules/@vite-pwa/nuxt/dist/runtime/composables/index';
