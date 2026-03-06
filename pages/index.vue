@@ -206,12 +206,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transition: var(--transition-smooth);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .game-card:hover .card-overlay {
-    opacity: 1;
+    transform: translateY(0);
   }
 
   .play-btn {
