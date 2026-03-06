@@ -232,7 +232,7 @@ const toggleFullscreen = () => {
   margin: 0 auto;
   background: #000000;
   border-radius: 8px;
-  box-shadow: 0 0 100px rgba(0,0,0,0.8);
+  border: 1px solid #ffffff;
   overflow: hidden;
   position: relative;
 }
