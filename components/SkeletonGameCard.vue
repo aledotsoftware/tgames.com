@@ -20,7 +20,8 @@
 .skeleton-thumb {
   width: 100%;
   aspect-ratio: 1/1;
-  background-color: var(--bg-tertiary);
+  background-color: #000000;
+  border-bottom: 1px solid #ffffff;
   animation: pulse 2s infinite ease-in-out;
 }
 
@@ -31,14 +32,15 @@
 .skeleton-title {
   height: 1rem;
   width: 80%;
-  background-color: var(--bg-tertiary);
+  background-color: #000000;
+  border: 1px dashed #ffffff;
   border-radius: 4px;
   animation: pulse 2s infinite ease-in-out 0.2s;
 }
 
 @keyframes pulse {
-  0% { opacity: 0.1; }
-  50% { opacity: 0.3; }
-  100% { opacity: 0.1; }
+  0% { border-color: #ffffff; }
+  50% { border-color: transparent; }
+  100% { border-color: #ffffff; }
 }
 </style>
