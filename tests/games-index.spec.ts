@@ -29,7 +29,7 @@ describe('games API', () => {
         // Verify query parameters
         expect(mockQuery).toHaveBeenCalledTimes(1)
         const callArgs = mockQuery.mock.calls[0]
-        expect(callArgs[1]).toEqual(['en', 10, 0]) // lang, limit, offset
+        expect(callArgs[1]).toEqual(['en', 10]) // lang, limit
     })
 
     it('should use default values for query parameters', async () => {
@@ -44,7 +44,23 @@ describe('games API', () => {
 
         expect(mockQuery).toHaveBeenCalledTimes(1)
         const callArgs = mockQuery.mock.calls[0]
-        expect(callArgs[1]).toEqual(['es', 60, 0]) // default lang is 'es', default limit from validation is 60, offset 0
+        expect(callArgs[1]).toEqual(['es', 60]) // default lang is 'es', default limit from validation is 60
+    })
+
+    it('should handle composite cursor parameter', async () => {
+        global.getQuery = vi.fn().mockReturnValue({ cursor: '500_2000_100' })
+
+        const mockQuery = vi.fn().mockResolvedValue([[]])
+        vi.mocked(dbUtils.useDB).mockReturnValue({
+            query: mockQuery
+        } as any)
+
+        await handler({} as any)
+
+        expect(mockQuery).toHaveBeenCalledTimes(1)
+        const callArgs = mockQuery.mock.calls[0]
+        expect(callArgs[1]).toEqual(['es', 500, 500, 2000, 500, 2000, 100, 60]) // lang, cUpvote, cUpvote, cViews, cUpvote, cViews, cId, limit
+        expect(callArgs[0]).toContain('g.upvote < ? OR (g.upvote = ? AND g.views < ?) OR (g.upvote = ? AND g.views = ? AND g.id < ?)')
     })
 
     it('should handle database error and throw a 500 error', async () => {
