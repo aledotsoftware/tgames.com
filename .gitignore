@@ -34,3 +34,4 @@ yarn-error.log*
 tsconfig.json
 \ncoverage/
 \nauto-imports.d.ts
+coverage
