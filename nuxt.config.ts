@@ -8,7 +8,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/i18n',
     '@vite-pwa/nuxt',
-    '@nuxt/image'
+    '@nuxt/image',
+    '@nuxt/test-utils/module'
   ],
 
   image: {
