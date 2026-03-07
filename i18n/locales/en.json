@@ -13,5 +13,8 @@
     "instructions": "Instructions",
     "like": "Like",
     "dislike": "Dislike",
-    "report_bug": "Report Bug"
+    "report_bug": "Report Bug",
+    "sort_newest": "Newest",
+    "sort_most_viewed": "Most Viewed",
+    "sort_top_rated": "Top Rated"
 }
