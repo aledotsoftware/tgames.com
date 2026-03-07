@@ -108,7 +108,7 @@ describe('pages/index.vue', () => {
 
         // Check if $fetch was called for the next page
         expect(fetchMock).toHaveBeenCalledWith('/api/games', {
-            query: { lang: 'es', page: 2 }
+            query: { lang: 'es', cursor: 'undefined_undefined_1' } // since upvote and views aren't mocked in initial games
         })
     })
 

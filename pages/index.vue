@@ -48,18 +48,27 @@
   })
 
   const games = ref([])
-  const page = ref(1)
+  const cursor = ref(null)
   const loadingMore = ref(false)
   const hasMore = ref(true)
 
   if (data.value && data.value.games) {
     games.value = [...data.value.games]
+    if (games.value.length > 0) {
+      const last = games.value[games.value.length - 1]
+      cursor.value = `${last.upvote}_${last.views}_${last.id}`
+    }
   }
 
   watch(data, (newData) => {
     if (newData && newData.games) {
       games.value = [...newData.games]
-      page.value = 1
+      if (games.value.length > 0) {
+        const last = games.value[games.value.length - 1]
+        cursor.value = `${last.upvote}_${last.views}_${last.id}`
+      } else {
+        cursor.value = null
+      }
       hasMore.value = true
     }
   })
@@ -69,16 +78,17 @@
 
     loadingMore.value = true
     try {
-      page.value++
       const res = await $fetch('/api/games', {
         query: {
           lang: locale.value,
-          page: page.value
+          cursor: cursor.value
         }
       })
 
       if (res.games && res.games.length > 0) {
         games.value.push(...res.games)
+        const last = res.games[res.games.length - 1]
+        cursor.value = `${last.upvote}_${last.views}_${last.id}`
       } else {
         hasMore.value = false
       }
