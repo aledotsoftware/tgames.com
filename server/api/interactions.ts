@@ -18,24 +18,26 @@ async function flushInteractions() {
     interactionBuffer.clear()
 
     try {
+        const promises = []
         for (const [id, counts] of snapshot.entries()) {
             if (counts.likes > 0 && counts.dislikes > 0) {
-                await db.execute(
+                promises.push(db.execute(
                     `UPDATE games SET upvote = upvote + ?, downvote = downvote + ? WHERE id = ?`,
                     [counts.likes, counts.dislikes, id]
-                )
+                ))
             } else if (counts.likes > 0) {
-                await db.execute(
+                promises.push(db.execute(
                     `UPDATE games SET upvote = upvote + ? WHERE id = ?`,
                     [counts.likes, id]
-                )
+                ))
             } else if (counts.dislikes > 0) {
-                await db.execute(
+                promises.push(db.execute(
                     `UPDATE games SET downvote = downvote + ? WHERE id = ?`,
                     [counts.dislikes, id]
-                )
+                ))
             }
         }
+        await Promise.all(promises)
     } catch (error) {
         console.error('Error flushing interactions:', error)
         // Note: in a production scenario, we might want to put failed updates back into the buffer
