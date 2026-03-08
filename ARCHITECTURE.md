@@ -3,12 +3,13 @@
 Este documento describe la arquitectura y el diseño técnico de la plataforma **TGames.com**.
 
 ## 🚀 Visión General e Ideología
-TGames es una plataforma de juegos web diseñada bajo la filosofía **"Llegar y Jugar"**. El objetivo es eliminar cualquier fricción entre el usuario y el contenido, permitiendo que el juego sea el protagonista absoluto.
+TGames es una plataforma de juegos web diseñada bajo la filosofía **"Llegar y Jugar"**. El objetivo es crear la plataforma de juegos web más rápida y minimalista del mercado, eliminando distracciones para centrar la atención en el gameplay.
 
 ### Principios Fundamentales
-- **Cero Fricción:** Interfaz invisible y minimalista.
-- **Velocidad Extrema:** Cada milisegundo cuenta. Uso de caché agresiva para acceso instantáneo a más de 20,000 títulos.
-- **Soberanía Tecnológica:** Independencia de plataformas de terceros mediante un motor propio y optimizado.
+- **Cero Fricción:** Eliminaremos cualquier barrera entre el usuario y el juego. La interfaz debe ser invisible; el protagonista es el contenido.
+- **Velocidad Extrema:** Cada milisegundo cuenta. Al usar Nuxt con generación de páginas estáticas y caché agresiva, el acceso a los 20,000 títulos será instantáneo.
+- **Enfoque Multiplataforma:** Experiencia fluida y adaptativa por diseño. El sitio se sentirá como una App nativa tanto en PC como en móviles y tablets.
+- **Soberanía Tecnológica:** Independencia de plataformas de terceros mediante un motor propio y optimizado. Fieles a nuestra visión, el software será el motor de nuestra independencia tecnológica, compitiendo directamente con gigantes como Poki bajo nuestras propias reglas.
 
 ---
 
