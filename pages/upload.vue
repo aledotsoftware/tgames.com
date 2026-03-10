@@ -26,6 +26,16 @@
           <input type="file" id="game-file" accept=".zip,.html" class="form-control file-input" @change="handleFileChange">
         </div>
 
+        <div class="form-group">
+          <label for="remote-url">Remote Upload (Game URL)</label>
+          <input type="url" id="remote-url" v-model="remoteUrl" placeholder="https://example.com/game" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="json-file">JSON Importer</label>
+          <input type="file" id="json-file" accept=".json" class="form-control file-input" @change="handleJsonChange">
+        </div>
+
         <button type="submit" class="btn-primary upload-btn" :disabled="uploading">
           {{ uploading ? 'Uploading...' : 'Upload' }}
         </button>
@@ -41,6 +51,8 @@
 <script setup>
 const distributor = ref('')
 const file = ref(null)
+const jsonFile = ref(null)
+const remoteUrl = ref('')
 const uploading = ref(false)
 const message = ref('')
 const isError = ref(false)
@@ -48,6 +60,12 @@ const isError = ref(false)
 const handleFileChange = (e) => {
   if (e.target.files && e.target.files.length > 0) {
     file.value = e.target.files[0]
+  }
+}
+
+const handleJsonChange = (e) => {
+  if (e.target.files && e.target.files.length > 0) {
+    jsonFile.value = e.target.files[0]
   }
 }
 
@@ -66,8 +84,16 @@ const handleUpload = async () => {
       formData.append('gameFile', file.value)
     }
 
+    if (jsonFile.value) {
+      formData.append('jsonFile', jsonFile.value)
+    }
+
+    if (remoteUrl.value) {
+      formData.append('remoteUrl', remoteUrl.value)
+    }
+
     // Fallback if they didn't pick any option
-    if (!file.value && !distributor.value) {
+    if (!file.value && !distributor.value && !jsonFile.value && !remoteUrl.value) {
       // Create a dummy blob to test API endpoint that requires formData
       formData.append('dummy', 'dummy')
     }
