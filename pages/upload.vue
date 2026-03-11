@@ -203,12 +203,14 @@ label {
 }
 
 .success-msg {
-  background: #004d00;
-  color: #ffffff;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
 }
 
 .error-msg {
-  background: #660000;
+  background: #000000;
   color: #ffffff;
+  border: 1px solid #ffffff;
 }
 </style>

@@ -123,7 +123,7 @@ const closeSearch = () => {
 
 .premium-search-dropdown {
   position: absolute;
-  top: recalc(100% + 10px);
+  top: calc(100% + 10px);
   left: 0;
   right: 0;
   background: var(--bg-secondary);

@@ -35,3 +35,6 @@ tsconfig.json
 \ncoverage/
 \nauto-imports.d.ts
 coverage
+.nuxt/
+.nuxtrc
+auto-imports.d.ts
