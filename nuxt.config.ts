@@ -119,7 +119,6 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/**': { isr: true },
     '/': { prerender: true },
     '/game/**': { swr: 3600 },
     '/**': { isr: true },
