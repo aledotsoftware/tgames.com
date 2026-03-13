@@ -132,7 +132,7 @@ const handleLanguageChange = (event) => {
   height: 0;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 4px solid var(--text-dim);
+  border-top: 4px solid var(--text-primary);
   pointer-events: none;
 }
 
@@ -156,7 +156,7 @@ const handleLanguageChange = (event) => {
 }
 
 .footer-brand p {
-  color: var(--text-dim);
+  color: var(--text-primary);
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
@@ -165,7 +165,7 @@ const handleLanguageChange = (event) => {
   border-top: 1px solid var(--border-color);
   padding-top: 2rem;
   text-align: center;
-  color: var(--text-dim);
+  color: var(--text-primary);
   font-size: 0.8rem;
 }
 

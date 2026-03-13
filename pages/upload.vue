@@ -191,7 +191,7 @@ label {
 
 .upload-btn:disabled {
   background: var(--bg-tertiary);
-  color: var(--text-dim);
+  color: var(--text-primary);
   cursor: not-allowed;
 }
 
