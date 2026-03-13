@@ -196,14 +196,14 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-color);
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-tertiary);
+  background: #ffffff;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--border-glow);
+  background: #ffffff;
 }

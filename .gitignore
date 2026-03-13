@@ -38,3 +38,4 @@ coverage
 .nuxt/
 .nuxtrc
 auto-imports.d.ts
+.nuxt/

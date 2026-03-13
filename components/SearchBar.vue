@@ -180,7 +180,7 @@ const closeSearch = () => {
 
 .item-meta {
   font-size: 0.75rem;
-  color: var(--text-dim);
+  color: var(--text-primary);
   text-transform: uppercase;
   margin-top: 0.25rem;
 }

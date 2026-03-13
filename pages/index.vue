@@ -173,7 +173,7 @@
   .stat-label {
     font-size: 0.8rem;
     text-transform: uppercase;
-    color: var(--text-dim);
+    color: var(--text-primary);
     letter-spacing: 0.1em;
   }
 
