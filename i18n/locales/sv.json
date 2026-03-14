@@ -25,5 +25,13 @@
     "error_404_title": "Sidan hittades inte",
     "error_404_desc": "Tyvärr finns inte sidan du letar efter, eller så har den tagits bort.",
     "error_500_title": "Internt serverfel",
-    "error_500_desc": "Något gick fel på vår sida. Vi arbetar med att fixa det."
+    "error_500_desc": "Något gick fel på vår sida. Vi arbetar med att fixa det.",
+    "upload_game": "Ladda upp Spel",
+    "fetch_distributor": "Hämta spel från distributör",
+    "choose_distributor": "Välj distributör...",
+    "upload_html5": "Ladda upp dina HTML5-filer",
+    "remote_upload": "Fjärruppladdning (URL)",
+    "json_importer": "JSON Importör",
+    "uploading": "Laddar upp...",
+    "upload": "Ladda upp"
 }

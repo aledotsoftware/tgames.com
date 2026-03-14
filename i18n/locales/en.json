@@ -25,5 +25,13 @@
     "error_404_title": "Page not found",
     "error_404_desc": "Sorry, but the page you are looking for does not exist or has been removed.",
     "error_500_title": "Internal server error",
-    "error_500_desc": "Something went wrong on our end. We are working to fix it."
+    "error_500_desc": "Something went wrong on our end. We are working to fix it.",
+    "upload_game": "Upload Game",
+    "fetch_distributor": "Fetch Games from Distributor",
+    "choose_distributor": "Choose game distributor...",
+    "upload_html5": "Upload your own HTML5 game files",
+    "remote_upload": "Remote Upload (Game URL)",
+    "json_importer": "JSON Importer",
+    "uploading": "Uploading...",
+    "upload": "Upload"
 }

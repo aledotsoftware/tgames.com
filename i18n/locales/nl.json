@@ -25,5 +25,13 @@
     "error_404_title": "Pagina niet gevonden",
     "error_404_desc": "Sorry, maar de pagina die u zoekt bestaat niet of is verwijderd.",
     "error_500_title": "Interne serverfout",
-    "error_500_desc": "Er is iets misgegaan aan onze kant. We werken eraan om het op te lossen."
+    "error_500_desc": "Er is iets misgegaan aan onze kant. We werken eraan om het op te lossen.",
+    "upload_game": "Spel Uploaden",
+    "fetch_distributor": "Haal spellen van distributeur",
+    "choose_distributor": "Kies distributeur...",
+    "upload_html5": "Upload uw eigen HTML5-bestanden",
+    "remote_upload": "Op afstand uploaden (URL)",
+    "json_importer": "JSON Importeur",
+    "uploading": "Uploaden...",
+    "upload": "Uploaden"
 }

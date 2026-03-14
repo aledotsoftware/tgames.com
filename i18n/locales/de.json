@@ -25,5 +25,13 @@
     "error_404_title": "Seite nicht gefunden",
     "error_404_desc": "Entschuldigung, aber die von Ihnen gesuchte Seite existiert nicht oder wurde entfernt.",
     "error_500_title": "Interner Serverfehler",
-    "error_500_desc": "Bei uns ist etwas schiefgelaufen. Wir arbeiten an einer Lösung."
+    "error_500_desc": "Bei uns ist etwas schiefgelaufen. Wir arbeiten an einer Lösung.",
+    "upload_game": "Spiel Hochladen",
+    "fetch_distributor": "Spiele von Distributor holen",
+    "choose_distributor": "Distributor wählen...",
+    "upload_html5": "Eigene HTML5 Dateien hochladen",
+    "remote_upload": "Remote-Upload (URL)",
+    "json_importer": "JSON Importeur",
+    "uploading": "Hochladen...",
+    "upload": "Hochladen"
 }

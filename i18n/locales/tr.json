@@ -25,5 +25,13 @@
     "error_404_title": "Sayfa bulunamadı",
     "error_404_desc": "Üzgünüz, aradığınız sayfa mevcut değil veya kaldırılmış.",
     "error_500_title": "Dahili sunucu hatası",
-    "error_500_desc": "Bizim tarafımızda bir şeyler ters gitti. Düzeltmek için çalışıyoruz."
+    "error_500_desc": "Bizim tarafımızda bir şeyler ters gitti. Düzeltmek için çalışıyoruz.",
+    "upload_game": "Oyun Yükle",
+    "fetch_distributor": "Dağıtıcıdan oyun getir",
+    "choose_distributor": "Dağıtıcı seçin...",
+    "upload_html5": "Kendi HTML5 dosyalarınızı yükleyin",
+    "remote_upload": "Uzaktan Yükleme (URL)",
+    "json_importer": "JSON İçe Aktarıcı",
+    "uploading": "Yükleniyor...",
+    "upload": "Yükle"
 }

@@ -25,5 +25,13 @@
     "error_404_title": "Página no encontrada",
     "error_404_desc": "Lo sentimos, pero la página que buscas no existe o ha sido eliminada.",
     "error_500_title": "Error interno del servidor",
-    "error_500_desc": "Algo salió mal en nuestro lado. Estamos trabajando para solucionarlo."
+    "error_500_desc": "Algo salió mal en nuestro lado. Estamos trabajando para solucionarlo.",
+    "upload_game": "Subir Juego",
+    "fetch_distributor": "Obtener Juegos de Distribuidor",
+    "choose_distributor": "Elegir distribuidor...",
+    "upload_html5": "Sube tus propios archivos HTML5",
+    "remote_upload": "Subida Remota (URL)",
+    "json_importer": "Importador JSON",
+    "uploading": "Subiendo...",
+    "upload": "Subir"
 }

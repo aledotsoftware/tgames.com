@@ -25,5 +25,13 @@
     "error_404_title": "页面未找到",
     "error_404_desc": "抱歉，您要查找的页面不存在或已被删除。",
     "error_500_title": "内部服务器错误",
-    "error_500_desc": "我们这边出了点问题。我们正在努力修复它。"
+    "error_500_desc": "我们这边出了点问题。我们正在努力修复它。",
+    "upload_game": "上传游戏",
+    "fetch_distributor": "从发行商获取游戏",
+    "choose_distributor": "选择发行商...",
+    "upload_html5": "上传你自己的HTML5游戏文件",
+    "remote_upload": "远程上传（游戏网址）",
+    "json_importer": "JSON 导入",
+    "uploading": "上传中...",
+    "upload": "上传"
 }

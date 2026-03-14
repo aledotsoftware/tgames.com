@@ -25,5 +25,13 @@
     "error_404_title": "ページが見つかりません",
     "error_404_desc": "申し訳ありませんが、お探しのページは存在しないか、削除されました。",
     "error_500_title": "内部サーバーエラー",
-    "error_500_desc": "こちらで何らかの問題が発生しました。修正に取り組んでいます。"
+    "error_500_desc": "こちらで何らかの問題が発生しました。修正に取り組んでいます。",
+    "upload_game": "ゲームをアップロード",
+    "fetch_distributor": "ディストリビューターから取得",
+    "choose_distributor": "ディストリビューターを選択...",
+    "upload_html5": "自分のHTML5ファイルをアップロード",
+    "remote_upload": "リモートアップロード (URL)",
+    "json_importer": "JSONインポーター",
+    "uploading": "アップロード中...",
+    "upload": "アップロード"
 }

@@ -25,5 +25,13 @@
     "error_404_title": "Pagina non trovata",
     "error_404_desc": "Siamo spiacenti, ma la pagina che stai cercando non esiste o è stata rimossa.",
     "error_500_title": "Errore interno del server",
-    "error_500_desc": "Qualcosa è andato storto da parte nostra. Stiamo lavorando per risolvere il problema."
+    "error_500_desc": "Qualcosa è andato storto da parte nostra. Stiamo lavorando per risolvere il problema.",
+    "upload_game": "Carica Gioco",
+    "fetch_distributor": "Ottieni giochi dal distributore",
+    "choose_distributor": "Scegli distributore...",
+    "upload_html5": "Carica i tuoi file HTML5",
+    "remote_upload": "Caricamento Remoto (URL)",
+    "json_importer": "Importatore JSON",
+    "uploading": "Caricamento in corso...",
+    "upload": "Carica"
 }

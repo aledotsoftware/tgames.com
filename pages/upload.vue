@@ -1,13 +1,13 @@
 <template>
   <div class="upload-page container section-padding animate-fade-in">
     <div class="upload-container glass-panel">
-      <h1 class="font-logo title">Upload Game</h1>
+      <h1 class="font-logo title">{{ $t('upload_game') }}</h1>
 
       <form @submit.prevent="handleUpload" class="upload-form">
         <div class="form-group">
-          <label for="distributor-options">Fetch Games from Distributor</label>
+          <label for="distributor-options">{{ $t('fetch_distributor') }}</label>
           <select name="distributor" class="form-control" id="distributor-options" v-model="distributor">
-            <option value="" disabled="" selected="" hidden="">Choose game distributor...</option>
+            <option value="" disabled="" selected="" hidden="">{{ $t('choose_distributor') }}</option>
             <option value="#gamemonetize">GameMonetize</option>
             <option value="#gamepix">GamePix</option>
             <option value="#4j">4J</option>
@@ -22,22 +22,22 @@
         </div>
 
         <div class="form-group">
-          <label for="game-file">Upload your own HTML5 game files</label>
+          <label for="game-file">{{ $t('upload_html5') }}</label>
           <input type="file" id="game-file" accept=".zip,.html" class="form-control file-input" @change="handleFileChange">
         </div>
 
         <div class="form-group">
-          <label for="remote-url">Remote Upload (Game URL)</label>
+          <label for="remote-url">{{ $t('remote_upload') }}</label>
           <input type="url" id="remote-url" v-model="remoteUrl" placeholder="https://example.com/game" class="form-control">
         </div>
 
         <div class="form-group">
-          <label for="json-file">JSON Importer</label>
+          <label for="json-file">{{ $t('json_importer') }}</label>
           <input type="file" id="json-file" accept=".json" class="form-control file-input" @change="handleJsonChange">
         </div>
 
         <button type="submit" class="btn-primary upload-btn" :disabled="uploading">
-          {{ uploading ? 'Uploading...' : 'Upload' }}
+          {{ uploading ? $t('uploading') : $t('upload') }}
         </button>
 
         <div v-if="message" :class="['message', isError ? 'error-msg' : 'success-msg']">

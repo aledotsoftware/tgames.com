@@ -25,5 +25,13 @@
     "error_404_title": "페이지를 찾을 수 없음",
     "error_404_desc": "죄송합니다만, 찾으시는 페이지가 없거나 삭제되었습니다.",
     "error_500_title": "내부 서버 오류",
-    "error_500_desc": "우리 쪽에서 문제가 발생했습니다. 해결하기 위해 노력 중입니다."
+    "error_500_desc": "우리 쪽에서 문제가 발생했습니다. 해결하기 위해 노력 중입니다.",
+    "upload_game": "게임 업로드",
+    "fetch_distributor": "배급사에서 게임 가져오기",
+    "choose_distributor": "배급사 선택...",
+    "upload_html5": "자체 HTML5 파일 업로드",
+    "remote_upload": "원격 업로드 (URL)",
+    "json_importer": "JSON 가져오기",
+    "uploading": "업로드 중...",
+    "upload": "업로드"
 }
