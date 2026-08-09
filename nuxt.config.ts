@@ -7,7 +7,6 @@ const defaultDomains = [
   '*.tudexgames.com',
   'tudexnetworks.com',
   '*.tudexnetworks.com',
-  '*.gamemonetize.com',
   'localhost',
   '127.0.0.1'
 ]

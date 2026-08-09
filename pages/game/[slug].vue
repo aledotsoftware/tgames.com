@@ -26,7 +26,7 @@
       <!-- Main Stage -->
       <div class="game-stage">
         <div class="stage-outer container">
-          <div class="stage-inner" v-if="data.game.url">
+          <div class="stage-inner" ref="stageContainerRef" v-if="data.game.url">
             <iframe 
               ref="gameIframeRef"
               :src="data.game.url" 
@@ -34,10 +34,6 @@
               allowfullscreen="true"
               scrolling="no"
               class="game-iframe"
-              :style="{ 
-                width: data.game.width === '100%' ? '100%' : (data.game.width || '800') + 'px', 
-                height: data.game.height === '100%' ? '100%' : (data.game.height || '600') + 'px' 
-              }"
             ></iframe>
           </div>
           
@@ -125,7 +121,10 @@
 </template>
 
 <script setup>
+import { sanitizeHtml } from '~/utils/sanitize'
+
 const gameIframeRef = ref(null)
+const stageContainerRef = ref(null)
 const route = useRoute()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
@@ -183,12 +182,12 @@ const handleInteraction = async (type) => {
 }
 
 const toggleFullscreen = () => {
-    const stage = gameIframeRef.value
-    if (stage) {
-        if (stage.requestFullscreen) stage.requestFullscreen()
-        else if (stage.webkitRequestFullscreen) stage.webkitRequestFullscreen()
-        else if (stage.msRequestFullscreen) stage.msRequestFullscreen()
-    }
+  const stage = stageContainerRef.value || gameIframeRef.value
+  if (stage) {
+    if (stage.requestFullscreen) stage.requestFullscreen()
+    else if (stage.webkitRequestFullscreen) stage.webkitRequestFullscreen()
+    else if (stage.msRequestFullscreen) stage.msRequestFullscreen()
+  }
 }
 </script>
 
@@ -237,7 +236,7 @@ const toggleFullscreen = () => {
   background: var(--bg-secondary);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
-  padding: 2.5rem 0;
+  padding: 2rem 0;
 }
 
 .stage-outer {
@@ -247,32 +246,40 @@ const toggleFullscreen = () => {
 }
 
 .stage-inner {
-  max-width: 100%;
+  width: 100%;
+  max-width: 1000px;
+  aspect-ratio: 16/9;
   background: #000000;
   border-radius: 20px;
-  padding: 6px;
+  padding: 4px;
   border: 1px solid var(--border-glow);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   overflow: hidden;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .game-iframe {
-  max-width: 100vw;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 16px;
+  border: none;
   display: block;
-  border-radius: 14px;
 }
 
 .stage-toolbar {
-  margin-top: 1.75rem;
+  margin-top: 1.5rem;
   width: 100%;
+  max-width: 1000px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .stage-title {
-  font-size: 1.65rem;
+  font-size: 1.5rem;
   margin: 0;
   color: var(--text-primary);
 }
