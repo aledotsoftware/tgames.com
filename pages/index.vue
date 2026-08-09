@@ -1,19 +1,7 @@
 <template>
   <div>
-    <!-- Hero Banner -->
-    <section class="hero-section container">
-      <div class="hero-content animate-fade-in">
-        <div class="eyebrow-tag">
-          <span class="eyebrow-dot"></span>
-          <span>{{ $t('site_title') }}</span>
-        </div>
-        <h1 class="hero-title font-logo">tudexgames</h1>
-        <p class="hero-subtitle">Plataforma de juegos web ultra-rápida. Cero fricción, cero anuncios invasivos, acceso instantáneo.</p>
-      </div>
-    </section>
-
     <!-- Games Section -->
-    <section class="games-section container section-padding">
+    <section class="games-section container">
       <div v-if="error" class="error-state">
         <p>{{ $t('error_catalog') }} {{ error.message }}</p>
       </div>
@@ -24,7 +12,7 @@
           :key="game.id" 
           :to="localePath(`/game/${game.slug}`)"
           class="game-card hover-lift animate-fade-in" 
-          :style="{ animationDelay: Math.min((index % 12) * 0.04, 0.4) + 's' }"
+          :style="{ animationDelay: Math.min((index % 12) * 0.03, 0.3) + 's' }"
         >
           <div class="thumb-wrapper">
             <img 
@@ -45,7 +33,7 @@
         </NuxtLink>
 
         <!-- Skeletons while loading -->
-        <SkeletonGameCard v-for="n in (pending && games.length === 0 ? 12 : (loadingMore ? 6 : 0))"
+        <SkeletonGameCard v-for="n in (pending && games.length === 0 ? 18 : (loadingMore ? 6 : 0))"
           :key="'loading-' + n" />
       </div>
 
@@ -151,45 +139,21 @@
 </script>
 
 <style scoped>
-  .hero-section {
-    padding: 3.5rem 1rem 2rem;
-    text-align: center;
-  }
-
-  .hero-content {
-    max-width: 760px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-title {
-    font-size: clamp(3rem, 7vw, 5.5rem);
-    line-height: 1;
-    margin: 1.25rem 0 1rem;
-    color: var(--text-primary);
-    letter-spacing: -0.05em;
-  }
-
-  .hero-subtitle {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    max-width: 580px;
-    line-height: 1.5;
-    font-weight: 400;
+  .games-section {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
   }
 
   .games-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.25rem;
   }
 
   .card-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(5, 5, 5, 0.7);
+    background: rgba(5, 5, 5, 0.72);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -205,9 +169,9 @@
   .play-btn {
     background: #ffffff;
     color: #050505;
-    padding: 0.6rem 1.35rem;
+    padding: 0.55rem 1.25rem;
     border-radius: 999px;
-    font-size: 0.85rem;
+    font-size: 0.825rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     transform: translateY(8px) scale(0.95);
@@ -220,7 +184,7 @@
   }
 
   .scroll-sentinel {
-    height: 160px;
+    height: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,12 +216,12 @@
 
   @media (max-width: 640px) {
     .games-grid {
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.85rem;
     }
-    
-    .hero-section {
-      padding: 2rem 0.5rem 1rem;
+
+    .games-section {
+      padding-top: 0.5rem;
     }
   }
 </style>

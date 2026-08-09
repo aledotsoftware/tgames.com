@@ -13,9 +13,9 @@
 
           <div class="lang-switcher-wrap">
             <div class="custom-select-container">
-              <select :value="locale" @change="handleLanguageChange" class="premium-lang-select">
+              <select :value="locale" @change="handleLanguageChange" class="premium-lang-select" aria-label="Select Language">
                 <option v-for="loc in locales" :key="loc.code" :value="loc.code">
-                  {{ loc.code.toUpperCase() }}
+                  {{ loc.name ? `${loc.name} (${loc.code.toUpperCase()})` : loc.code.toUpperCase() }}
                 </option>
               </select>
               <span class="select-arrow"></span>
@@ -46,14 +46,40 @@
 </template>
 
 <script setup>
-const { locale, locales } = useI18n()
+const { locale, locales, setLocale, setLocaleCookie } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 
-const handleLanguageChange = (event) => {
+const handleLanguageChange = async (event) => {
   const newLocale = event.target.value
-  navigateTo(switchLocalePath(newLocale))
+  if (!newLocale) return
+
+  if (typeof setLocaleCookie === 'function') {
+    setLocaleCookie(newLocale)
+  }
+
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('i18n_locale', newLocale)
+  }
+
+  if (typeof setLocale === 'function') {
+    await setLocale(newLocale)
+  }
+
+  const targetPath = switchLocalePath ? switchLocalePath(newLocale) : null
+  if (targetPath) {
+    await navigateTo(targetPath)
+  }
 }
+
+onMounted(() => {
+  if (typeof localStorage !== 'undefined') {
+    const savedLocale = localStorage.getItem('i18n_locale')
+    if (savedLocale && savedLocale !== locale.value && typeof setLocale === 'function') {
+      setLocale(savedLocale)
+    }
+  }
+})
 </script>
 
 <style>
@@ -106,22 +132,27 @@ const handleLanguageChange = (event) => {
 
 .premium-lang-select {
   appearance: none;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
-  padding: 0.5rem 2rem 0.5rem 1rem;
+  padding: 0.5rem 2.2rem 0.5rem 1rem;
   border-radius: 999px;
   font-size: 0.775rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   cursor: pointer;
   transition: var(--transition-smooth);
-  min-width: 72px;
+  min-width: 130px;
+}
+
+.premium-lang-select option {
+  background: #0d0d0d;
+  color: #ffffff;
 }
 
 .premium-lang-select:hover {
   border-color: var(--border-glow);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .select-arrow {
