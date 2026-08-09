@@ -109,7 +109,7 @@
             class="game-card hover-lift"
           >
             <div class="thumb-wrapper">
-               <img :src="'/_ipx/w_300&f_webp/' + (game.thumb_small || game.thumb_1)" :alt="game.title" loading="lazy" class="game-thumb">
+               <img :src="getThumbUrl(game.thumb_small || game.thumb_1)" :alt="game.title" loading="lazy" class="game-thumb">
                <div class="card-overlay">
                  <span class="play-btn">➔</span>
                </div>
@@ -134,6 +134,12 @@ const toast = useToast()
 const { data, pending, error } = await useFetch(`/api/games/${route.params.slug}`, {
   query: { lang: locale }
 })
+
+const getThumbUrl = (thumbPath) => {
+  if (!thumbPath) return '/placeholder.webp'
+  const cleanPath = thumbPath.replace(/^\/+/, '')
+  return `/_ipx/w_300&f_webp/${cleanPath}`
+}
 
 const stripHtml = (html) => html ? html.replace(/<[^>]*>/g, '') : ''
 

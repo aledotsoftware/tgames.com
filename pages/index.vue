@@ -16,7 +16,7 @@
         >
           <div class="thumb-wrapper">
             <img 
-              :src="'/_ipx/w_300&f_webp/' + (game.thumb_2 || game.thumb_1 || game.thumb_small)" 
+              :src="getThumbUrl(game.thumb_2 || game.thumb_1 || game.thumb_small)" 
               :alt="game.title" 
               loading="lazy"
               class="game-thumb" 
@@ -47,6 +47,12 @@
 <script setup>
   const { locale, t } = useI18n()
   const localePath = useLocalePath()
+
+  const getThumbUrl = (thumbPath) => {
+    if (!thumbPath) return '/placeholder.webp'
+    const cleanPath = thumbPath.replace(/^\/+/, '')
+    return `/_ipx/w_300&f_webp/${cleanPath}`
+  }
 
   const { data, pending, error } = await useFetch('/api/games', {
     query: { lang: locale }

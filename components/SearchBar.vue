@@ -8,17 +8,27 @@
       <input 
         v-model="query" 
         @input="onSearch"
+        @keydown.esc="closeSearch"
         type="text" 
         class="premium-search-input" 
         :placeholder="$t('search_placeholder')" 
         :aria-label="$t('search_placeholder')"
       />
-      <button v-if="query" @click="query = ''; results = []" class="clear-btn" aria-label="Clear">✕</button>
+      <button v-if="query" @click="clearSearch" class="clear-btn" aria-label="Clear">✕</button>
     </div>
     
     <Transition name="fade-slide">
-      <div v-if="results.length > 0 && query" class="premium-search-dropdown">
+      <div v-if="isOpen && query.trim().length >= 2" class="premium-search-dropdown">
+        <div v-if="isSearching" class="search-state-message">
+          <div class="search-spinner"></div>
+        </div>
+
+        <div v-else-if="results.length === 0" class="search-state-message text-dim">
+          {{ $t('no_results') || 'Sin resultados' }}
+        </div>
+
         <NuxtLink 
+          v-else
           v-for="game in results" 
           :key="game.id" 
           :to="localePath(`/game/${game.slug}`)"
@@ -27,9 +37,10 @@
         >
           <div class="item-thumb-wrapper">
             <img
-              :src="'/_ipx/w_300&f_webp/' + (game.thumb_small || game.thumb_1)"
+              :src="getThumbUrl(game.thumb_small || game.thumb_1)"
               :alt="game.title"
               class="item-thumb"
+              loading="lazy"
             />
           </div>
           <div class="item-details">
@@ -48,30 +59,57 @@ const localePath = useLocalePath()
 
 const query = ref('')
 const results = ref([])
+const isSearching = ref(false)
+const isOpen = ref(false)
 let searchTimeout = null
+
+const getThumbUrl = (thumbPath) => {
+  if (!thumbPath) return '/placeholder.webp'
+  const clean = thumbPath.startsWith('/') ? thumbPath : `/${thumbPath}`
+  return `/_ipx/w_300&f_webp${clean}`
+}
 
 const onSearch = () => {
   clearTimeout(searchTimeout)
-  if (!query.value.trim()) {
+  if (!query.value.trim() || query.value.trim().length < 2) {
     results.value = []
+    isOpen.value = false
+    isSearching.value = false
     return
   }
   
+  isOpen.value = true
+  isSearching.value = true
+
   searchTimeout = setTimeout(async () => {
     try {
-      const response = await $fetch(`/api/search?q=${encodeURIComponent(query.value)}&lang=${locale.value}`)
-      if (response.success) {
-        results.value = response.games
+      const response = await $fetch(`/api/search`, {
+        query: {
+          q: query.value.trim(),
+          lang: locale.value
+        }
+      })
+      if (response && response.success) {
+        results.value = response.games || []
       }
     } catch (e) {
       console.error('Search failed:', e)
+      results.value = []
+    } finally {
+      isSearching.value = false
     }
-  }, 250)
+  }, 200)
+}
+
+const clearSearch = () => {
+  query.value = ''
+  results.value = []
+  isOpen.value = false
+  isSearching.value = false
 }
 
 const closeSearch = () => {
-  query.value = ''
-  results.value = []
+  isOpen.value = false
 }
 </script>
 
@@ -139,7 +177,7 @@ const closeSearch = () => {
   top: calc(100% + 12px);
   left: 0;
   right: 0;
-  background: rgba(13, 13, 13, 0.95);
+  background: rgba(13, 13, 13, 0.96);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
@@ -150,6 +188,26 @@ const closeSearch = () => {
   padding: 0.5rem;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
+
+.search-state-message {
+  padding: 1.25rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  display: flex;
+  justify-content: center;
+}
+
+.search-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .premium-search-item {
   display: flex;

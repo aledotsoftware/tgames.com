@@ -10,7 +10,7 @@ describe('search API', () => {
     })
 
     it('should return search results successfully', async () => {
-        global.getQuery = vi.fn().mockReturnValue({ q: 'mario' })
+        global.getQuery = vi.fn().mockReturnValue({ q: 'mario', lang: 'es' })
 
         const mockRows = [{ id: 1, title: 'Mario Bros' }]
         const mockQuery = vi.fn().mockResolvedValue([mockRows])
@@ -26,11 +26,11 @@ describe('search API', () => {
         })
 
         expect(mockQuery).toHaveBeenCalledTimes(1)
-        expect(mockQuery.mock.calls[0][1]).toEqual(['mario%'])
+        expect(mockQuery.mock.calls[0][1]).toEqual(['es', '%mario%', '%mario%'])
     })
 
     it('should handle array query parameter by taking the first element', async () => {
-        global.getQuery = vi.fn().mockReturnValue({ q: ['sonic', 'mario'] })
+        global.getQuery = vi.fn().mockReturnValue({ q: ['sonic', 'mario'], lang: 'es' })
 
         const mockRows = [{ id: 2, title: 'Sonic the Hedgehog' }]
         const mockQuery = vi.fn().mockResolvedValue([mockRows])
@@ -46,7 +46,7 @@ describe('search API', () => {
         })
 
         expect(mockQuery).toHaveBeenCalledTimes(1)
-        expect(mockQuery.mock.calls[0][1]).toEqual(['sonic%'])
+        expect(mockQuery.mock.calls[0][1]).toEqual(['es', '%sonic%', '%sonic%'])
     })
 
     it('should return empty games list if query length is less than 2', async () => {

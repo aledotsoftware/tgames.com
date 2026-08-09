@@ -1,26 +1,28 @@
-import { useDB } from '../utils/db'
+import { useDB } from '../utils/db.ts'
 
 export default defineCachedEventHandler(async (event) => {
     const query = getQuery(event)
     const rawQ = query.q
-    // Handle array case by taking the first element
+    const lang = (query.lang as string) || 'es'
     const q = Array.isArray(rawQ) ? rawQ[0] : rawQ
 
     // Validate that q is a string and meets minimum length
-    if (!q || typeof q !== 'string' || q.length < 2) {
+    if (!q || typeof q !== 'string' || q.trim().length < 2) {
         return { success: true, games: [] }
     }
 
+    const searchTerm = `%${q.trim()}%`
+
     try {
         const db = useDB()
-        // Optimized: Use prefix search ('query%') to leverage the idx_games_title index.
-        // This changes complexity from O(N) full-table scan to O(log N) index range scan.
         const [rows] = await db.query(
-            `SELECT id, title, slug, thumb_small, thumb_1 
-       FROM games 
-       WHERE title LIKE ? AND published = 1 
-       LIMIT 10`,
-            [`${q}%`]
+            `SELECT g.id, g.slug, g.thumb_small, g.thumb_1, g.category,
+                    COALESCE(t.translation, g.title) as title 
+             FROM games g
+             LEFT JOIN translations t ON t.content_id = g.id AND t.content_type = 'game' AND t.field = 'title' AND t.language = ?
+             WHERE (g.title LIKE ? OR t.translation LIKE ?) AND g.published = 1 
+             LIMIT 12`,
+            [lang, searchTerm, searchTerm]
         )
 
         return {
@@ -28,8 +30,10 @@ export default defineCachedEventHandler(async (event) => {
             games: rows
         }
     } catch (error: unknown) {
+        console.error('Search API Error:', error)
         return {
             success: false,
+            games: [],
             error: error instanceof Error ? error.message : String(error)
         }
     }
@@ -38,8 +42,10 @@ export default defineCachedEventHandler(async (event) => {
     name: 'search',
     getKey: (event) => {
         const query = getQuery(event)
-        return `search-${query.q || ''}-${query.lang || 'es'}`
+        const q = (query.q || '').toString().trim().toLowerCase()
+        const lang = (query.lang || 'es').toString()
+        return `search-${q}-${lang}`
     },
-    maxAge: 60 * 60, // 1 hour TTL
+    maxAge: 30 * 60,
     swr: true
 })
