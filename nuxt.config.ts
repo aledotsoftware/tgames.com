@@ -1,5 +1,34 @@
-<<<<<<< Updated upstream
 import { defineNuxtConfig } from 'nuxt/config'
+
+// Multi-domain image configuration:
+// Reads IMAGE_DOMAINS from env (comma separated) or falls back to default list
+const defaultDomains = [
+  'tudexgames.com',
+  '*.tudexgames.com',
+  'tudexnetworks.com',
+  '*.tudexnetworks.com',
+  '*.gamemonetize.com',
+  'localhost',
+  '127.0.0.1'
+]
+
+const envDomains = process.env.IMAGE_DOMAINS
+  ? process.env.IMAGE_DOMAINS.split(',').map(d => d.trim()).filter(Boolean)
+  : []
+
+const imageDomains = Array.from(new Set([...defaultDomains, ...envDomains]))
+
+// Multi-domain media fallback sources for server routes:
+const defaultMediaDomains = [
+  'https://tudexgames.com',
+  'https://cdn.tudexnetworks.com'
+]
+
+const envMediaDomains = process.env.MEDIA_DOMAINS
+  ? process.env.MEDIA_DOMAINS.split(',').map(d => d.trim()).filter(Boolean)
+  : []
+
+const mediaDomains = Array.from(new Set([...envMediaDomains, ...defaultMediaDomains]))
 
 export default defineNuxtConfig({
   srcDir: '.',
@@ -13,10 +42,10 @@ export default defineNuxtConfig({
   ],
 
   image: {
-    domains: ['tudexgames.com', '*.gamemonetize.com'],
+    domains: imageDomains,
     alias: {
-      '/thumbs': 'https://tudexgames.com/thumbs',
-      '/games': 'https://tudexgames.com/games'
+      '/thumbs': '/thumbs',
+      '/games': '/games'
     }
   },
 
@@ -88,7 +117,9 @@ export default defineNuxtConfig({
       pass: process.env.DB_PASS,
       name: process.env.DB_NAME || 'tudexgames'
     },
-    redisUrl: process.env.REDIS_URL || 'redis://redis:6379'
+    redisUrl: process.env.REDIS_URL || 'redis://redis:6379',
+    imageDomains,
+    mediaDomains
   },
 
   app: {
@@ -123,142 +154,8 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { prerender: true },
     '/game/**': { swr: 3600 },
-    '/**': { isr: true },
-    '/thumbs/**': { proxy: 'https://tudexgames.com/thumbs/**' },
-    '/games/**': { proxy: 'https://tudexgames.com/games/**' }
+    '/**': { isr: true }
   },
 
   compatibilityDate: '2024-04-03'
 })
-=======
-import { defineNuxtConfig } from 'nuxt/config'
-
-export default defineNuxtConfig({
-  srcDir: '.',
-  devtools: { enabled: false },
-  css: ['~/assets/css/main.css'],
-
-  modules: [
-    '@nuxtjs/i18n',
-    '@vite-pwa/nuxt',
-    '@nuxt/image'
-  ],
-
-  image: {
-    domains: ['tudexgames.com', '*.gamemonetize.com'],
-    alias: {
-      '/thumbs': 'https://tudexgames.com/thumbs',
-      '/games': 'https://tudexgames.com/games'
-    }
-  },
-
-  pwa: {
-    manifest: {
-      name: 'tudexgames',
-      short_name: 'tudexgames',
-      description: 'Llegar y Jugar - Plataforma de juegos web rápida y minimalista.',
-      theme_color: '#000000',
-      background_color: '#000000',
-      icons: [
-        {
-          src: 'pwa-192x192.png',
-          sizes: '192x192',
-          type: 'image/png'
-        },
-        {
-          src: 'pwa-512x512.png',
-          sizes: '512x512',
-          type: 'image/png'
-        }
-      ]
-    },
-    workbox: {
-      navigateFallback: '/',
-      navigateFallbackAllowlist: [/^\/[a-z]{2}(\/|$)/, /^\/$/]
-    },
-    devOptions: {
-      enabled: true,
-      type: 'module'
-    }
-  },
-
-  i18n: {
-    langDir: 'locales',
-    strategy: 'prefix',
-    defaultLocale: 'es',
-    locales: [
-      { code: 'en', file: 'en.json' },
-      { code: 'es', file: 'es.json' },
-      { code: 'it', file: 'it.json' },
-      { code: 'ar', file: 'ar.json' },
-      { code: 'de', file: 'de.json' },
-      { code: 'fr', file: 'fr.json' },
-      { code: 'hi', file: 'hi.json' },
-      { code: 'ja', file: 'ja.json' },
-      { code: 'ko', file: 'ko.json' },
-      { code: 'nl', file: 'nl.json' },
-      { code: 'pt', file: 'pt.json' },
-      { code: 'ru', file: 'ru.json' },
-      { code: 'sv', file: 'sv.json' },
-      { code: 'tr', file: 'tr.json' },
-      { code: 'zh', file: 'zh.json' }
-    ],
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'i18n_redirected',
-      redirectOn: 'root',
-      alwaysRedirect: false
-    }
-  },
-
-  runtimeConfig: {
-    database: {
-      host: process.env.DB_HOST || 'db',
-      port: Number(process.env.DB_PORT) || 3306,
-      user: process.env.DB_USER,
-      pass: process.env.DB_PASS,
-      name: process.env.DB_NAME || 'tudexgames'
-    },
-    redisUrl: process.env.REDIS_URL || 'redis://redis:6379'
-  },
-
-  app: {
-    head: {
-      title: 'tudexgames - Llegar y Jugar',
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      ],
-      link: [
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Inter:wght@400;500;600&display=swap' }
-      ],
-      script: [
-        { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9896533792719232', crossorigin: 'anonymous', async: true },
-        { src: 'https://www.googletagmanager.com/gtag/js?id=G-WS88X834MF', async: true },
-        { innerHTML: 'window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag(\'js\', new Date());\ngtag(\'config\', \'G-WS88X834MF\');' }
-      ]
-    }
-  },
-
-  nitro: {
-    storage: {
-      redis: {
-        driver: 'redis',
-        url: process.env.REDIS_URL || 'redis://localhost:6379'
-      }
-    }
-  },
-
-  routeRules: {
-    '/': { prerender: true },
-    '/game/**': { swr: 3600 },
-    '/**': { isr: true },
-    '/thumbs/**': { proxy: 'https://tudexgames.com/thumbs/**' },
-    '/games/**': { proxy: 'https://tudexgames.com/games/**' }
-  },
-
-  compatibilityDate: '2024-04-03'
-})
->>>>>>> Stashed changes

@@ -30,5 +30,8 @@
     "happy-dom": "^20.7.0",
     "unplugin-auto-import": "^21.0.0",
     "vitest": "^4.0.18"
+  },
+  "optionalDependencies": {
+    "@oxc-parser/binding-linux-x64-gnu": "^0.112.0"
   }
 }
