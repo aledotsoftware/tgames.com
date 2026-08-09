@@ -54,27 +54,28 @@ export default defineNuxtConfig({
     strategy: 'prefix',
     defaultLocale: 'es',
     locales: [
-      { code: 'en', file: 'en.json' },
-      { code: 'es', file: 'es.json' },
-      { code: 'it', file: 'it.json' },
-      { code: 'ar', file: 'ar.json' },
-      { code: 'de', file: 'de.json' },
-      { code: 'fr', file: 'fr.json' },
-      { code: 'hi', file: 'hi.json' },
-      { code: 'ja', file: 'ja.json' },
-      { code: 'ko', file: 'ko.json' },
-      { code: 'nl', file: 'nl.json' },
-      { code: 'pt', file: 'pt.json' },
-      { code: 'ru', file: 'ru.json' },
-      { code: 'sv', file: 'sv.json' },
-      { code: 'tr', file: 'tr.json' },
-      { code: 'zh', file: 'zh.json' }
+      { code: 'en', name: 'English', file: 'en.json' },
+      { code: 'es', name: 'Español', file: 'es.json' },
+      { code: 'it', name: 'Italiano', file: 'it.json' },
+      { code: 'ar', name: 'العربية', file: 'ar.json' },
+      { code: 'de', name: 'Deutsch', file: 'de.json' },
+      { code: 'fr', name: 'Français', file: 'fr.json' },
+      { code: 'hi', name: 'हिन्दी', file: 'hi.json' },
+      { code: 'ja', name: '日本語', file: 'ja.json' },
+      { code: 'ko', name: '한국어', file: 'ko.json' },
+      { code: 'nl', name: 'Nederlands', file: 'nl.json' },
+      { code: 'pt', name: 'Português', file: 'pt.json' },
+      { code: 'ru', name: 'Русский', file: 'ru.json' },
+      { code: 'sv', name: 'Svenska', file: 'sv.json' },
+      { code: 'tr', name: 'Türkçe', file: 'tr.json' },
+      { code: 'zh', name: '中文', file: 'zh.json' }
     ],
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
       redirectOn: 'root',
-      alwaysRedirect: false
+      alwaysRedirect: false,
+      fallbackLocale: 'es'
     }
   },
 
