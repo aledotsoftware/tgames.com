@@ -15,7 +15,7 @@
             <div class="custom-select-container">
               <select :value="locale" @change="handleLanguageChange" class="premium-lang-select">
                 <option v-for="loc in locales" :key="loc.code" :value="loc.code">
-                  {{ loc.name ? `${loc.name} (${loc.code.toUpperCase()})` : loc.code.toUpperCase() }}
+                  {{ loc.code.toUpperCase() }}
                 </option>
               </select>
               <span class="select-arrow"></span>
@@ -48,40 +48,14 @@
 </template>
 
 <script setup>
-const { locale, locales, setLocale, setLocaleCookie } = useI18n()
+const { locale, locales, setLocale } = useI18n()
 const localePath = useLocalePath()
+const switchLocalePath = useSwitchLocalePath()
 
-const handleLanguageChange = async (event) => {
+const handleLanguageChange = (event) => {
   const newLocale = event.target.value
-  if (!newLocale || newLocale === locale.value) return
-
-  if (typeof window !== 'undefined') {
-    try {
-      localStorage.setItem('i18n_locale', newLocale)
-    } catch (e) {
-      console.warn('Unable to save locale to localStorage:', e)
-    }
-  }
-
-  if (typeof setLocaleCookie === 'function') {
-    setLocaleCookie(newLocale)
-  }
-
-  await setLocale(newLocale)
+  navigateTo(switchLocalePath(newLocale))
 }
-
-onMounted(() => {
-  if (typeof window !== 'undefined') {
-    try {
-      const savedLocale = localStorage.getItem('i18n_locale')
-      if (savedLocale && savedLocale !== locale.value && locales.value.some(l => (typeof l === 'string' ? l : l.code) === savedLocale)) {
-        setLocale(savedLocale)
-      }
-    } catch (e) {
-      console.warn('Unable to read locale from localStorage:', e)
-    }
-  }
-})
 </script>
 
 <style>
