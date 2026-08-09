@@ -1,4 +1,4 @@
-import { handleMultiDomainImageProxy } from '../../utils/imageProxy'
+import { handleMultiDomainImageProxy } from '../../utils/imageProxy.ts'
 
 export default defineEventHandler(async (event) => {
   const path = event.context.params?.path || ''
