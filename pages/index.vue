@@ -1,20 +1,42 @@
 <template>
   <div>
+    <!-- Hero Banner -->
+    <section class="hero-section container">
+      <div class="hero-content animate-fade-in">
+        <div class="eyebrow-tag">
+          <span class="eyebrow-dot"></span>
+          <span>{{ $t('site_title') }}</span>
+        </div>
+        <h1 class="hero-title font-logo">tudexgames</h1>
+        <p class="hero-subtitle">Plataforma de juegos web ultra-rápida. Cero fricción, cero anuncios invasivos, acceso instantáneo.</p>
+      </div>
+    </section>
 
     <!-- Games Section -->
-    <section class="games-section section-padding">
+    <section class="games-section container section-padding">
       <div v-if="error" class="error-state">
         <p>{{ $t('error_catalog') }} {{ error.message }}</p>
       </div>
 
       <div v-else class="games-grid">
-        <NuxtLink v-for="(game, index) in games" :key="game.id" :to="localePath(`/game/${game.slug}`)"
-          class="game-card hover-lift" :style="{ animationDelay: (index % 10) * 0.05 + 's' }">
+        <NuxtLink 
+          v-for="(game, index) in games" 
+          :key="game.id" 
+          :to="localePath(`/game/${game.slug}`)"
+          class="game-card hover-lift animate-fade-in" 
+          :style="{ animationDelay: Math.min((index % 12) * 0.04, 0.4) + 's' }"
+        >
           <div class="thumb-wrapper">
-            <img :src="'/_ipx/w_300&f_webp/' + (game.thumb_2 || game.thumb_1 || game.thumb_small)" :alt="game.title" loading="lazy"
-              class="game-thumb" />
+            <img 
+              :src="'/_ipx/w_300&f_webp/' + (game.thumb_2 || game.thumb_1 || game.thumb_small)" 
+              :alt="game.title" 
+              loading="lazy"
+              class="game-thumb" 
+            />
             <div class="card-overlay">
-              <span class="play-btn">{{ $t('play') }}</span>
+              <span class="play-btn">
+                {{ $t('play') }} ➔
+              </span>
             </div>
           </div>
           <div class="game-info">
@@ -130,128 +152,87 @@
 
 <style scoped>
   .hero-section {
-    min-height: 40vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 3.5rem 1rem 2rem;
     text-align: center;
-    padding: 4rem 1rem;
-    background: #000000;
+  }
+
+  .hero-content {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .hero-title {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    margin-bottom: 1.5rem;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1;
+    margin: 1.25rem 0 1rem;
     color: var(--text-primary);
+    letter-spacing: -0.05em;
   }
 
   .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto 3rem;
-  }
-
-  .hero-stats {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-  }
-
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: var(--text-primary);
-    letter-spacing: 0.1em;
-  }
-
-  .stat-divider {
-    width: 1px;
-    height: 30px;
-    background: var(--border-color);
-  }
-
-  .section-header {
-    margin-bottom: 3rem;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: #ffffff;
+    max-width: 580px;
+    line-height: 1.5;
+    font-weight: 400;
   }
 
   .games-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 1.5rem;
   }
 
   .card-overlay {
     position: absolute;
     inset: 0;
-    background: #000000;
+    background: rgba(5, 5, 5, 0.7);
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .game-card:hover .card-overlay {
-    transform: translateY(0);
-  }
-
-  .play-btn {
-    background: var(--accent);
-    color: #000000;
-    padding: 0.5rem 1.5rem;
-    border-radius: 999px;
-    font-weight: 700;
-    transform: translateY(10px);
+    opacity: 0;
     transition: var(--transition-smooth);
   }
 
+  .game-card:hover .card-overlay {
+    opacity: 1;
+  }
+
+  .play-btn {
+    background: #ffffff;
+    color: #050505;
+    padding: 0.6rem 1.35rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    transform: translateY(8px) scale(0.95);
+    transition: var(--transition-smooth);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  }
+
   .game-card:hover .play-btn {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 
   .scroll-sentinel {
-    height: 200px;
+    height: 160px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--bg-tertiary);
-    border-top-color: var(--accent);
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #ffffff;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.8s linear infinite;
   }
 
   @keyframes spin {
@@ -264,22 +245,19 @@
     padding: 4rem;
     text-align: center;
     background: var(--bg-secondary);
-    border-radius: 12px;
+    border-radius: 18px;
+    border: 1px solid var(--border-color);
     color: var(--text-primary);
   }
 
   @media (max-width: 640px) {
     .games-grid {
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 1rem;
     }
-
-    .hero-stats {
-      gap: 1rem;
-    }
-
-    .stat-value {
-      font-size: 1.2rem;
+    
+    .hero-section {
+      padding: 2rem 0.5rem 1rem;
     }
   }
 </style>

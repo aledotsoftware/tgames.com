@@ -1,31 +1,33 @@
 :root {
-  /* Nuanced Dark Palette */
-  --bg-color: #000000;
-  --bg-secondary: #000000;
-  --bg-tertiary: #000000;
+  /* Rich OLED Dark Palette */
+  --bg-color: #050505;
+  --bg-secondary: #0d0d0d;
+  --bg-tertiary: #141414;
   --text-primary: #ffffff;
-  --text-secondary: #ffffff;
-  --text-dim: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-dim: rgba(255, 255, 255, 0.45);
 
-  /* Accent: Pure White for Binary feel, but with subtle hints */
+  /* Accent & Glows */
   --accent: #ffffff;
-  --accent-glow: none;
+  --accent-inverse: #050505;
+  --accent-glow: rgba(255, 255, 255, 0.15);
 
-  /* Borders & Dividers */
-  --border-color: #ffffff;
-  --border-glow: #ffffff;
+  /* Borders & Doppelrand Bezel Hairlines */
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(255, 255, 255, 0.35);
 
   /* Glassmorphism */
-  --glass-bg: #000000;
-  --glass-border: #ffffff;
-  --glass-blur: none;
+  --glass-bg: rgba(13, 13, 13, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: blur(20px) saturate(180%);
 
-  /* Spacing */
+  /* Spacing & Sizes */
   --container-max: 1400px;
-  --header-height: 80px;
+  --header-height: 72px;
 
-  /* Transitions */
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Physics Transitions */
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Base Styles */
@@ -38,6 +40,8 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  background-color: var(--bg-color);
+  color-scheme: dark;
 }
 
 body {
@@ -46,6 +50,7 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
@@ -57,13 +62,10 @@ body {
   text-transform: lowercase;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 1rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -90,98 +92,145 @@ button {
 }
 
 .section-padding {
-  padding: 4rem 0;
+  padding: 3rem 0;
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 1.5rem;
+    padding: 0 1.25rem;
   }
 
   .section-padding {
-    padding: 2.5rem 0;
+    padding: 2rem 0;
   }
 }
 
-/* Interactive Elements */
+/* Glass & Panel Architectural Cards */
 .glass-panel {
   background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
+/* Eyebrow Badge */
+.eyebrow-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.725rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 10px #ffffff;
+}
+
+/* Kinetic Hover Effect */
 .hover-lift {
   transition: var(--transition-smooth);
+  will-change: transform;
 }
 
 .hover-lift:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px) scale(1.015);
 }
 
 /* Animations */
 @keyframes fadeIn {
   from {
-    transform: translateY(10px);
+    opacity: 0;
+    transform: translateY(12px);
   }
-
   to {
+    opacity: 1;
     transform: translateY(0);
   }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.6s ease forwards;
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Global Navbar Improvements */
 .navbar {
   position: sticky;
-  top: 0;
+  top: 1rem;
   z-index: 1000;
-  background: var(--glass-bg);
-  border-bottom: 1px solid var(--border-color);
-  height: var(--header-height);
-  display: flex;
-  align-items: center;
+  margin: 1rem auto;
+  max-width: var(--container-max);
+  padding: 0 1rem;
 }
 
-/* Game Card Evolution */
+.navbar-inner {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  height: var(--header-height);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Double-Bezel Game Card Architecture */
 .game-card {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 18px;
+  padding: 5px;
   overflow: hidden;
   transition: var(--transition-smooth);
   position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .game-card:hover {
   border-color: var(--border-glow);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.08);
 }
 
 .game-card .thumb-wrapper {
   position: relative;
   aspect-ratio: 1/1;
+  border-radius: 13px;
   overflow: hidden;
+  background: var(--bg-tertiary);
 }
 
 .game-card .game-thumb {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .game-card:hover .game-thumb {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .game-card .game-info {
-  padding: 1.25rem;
-  background: var(--bg-secondary);
+  padding: 0.85rem 0.5rem 0.5rem;
+  background: transparent;
 }
 
 .game-card .game-title {
-  font-size: 1rem;
+  font-size: 0.925rem;
   font-weight: 600;
   margin: 0;
   color: var(--text-primary);
@@ -190,20 +239,20 @@ button {
   text-overflow: ellipsis;
 }
 
-/* Scrollbar customization */
+/* Scrollbar Customization */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #050505;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.25);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.5);
 }
