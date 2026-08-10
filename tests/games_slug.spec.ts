@@ -1,84 +1,59 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-// We need to define globals before importing the handler
 vi.stubGlobal('defineCachedEventHandler', (handler: any) => handler)
 vi.stubGlobal('getRouterParam', vi.fn())
 vi.stubGlobal('getQuery', vi.fn())
-vi.stubGlobal('createError', vi.fn((err: any) => new Error(err.statusMessage)))
+vi.stubGlobal('createError', vi.fn((err: any) => {
+    const e = new Error(err.statusMessage)
+    ;(e as any).statusCode = err.statusCode
+    return e
+}))
 
-// Provide global auto-imports that the file expects
-;(globalThis as any).defineCachedEventHandler = (handler: any) => handler;
-;(globalThis as any).getRouterParam = vi.fn();
-;(globalThis as any).getQuery = vi.fn();
-;(globalThis as any).createError = vi.fn((err: any) => new Error(err.statusMessage));
-
-// Mock useDB
-vi.mock('../server/utils/db', () => {
+vi.mock('../server/utils/mongo', () => {
     return {
-        useDB: vi.fn()
+        useGamesCollection: vi.fn(),
+        applyTranslation: vi.fn((doc) => doc)
     }
 })
 
 describe('server/api/games/[slug]', () => {
-    let handler: any;
-    let useDB: any;
+    let handler: any
+    let mongoUtils: any
 
     beforeEach(async () => {
         vi.clearAllMocks()
         vi.resetModules()
 
-        // Re-import the handler and useDB for each test to ensure clean state
         handler = (await import('../server/api/games/[slug]')).default
-        useDB = (await import('../server/utils/db')).useDB
+        mongoUtils = await import('../server/utils/mongo')
     })
 
-    it('should use "es" as language fallback when lang parameter is missing', async () => {
-        const mockQuery = vi.fn().mockResolvedValue([[{ id: 1, title: 'Test Game', slug: 'test-game' }]])
-        useDB.mockReturnValue({ query: mockQuery })
+    it('should return game details successfully', async () => {
+        const mockFindOne = vi.fn().mockResolvedValue({ id: 1, title: 'Test Game', slug: 'test-game' })
+        mongoUtils.useGamesCollection.mockResolvedValue({ findOne: mockFindOne })
 
-        const mockGetRouterParam = (globalThis as any).getRouterParam
-        mockGetRouterParam.mockReturnValue('test-game')
+        ;(globalThis as any).getRouterParam.mockReturnValue('test-game')
+        ;(globalThis as any).getQuery.mockReturnValue({ lang: 'es' })
 
-        const mockGetQuery = (globalThis as any).getQuery
-        mockGetQuery.mockReturnValue({})
-
-        const event = {} as any
-
-        const result = await handler(event)
+        const result = await handler({} as any)
 
         expect(result.success).toBe(true)
         expect(result.game.slug).toBe('test-game')
-
-        expect(mockQuery).toHaveBeenCalledTimes(1)
-        const callArgs = mockQuery.mock.calls[0]
-
-        expect(callArgs[0]).toContain('AND t1.language = ?')
-        expect(callArgs[0]).toContain('AND t2.language = ?')
-        expect(callArgs[0]).toContain('AND t3.language = ?')
-        expect(callArgs[0]).toContain('WHERE g.slug = ?')
-
-        expect(callArgs[1]).toEqual(['es', 'es', 'es', 'test-game'])
+        expect(mockFindOne).toHaveBeenCalledWith({ slug: 'test-game', published: 1 }, expect.any(Object))
     })
 
-    it('should use provided language parameter when present', async () => {
-        const mockQuery = vi.fn().mockResolvedValue([[{ id: 1, title: 'Test Game', slug: 'test-game' }]])
-        useDB.mockReturnValue({ query: mockQuery })
+    it('should throw 404 if game is not found', async () => {
+        const mockFindOne = vi.fn().mockResolvedValue(null)
+        mongoUtils.useGamesCollection.mockResolvedValue({ findOne: mockFindOne })
 
-        const mockGetRouterParam = (globalThis as any).getRouterParam
-        mockGetRouterParam.mockReturnValue('test-game')
+        ;(globalThis as any).getRouterParam.mockReturnValue('unknown-game')
+        ;(globalThis as any).getQuery.mockReturnValue({ lang: 'es' })
 
-        const mockGetQuery = (globalThis as any).getQuery
-        mockGetQuery.mockReturnValue({ lang: 'en' })
-
-        const event = {} as any
-
-        const result = await handler(event)
-
-        expect(result.success).toBe(true)
-
-        expect(mockQuery).toHaveBeenCalledTimes(1)
-        const callArgs = mockQuery.mock.calls[0]
-
-        expect(callArgs[1]).toEqual(['en', 'en', 'en', 'test-game'])
+        try {
+            await handler({} as any)
+            expect.fail('Should throw')
+        } catch (err: any) {
+            expect(err.statusCode).toBe(404)
+        }
     })
 })

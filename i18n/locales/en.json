@@ -33,5 +33,7 @@
     "remote_upload": "Remote Upload (Game URL)",
     "json_importer": "JSON Importer",
     "uploading": "Uploading...",
-    "upload": "Upload"
+    "upload": "Upload",
+    "home": "Home",
+    "select_language": "Language"
 }

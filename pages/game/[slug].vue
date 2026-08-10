@@ -135,9 +135,9 @@ const { data, pending, error } = await useFetch(`/api/games/${route.params.slug}
 })
 
 const getThumbUrl = (thumbPath) => {
-  if (!thumbPath) return '/placeholder.webp'
+  if (!thumbPath) return '/pwa-192x192.png'
   const cleanPath = thumbPath.replace(/^\/+/, '')
-  return `/_ipx/w_300&f_webp/${cleanPath}`
+  return `/${cleanPath}`
 }
 
 const stripHtml = (html) => html ? html.replace(/<[^>]*>/g, '') : ''

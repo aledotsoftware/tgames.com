@@ -64,9 +64,9 @@ const isOpen = ref(false)
 let searchTimeout = null
 
 const getThumbUrl = (thumbPath) => {
-  if (!thumbPath) return '/placeholder.webp'
+  if (!thumbPath) return '/pwa-192x192.png'
   const clean = thumbPath.startsWith('/') ? thumbPath : `/${thumbPath}`
-  return `/_ipx/w_300&f_webp${clean}`
+  return clean
 }
 
 const onSearch = () => {
@@ -124,17 +124,20 @@ const closeSearch = () => {
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
-  padding: 0 1rem;
+  padding: 0 1.1rem;
   transition: var(--transition-smooth);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .search-input-wrapper.is-active,
 .search-input-wrapper:focus-within {
-  border-color: var(--border-glow);
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 16px rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 0 20px rgba(255, 255, 255, 0.12);
 }
 
 .search-svg-icon {
@@ -143,6 +146,11 @@ const closeSearch = () => {
   margin-right: 0.65rem;
   color: var(--text-secondary);
   flex-shrink: 0;
+  transition: var(--transition-smooth);
+}
+
+.search-input-wrapper:focus-within .search-svg-icon {
+  color: #ffffff;
 }
 
 .premium-search-input {
@@ -150,13 +158,15 @@ const closeSearch = () => {
   background: transparent;
   border: none;
   color: var(--text-primary);
-  padding: 0.6rem 0;
+  padding: 0.65rem 0;
   font-size: 0.85rem;
+  font-weight: 500;
   outline: none;
 }
 
 .premium-search-input::placeholder {
   color: var(--text-dim);
+  font-weight: 400;
 }
 
 .clear-btn {
@@ -177,16 +187,18 @@ const closeSearch = () => {
   top: calc(100% + 12px);
   left: 0;
   right: 0;
-  background: rgba(13, 13, 13, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
+  background: rgba(10, 10, 14, 0.96);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 20px;
   max-height: 420px;
   overflow-y: auto;
   z-index: 1100;
-  padding: 0.5rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 0.6rem;
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.9), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .search-state-message {
@@ -212,14 +224,16 @@ const closeSearch = () => {
 .premium-search-item {
   display: flex;
   align-items: center;
-  padding: 0.65rem;
+  padding: 0.7rem;
   border-radius: 14px;
   transition: var(--transition-smooth);
   gap: 0.85rem;
+  border: 1px solid transparent;
 }
 
 .premium-search-item:hover {
   background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .item-thumb-wrapper {
@@ -229,6 +243,7 @@ const closeSearch = () => {
   border-radius: 10px;
   overflow: hidden;
   background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .item-thumb {

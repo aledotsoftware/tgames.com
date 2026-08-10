@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
 
-// We must mock globals BEFORE importing the handler
 const mockDefineCachedEventHandler = vi.fn((handler) => handler)
 const mockGetRouterParam = vi.fn((event, param) => event.context?.params?.[param])
 const mockGetQuery = vi.fn((event) => event.query || {})
@@ -15,24 +14,21 @@ vi.stubGlobal('getRouterParam', mockGetRouterParam)
 vi.stubGlobal('getQuery', mockGetQuery)
 vi.stubGlobal('createError', mockCreateError)
 
-// Mock the DB
-vi.mock('../server/utils/db', () => {
+vi.mock('../server/utils/mongo', () => {
     return {
-        useDB: vi.fn()
+        useGamesCollection: vi.fn(),
+        applyTranslation: vi.fn((doc) => doc)
     }
 })
 
-import { useDB } from '../server/utils/db'
+import { useGamesCollection } from '../server/utils/mongo'
 
 describe('Game details API', () => {
     it('throws 404 when game is not found', async () => {
-        // Dynamic import so globals are stubbed first
         const { default: handler } = await import('../server/api/games/[slug]')
 
-        const mockDb = {
-            query: vi.fn().mockResolvedValue([[]]) // Empty array for rows
-        }
-        vi.mocked(useDB).mockReturnValue(mockDb as any)
+        const mockFindOne = vi.fn().mockResolvedValue(null)
+        vi.mocked(useGamesCollection).mockResolvedValue({ findOne: mockFindOne } as any)
 
         const event = {
             context: {

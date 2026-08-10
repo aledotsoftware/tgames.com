@@ -1,24 +1,18 @@
-import { useDB } from '../../utils/db'
+import { useGamesCollection, applyTranslation } from '../../utils/mongo'
 import { validatePagination } from '../../utils/pagination'
 
 export default defineCachedEventHandler(async (event) => {
     try {
         const query = getQuery(event)
-        const lang = query.lang || 'es'
+        const lang = (query.lang as string) || 'es'
         const { limit } = validatePagination(query)
         const cursorParam = query.cursor as string
 
-        const db = useDB()
+        const games = await useGamesCollection()
 
-        let sql = `
-            SELECT g.id, g.slug, g.thumb_1, g.thumb_2, g.thumb_small, g.upvote, g.views,
-                   COALESCE(t.translation, g.title) as title
-            FROM games g
-            LEFT JOIN translations t ON t.content_id = g.id AND t.content_type = 'game' AND t.field = 'title' AND t.language = ?
-            WHERE g.published = 1
-        `
-        const params: any[] = [lang]
+        const filter: any = { published: 1 }
 
+        // Cursor-based pagination: (upvote, views, id) tuple
         if (cursorParam) {
             const parts = cursorParam.split('_')
             if (parts.length === 3) {
@@ -26,19 +20,31 @@ export default defineCachedEventHandler(async (event) => {
                 const cViews = parseInt(parts[1])
                 const cId = parseInt(parts[2])
 
-                sql += ` AND (g.upvote < ? OR (g.upvote = ? AND g.views < ?) OR (g.upvote = ? AND g.views = ? AND g.id < ?)) `
-                params.push(cUpvote, cUpvote, cViews, cUpvote, cViews, cId)
+                filter.$or = [
+                    { upvote: { $lt: cUpvote } },
+                    { upvote: cUpvote, views: { $lt: cViews } },
+                    { upvote: cUpvote, views: cViews, id: { $lt: cId } }
+                ]
             }
         }
 
-        sql += ` ORDER BY g.upvote DESC, g.views DESC, g.id DESC LIMIT ?`
-        params.push(limit)
+        const docs = await games
+            .find(filter, {
+                projection: {
+                    id: 1, slug: 1, thumb_1: 1, thumb_2: 1, thumb_small: 1,
+                    upvote: 1, views: 1, title: 1,
+                    [`i18n.${lang}`]: 1
+                }
+            })
+            .sort({ upvote: -1, views: -1, id: -1 })
+            .limit(limit)
+            .toArray()
 
-        const [rows] = await db.query(sql, params)
+        const result = docs.map(doc => applyTranslation(doc, lang))
 
         return {
             success: true,
-            games: rows
+            games: result
         }
     } catch (error: unknown) {
         console.error('API Error /api/games:', error)
@@ -58,6 +64,6 @@ export default defineCachedEventHandler(async (event) => {
         const cursor = query.cursor || '0'
         return `trending-${lang}-c${cursor}-l${limit}`
     },
-    maxAge: 60 * 60, // 1 hour TTL Cache!
-    swr: true // Serve stale while revalidating
+    maxAge: 60 * 60,
+    swr: true
 })

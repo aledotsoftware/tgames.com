@@ -1,4 +1,4 @@
-import { useDB } from '../utils/db'
+import { useGamesCollection, useBugReportsCollection } from '../utils/mongo'
 
 // Write-behind buffer for interactions
 const interactionBuffer = new Map<number, { likes: number, dislikes: number }>()
@@ -11,43 +11,29 @@ async function flushInteractions() {
     if (isFlushing || interactionBuffer.size === 0) return
 
     isFlushing = true
-    const db = useDB()
+    const games = await useGamesCollection()
 
-    // Create a snapshot of the buffer and clear it
     const snapshot = new Map(interactionBuffer)
     interactionBuffer.clear()
 
     try {
         const promises = []
         for (const [id, counts] of snapshot.entries()) {
-            if (counts.likes > 0 && counts.dislikes > 0) {
-                promises.push(db.execute(
-                    `UPDATE games SET upvote = upvote + ?, downvote = downvote + ? WHERE id = ?`,
-                    [counts.likes, counts.dislikes, id]
-                ))
-            } else if (counts.likes > 0) {
-                promises.push(db.execute(
-                    `UPDATE games SET upvote = upvote + ? WHERE id = ?`,
-                    [counts.likes, id]
-                ))
-            } else if (counts.dislikes > 0) {
-                promises.push(db.execute(
-                    `UPDATE games SET downvote = downvote + ? WHERE id = ?`,
-                    [counts.dislikes, id]
-                ))
+            const inc: any = {}
+            if (counts.likes > 0) inc.upvote = counts.likes
+            if (counts.dislikes > 0) inc.downvote = counts.dislikes
+            if (Object.keys(inc).length > 0) {
+                promises.push(games.updateOne({ id }, { $inc: inc }))
             }
         }
         await Promise.all(promises)
     } catch (error) {
         console.error('Error flushing interactions:', error)
-        // Note: in a production scenario, we might want to put failed updates back into the buffer
-        // but for this simple optimization, we'll log the error.
     } finally {
         isFlushing = false
     }
 }
 
-// Start the flush interval if it's not already running
 if (!flushInterval) {
     flushInterval = setInterval(flushInteractions, FLUSH_INTERVAL_MS)
 }
@@ -85,17 +71,14 @@ export default defineEventHandler(async (event) => {
             throw createError({ statusCode: 400, statusMessage: 'Invalid interaction type' })
         }
 
-        const db = useDB()
-
         if (type === 'like' || type === 'dislike') {
             bufferInteraction(id, type)
         } else if (type === 'report') {
-            await db.execute(`INSERT INTO bug_reports (game_id) VALUES (?)`, [id])
+            const bugReports = await useBugReportsCollection()
+            await bugReports.insertOne({ game_id: id, created_at: new Date() })
         }
 
-        return {
-            success: true
-        }
+        return { success: true }
 
     } catch (error: unknown) {
         console.error('Interaction API Error:', error)

@@ -49,9 +49,9 @@
   const localePath = useLocalePath()
 
   const getThumbUrl = (thumbPath) => {
-    if (!thumbPath) return '/placeholder.webp'
+    if (!thumbPath) return '/pwa-192x192.png'
     const cleanPath = thumbPath.replace(/^\/+/, '')
-    return `/_ipx/w_300&f_webp/${cleanPath}`
+    return `/${cleanPath}`
   }
 
   const { data, pending, error } = await useFetch('/api/games', {

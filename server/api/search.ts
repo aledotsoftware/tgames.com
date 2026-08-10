@@ -1,4 +1,4 @@
-import { useDB } from '../utils/db.ts'
+import { useGamesCollection, applyTranslation } from '../utils/mongo'
 
 export default defineCachedEventHandler(async (event) => {
     const query = getQuery(event)
@@ -6,28 +6,38 @@ export default defineCachedEventHandler(async (event) => {
     const lang = (query.lang as string) || 'es'
     const q = Array.isArray(rawQ) ? rawQ[0] : rawQ
 
-    // Validate that q is a string and meets minimum length
     if (!q || typeof q !== 'string' || q.trim().length < 2) {
         return { success: true, games: [] }
     }
 
-    const searchTerm = `%${q.trim()}%`
+    const searchTerm = q.trim()
+    const regex = new RegExp(searchTerm, 'i')
 
     try {
-        const db = useDB()
-        const [rows] = await db.query(
-            `SELECT g.id, g.slug, g.thumb_small, g.thumb_1, g.category,
-                    COALESCE(t.translation, g.title) as title 
-             FROM games g
-             LEFT JOIN translations t ON t.content_id = g.id AND t.content_type = 'game' AND t.field = 'title' AND t.language = ?
-             WHERE (g.title LIKE ? OR t.translation LIKE ?) AND g.published = 1 
-             LIMIT 12`,
-            [lang, searchTerm, searchTerm]
-        )
+        const games = await useGamesCollection()
+
+        const docs = await games
+            .find(
+                {
+                    published: 1,
+                    $or: [
+                        { title: regex },
+                        { [`i18n.${lang}.title`]: regex }
+                    ]
+                },
+                {
+                    projection: {
+                        id: 1, slug: 1, thumb_small: 1, thumb_1: 1, category: 1, title: 1,
+                        [`i18n.${lang}.title`]: 1
+                    }
+                }
+            )
+            .limit(12)
+            .toArray()
 
         return {
             success: true,
-            games: rows
+            games: docs.map(doc => applyTranslation(doc, lang))
         }
     } catch (error: unknown) {
         console.error('Search API Error:', error)

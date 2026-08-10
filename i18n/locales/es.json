@@ -33,5 +33,7 @@
     "remote_upload": "Subida Remota (URL)",
     "json_importer": "Importador JSON",
     "uploading": "Subiendo...",
-    "upload": "Subir"
+    "upload": "Subir",
+    "home": "Inicio",
+    "select_language": "Idioma"
 }

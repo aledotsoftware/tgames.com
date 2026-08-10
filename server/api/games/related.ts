@@ -1,35 +1,34 @@
-import { useDB } from '../../utils/db'
+import { useGamesCollection, applyTranslation } from '../../utils/mongo'
 
 export default defineCachedEventHandler(async (event) => {
     try {
         const query = getQuery(event)
-        const lang = query.lang || 'es'
-        const category = query.category
+        const lang = (query.lang as string) || 'es'
+        const category = query.category as string
 
         if (!category) {
-            return {
-                success: true,
-                games: []
-            }
+            return { success: true, games: [] }
         }
 
-        const db = useDB()
+        const games = await useGamesCollection()
 
-        const [rows] = await db.query(
-            `SELECT g.id, g.slug, g.thumb_1, g.thumb_2, g.thumb_small,
-                    COALESCE(t.translation, g.title) as title
-             FROM games g
-             LEFT JOIN translations t ON t.content_id = g.id AND t.content_type = 'game' AND t.field = 'title' AND t.language = ?
-             WHERE g.published = 1
-             AND g.category = ?
-             ORDER BY g.views DESC
-             LIMIT 20`,
-            [lang, category]
-        )
+        const docs = await games
+            .find(
+                { published: 1, category },
+                {
+                    projection: {
+                        id: 1, slug: 1, thumb_1: 1, thumb_2: 1, thumb_small: 1, title: 1,
+                        [`i18n.${lang}.title`]: 1
+                    }
+                }
+            )
+            .sort({ views: -1 })
+            .limit(20)
+            .toArray()
 
         return {
             success: true,
-            games: rows
+            games: docs.map(doc => applyTranslation(doc, lang))
         }
     } catch (error: unknown) {
         console.error('DB Error:', error)
@@ -46,6 +45,6 @@ export default defineCachedEventHandler(async (event) => {
         const query = getQuery(event)
         return `related-${query.category || 'none'}-${query.lang || 'es'}`
     },
-    maxAge: 60 * 60, // 1 hour
+    maxAge: 60 * 60,
     swr: true
 })

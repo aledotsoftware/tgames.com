@@ -79,7 +79,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    langDir: 'i18n/locales',
+    langDir: 'locales',
     strategy: 'prefix',
     defaultLocale: 'es',
     locales: [
@@ -109,13 +109,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    database: {
-      host: process.env.DB_HOST || 'db',
-      port: Number(process.env.DB_PORT) || 3306,
-      user: process.env.DB_USER,
-      pass: process.env.DB_PASS,
-      name: process.env.DB_NAME || 'tudexgames'
-    },
+    mongoUrl: process.env.MONGO_URL || 'mongodb://mongodb:27017/tudexgames',
     redisUrl: process.env.REDIS_URL || 'redis://redis:6379',
     imageDomains,
     mediaDomains

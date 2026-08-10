@@ -1,34 +1,35 @@
-import { useDB } from '../../utils/db'
+import { useGamesCollection, applyTranslation } from '../../utils/mongo'
 
 export default defineCachedEventHandler(async (event) => {
     const slug = getRouterParam(event, 'slug')
 
     try {
         const query = getQuery(event)
-        const lang = query.lang || 'es'
+        const lang = (query.lang as string) || 'es'
 
-        const db = useDB()
-        const [rows]: any = await db.query(
-            `SELECT g.*, 
-                    COALESCE(t1.translation, g.title) as title,
-                    COALESCE(t2.translation, g.description) as description,
-                    COALESCE(t3.translation, g.instructions) as instructions
-             FROM games g
-             LEFT JOIN translations t1 ON t1.content_id = g.id AND t1.content_type = 'game' AND t1.field = 'title' AND t1.language = ?
-             LEFT JOIN translations t2 ON t2.content_id = g.id AND t2.content_type = 'game' AND t2.field = 'description' AND t2.language = ?
-             LEFT JOIN translations t3 ON t3.content_id = g.id AND t3.content_type = 'game' AND t3.field = 'instructions' AND t3.language = ?
-             WHERE g.slug = ? AND g.published = 1 
-             LIMIT 1`,
-            [lang, lang, lang, slug]
+        const games = await useGamesCollection()
+        const doc = await games.findOne(
+            { slug, published: 1 },
+            {
+                projection: {
+                    id: 1, slug: 1, title: 1, description: 1, instructions: 1,
+                    category: 1, source: 1, game_type: 1, url: 1,
+                    thumb_1: 1, thumb_2: 1, thumb_small: 1,
+                    width: 1, height: 1, tags: 1,
+                    views: 1, upvote: 1, downvote: 1,
+                    is_mobile: 1, is_premium: 1, published: 1,
+                    [`i18n.${lang}`]: 1
+                }
+            }
         )
 
-        if (!rows || rows.length === 0) {
+        if (!doc) {
             throw createError({ statusCode: 404, statusMessage: 'Juego no encontrado' })
         }
 
         return {
             success: true,
-            game: rows[0]
+            game: applyTranslation(doc, lang)
         }
     } catch (error: unknown) {
         const statusCode = (typeof error === 'object' && error !== null && 'statusCode' in error) ? (error as { statusCode: number }).statusCode : 500
@@ -47,6 +48,6 @@ export default defineCachedEventHandler(async (event) => {
         const lang = query.lang || 'es'
         return `game-${slug}-${lang}`
     },
-    maxAge: 60 * 60, // 1 hour
+    maxAge: 60 * 60,
     swr: true
 })
