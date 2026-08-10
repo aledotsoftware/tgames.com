@@ -1,16 +1,26 @@
-FROM node:20-slim
+FROM node:20-slim AS builder
 
 WORKDIR /src
-
-# Instalamos dependencias globales necesarias
-RUN npm install -g nuxi
 
 COPY package*.json ./
 RUN npm install
 
 COPY . .
+RUN npm run build
 
-# Exponemos el puerto por defecto de Nuxt
+FROM node:20-slim AS runner
+
+WORKDIR /src
+
+ENV NODE_ENV=production
+ENV HOST=0.0.0.0
+ENV PORT=3000
+
+COPY package*.json ./
+RUN npm install --only=production
+
+COPY --from=builder /src/.output ./.output
+
 EXPOSE 3000
 
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+CMD ["node", ".output/server/index.mjs"]
