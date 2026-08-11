@@ -4,11 +4,8 @@ services:
     container_name: nuxt_dev
     ports:
       - "3006:3000"
-    volumes:
-      - .:/src
-      - /src/node_modules
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - HOST=0.0.0.0
       - REDIS_URL=redis://redis:6379
     env_file:

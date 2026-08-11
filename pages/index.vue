@@ -59,7 +59,8 @@
   }
 
   const { data, pending, error } = await useFetch('/api/games', {
-    query: { lang: locale }
+    query: { lang: computed(() => locale.value) },
+    key: `catalog-games-${locale.value}`
   })
 
   useSeoMeta({
@@ -72,26 +73,26 @@
   const loadingMore = ref(false)
   const hasMore = ref(true)
 
-  if (data.value && data.value.games) {
-    games.value = [...data.value.games]
-    if (games.value.length > 0) {
-      const last = games.value[games.value.length - 1]
-      cursor.value = `${last.upvote}_${last.views}_${last.id}`
-    }
-  }
-
-  watch(data, (newData) => {
-    if (newData && newData.games) {
-      games.value = [...newData.games]
-      if (games.value.length > 0) {
-        const last = games.value[games.value.length - 1]
+  const syncGamesData = (val) => {
+    if (val && Array.isArray(val.games)) {
+      games.value = [...val.games]
+      if (val.games.length > 0) {
+        const last = val.games[val.games.length - 1]
         cursor.value = `${last.upvote}_${last.views}_${last.id}`
       } else {
         cursor.value = null
       }
       hasMore.value = true
     }
-  })
+  }
+
+  if (data.value) {
+    syncGamesData(data.value)
+  }
+
+  watch(data, (newData) => {
+    syncGamesData(newData)
+  }, { immediate: true })
 
   const loadMoreGames = async () => {
     if (loadingMore.value || !hasMore.value) return
