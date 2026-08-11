@@ -21,9 +21,14 @@
                 <line x1="2" y1="12" x2="22" y2="12"></line>
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
               </svg>
-              <select :value="locale" @change="handleLanguageChange" class="premium-lang-select" aria-label="Select Language">
-                <option v-for="loc in locales" :key="loc.code" :value="loc.code">
-                  {{ loc.name ? `${loc.name} (${loc.code.toUpperCase()})` : loc.code.toUpperCase() }}
+              <select :value="currentLocale" @change="handleLanguageChange" class="premium-lang-select" aria-label="Select Language">
+                <option 
+                  v-for="loc in locales" 
+                  :key="typeof loc === 'string' ? loc : loc.code" 
+                  :value="typeof loc === 'string' ? loc : loc.code"
+                  :selected="(typeof loc === 'string' ? loc : loc.code) === currentLocale"
+                >
+                  {{ (typeof loc === 'object' && loc.name) ? `${loc.name} (${loc.code.toUpperCase()})` : (typeof loc === 'string' ? loc.toUpperCase() : loc.code.toUpperCase()) }}
                 </option>
               </select>
               <span class="select-arrow"></span>
@@ -64,9 +69,14 @@
                 <line x1="2" y1="12" x2="22" y2="12"></line>
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
               </svg>
-              <select :value="locale" @change="handleMobileLanguageChange" class="mobile-lang-select">
-                <option v-for="loc in locales" :key="loc.code" :value="loc.code">
-                  {{ loc.name ? `${loc.name} (${loc.code.toUpperCase()})` : loc.code.toUpperCase() }}
+              <select :value="currentLocale" @change="handleMobileLanguageChange" class="mobile-lang-select">
+                <option 
+                  v-for="loc in locales" 
+                  :key="typeof loc === 'string' ? loc : loc.code" 
+                  :value="typeof loc === 'string' ? loc : loc.code"
+                  :selected="(typeof loc === 'string' ? loc : loc.code) === currentLocale"
+                >
+                  {{ (typeof loc === 'object' && loc.name) ? `${loc.name} (${loc.code.toUpperCase()})` : (typeof loc === 'string' ? loc.toUpperCase() : loc.code.toUpperCase()) }}
                 </option>
               </select>
             </div>
@@ -96,9 +106,23 @@
 </template>
 
 <script setup>
+const route = useRoute()
 const { locale, locales, setLocale, setLocaleCookie } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
+
+const currentLocale = computed(() => {
+  const pathSegments = (route.path || '').split('/').filter(Boolean)
+  const urlLocale = pathSegments[0]
+  const rawLocales = unref(locales) || []
+  const availableCodes = rawLocales.map(l => typeof l === 'string' ? l : l.code)
+  
+  if (urlLocale && availableCodes.includes(urlLocale)) {
+    return urlLocale
+  }
+  const activeLoc = unref(locale)
+  return activeLoc || 'es'
+})
 
 const mobileMenuOpen = ref(false)
 const isScrolled = ref(false)
