@@ -35,6 +35,45 @@
             </div>
           </div>
 
+          <!-- Tudex Networks SSO Auth Control -->
+          <div class="auth-wrap desktop-only">
+            <button v-if="!isLoggedIn" @click="loginWithTudex" class="tudex-login-btn">
+              <svg class="tudex-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+              </svg>
+              <span>{{ $t('login_tudex') || 'Iniciar Sesión' }}</span>
+            </button>
+
+            <div v-else class="user-profile-menu">
+              <button @click="userMenuOpen = !userMenuOpen" class="user-menu-trigger">
+                <img v-if="user?.picture" :src="user.picture" :alt="user.name" class="user-avatar-img" />
+                <span v-else class="user-avatar-initial">{{ (user?.name || 'U').charAt(0).toUpperCase() }}</span>
+                <span class="user-display-name">{{ user?.name }}</span>
+                <svg class="chevron-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+
+              <Transition name="fade-slide">
+                <div v-if="userMenuOpen" class="user-dropdown-card glass-panel">
+                  <div class="user-card-header">
+                    <span class="header-name">{{ user?.name }}</span>
+                    <span class="header-email" v-if="user?.email">{{ user.email }}</span>
+                  </div>
+                  <div class="user-card-divider"></div>
+                  <a href="https://passport.tudexnetworks.com" target="_blank" rel="noopener" class="user-card-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span>Mi Cuenta (Tudex Networks)</span>
+                  </a>
+                  <button @click="logoutTudex" class="user-card-item danger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <span>Cerrar Sesión</span>
+                  </button>
+                </div>
+              </Transition>
+            </div>
+          </div>
+
           <!-- Mobile Toggle Button -->
           <button @click="mobileMenuOpen = !mobileMenuOpen" class="mobile-toggle-btn" aria-label="Toggle Menu">
             <span class="hamburger-icon" :class="{ 'open': mobileMenuOpen }">
@@ -125,7 +164,25 @@ const currentLocale = computed(() => {
 })
 
 const mobileMenuOpen = ref(false)
+const userMenuOpen = ref(false)
 const isScrolled = ref(false)
+
+const { data: authData } = await useFetch('/api/auth/me')
+
+const user = computed(() => authData.value?.user || null)
+const isLoggedIn = computed(() => !!authData.value?.authenticated)
+
+const loginWithTudex = () => {
+  if (typeof window !== 'undefined') {
+    window.location.href = '/api/auth/login'
+  }
+}
+
+const logoutTudex = () => {
+  if (typeof window !== 'undefined') {
+    window.location.href = '/api/auth/logout'
+  }
+}
 
 const handleLanguageChange = async (event) => {
   const newLocale = event.target.value

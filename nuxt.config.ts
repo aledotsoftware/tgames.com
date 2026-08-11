@@ -110,6 +110,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mongoUrl: process.env.MONGO_URL || 'mongodb://mongodb:27017/tudexgames',
     redisUrl: process.env.REDIS_URL || 'redis://redis:6379',
+    oidcClientId: process.env.OIDC_CLIENT_ID || '895fe830-3132-473f-b194-ad1415a3ec51',
+    oidcIssuer: process.env.OIDC_ISSUER || 'https://passport.tudexnetworks.com',
+    sessionSecret: process.env.SESSION_SECRET || 'tudexgames-secret-session-key-2026',
     imageDomains,
     mediaDomains
   },

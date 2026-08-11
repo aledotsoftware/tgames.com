@@ -22,7 +22,8 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 COPY --from=builder /src/.output ./.output
+COPY --from=builder /src/scripts ./scripts
 
 EXPOSE 3000
 
-CMD ["node", ".output/server/index.mjs"]
+CMD ["sh", "-c", "node scripts/seed-mongo.js && node .output/server/index.mjs"]
