@@ -69,8 +69,7 @@ export default defineNuxtConfig({
       ]
     },
     workbox: {
-      navigateFallback: '/',
-      navigateFallbackAllowlist: [/^\/[a-z]{2}(\/|$)/, /^\/$/]
+      navigateFallback: null
     },
     devOptions: {
       enabled: true,
