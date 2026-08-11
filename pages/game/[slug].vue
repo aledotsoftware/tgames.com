@@ -49,8 +49,8 @@
             </div>
 
             <div class="hero-feature-tags">
-              <span class="feature-tag">{{ data.game.is_mobile ? 'Móvil y PC' : 'Navegador Web' }}</span>
-              <span class="feature-tag">Carga Instantánea</span>
+              <span class="feature-tag">{{ data.game.is_mobile ? $t('mobile_and_pc') : $t('web_browser') }}</span>
+              <span class="feature-tag">{{ $t('instant_load') }}</span>
               <span class="feature-tag" v-if="data.game.game_type">{{ (data.game.game_type || 'HTML5').toUpperCase() }}</span>
             </div>
 
@@ -60,24 +60,24 @@
                 <svg class="play-svg-icon" viewBox="0 0 24 24" fill="currentColor">
                   <polygon points="5 3 19 12 5 21 5 3"></polygon>
                 </svg>
-                <span>{{ $t('play') || 'Jugar Ahora' }}</span>
+                <span>{{ $t('play_now') }}</span>
               </button>
 
-              <button @click="handleInteraction('like')" class="pro-btn-secondary" title="Me Gusta">
+              <button @click="handleInteraction('like')" class="pro-btn-secondary" :title="$t('like')">
                 <svg class="action-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
                 </svg>
                 <span>{{ data.game.upvote || 0 }}</span>
               </button>
 
-              <button @click="handleInteraction('dislike')" class="pro-btn-secondary" title="No Me Gusta">
+              <button @click="handleInteraction('dislike')" class="pro-btn-secondary" :title="$t('dislike')">
                 <svg class="action-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
                 </svg>
                 <span>{{ data.game.downvote || 0 }}</span>
               </button>
 
-              <button @click="toggleFullscreen" class="pro-btn-icon" title="Pantalla Completa">
+              <button @click="toggleFullscreen" class="pro-btn-icon" :title="$t('fullscreen')">
                 <svg class="action-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="15 3 21 3 21 9"></polyline>
                   <polyline points="9 21 3 21 3 15"></polyline>
@@ -86,7 +86,7 @@
                 </svg>
               </button>
 
-              <button @click="copyShareLink" class="pro-btn-icon" title="Compartir">
+              <button @click="copyShareLink" class="pro-btn-icon" :title="$t('share')">
                 <svg class="action-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="18" cy="5" r="3"></circle>
                   <circle cx="6" cy="12" r="3"></circle>
@@ -96,7 +96,7 @@
                 </svg>
               </button>
 
-              <button @click="handleInteraction('report')" class="pro-btn-icon danger" title="Reportar Error">
+              <button @click="handleInteraction('report')" class="pro-btn-icon danger" :title="$t('report_bug')">
                 <svg class="action-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
                   <line x1="4" y1="22" x2="4" y2="15"></line>
@@ -114,12 +114,12 @@
         <div class="esrb-badge-wrap">
           <div class="esrb-box">PEGI 3</div>
           <div class="esrb-info">
-            <span class="esrb-title">Acceso Gratuito • Sin Instalación</span>
-            <span class="esrb-desc">Juego online instantáneo compatible con todos los navegadores modernos.</span>
+            <span class="esrb-title">{{ $t('free_access_no_install') }}</span>
+            <span class="esrb-desc">{{ $t('instant_online_game_desc') }}</span>
           </div>
         </div>
         <div class="disclaimer-text">
-          <p>Disfruta de {{ data.game.title }} sin descargas. Compatible con teclado, ratón y pantallas táctiles.</p>
+          <p>{{ $t('enjoy_without_download', { title: data.game.title }) }}</p>
         </div>
       </div>
     </div>
@@ -141,7 +141,7 @@
               <line x1="21" y1="3" x2="14" y2="10"></line>
               <line x1="3" y1="21" x2="10" y2="14"></line>
             </svg>
-            <span>Pantalla Completa</span>
+            <span>{{ $t('fullscreen') }}</span>
           </button>
         </div>
         
@@ -166,7 +166,7 @@
           class="tab-btn" 
           :class="{ 'active': activeTab === 'description' }"
         >
-          DETALLES
+          {{ $t('details') }}
         </button>
         <button 
           v-if="data.game.instructions" 
@@ -174,7 +174,7 @@
           class="tab-btn" 
           :class="{ 'active': activeTab === 'instructions' }"
         >
-          INSTRUCCIONES
+          {{ $t('instructions') }}
         </button>
       </div>
 
@@ -189,21 +189,21 @@
 
             <!-- Side Specs Panel -->
             <div class="details-specs glass-panel">
-              <h3 class="pane-heading">ESPECIFICACIONES</h3>
+              <h3 class="pane-heading">{{ $t('specs') }}</h3>
               <div class="spec-row" v-if="data.game.category">
-                <span class="spec-label">Categoría</span>
+                <span class="spec-label">{{ $t('category') }}</span>
                 <span class="spec-value tag">{{ data.game.category }}</span>
               </div>
               <div class="spec-row">
-                <span class="spec-label">Vistas Totales</span>
+                <span class="spec-label">{{ $t('total_views') }}</span>
                 <span class="spec-value">{{ (data.game.views || 0).toLocaleString() }}</span>
               </div>
               <div class="spec-row">
-                <span class="spec-label">Votos Positivos</span>
+                <span class="spec-label">{{ $t('upvotes') }}</span>
                 <span class="spec-value">{{ data.game.upvote || 0 }}</span>
               </div>
               <div class="spec-row" v-if="data.game.game_type">
-                <span class="spec-label">Plataforma</span>
+                <span class="spec-label">{{ $t('platform') }}</span>
                 <span class="spec-value">{{ data.game.game_type }}</span>
               </div>
             </div>
@@ -223,7 +223,7 @@
     <!-- Related Games Grid -->
     <section v-if="relatedGames.length > 0" class="related-section container section-padding">
       <div class="section-header">
-        <h2 class="section-title">MÁS JUEGOS SIMILARES</h2>
+        <h2 class="section-title">{{ $t('more_similar_games') }}</h2>
         <div class="section-line"></div>
       </div>
       <div class="related-grid">
@@ -323,7 +323,7 @@ const scrollToStage = () => {
 const copyShareLink = () => {
   if (typeof window !== 'undefined' && navigator.clipboard) {
     navigator.clipboard.writeText(window.location.href)
-    toast.add({ message: 'Enlace copiado al portapapeles', type: 'success' })
+    toast.add({ message: t('link_copied'), type: 'success' })
   }
 }
 
