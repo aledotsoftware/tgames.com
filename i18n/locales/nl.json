@@ -52,5 +52,7 @@
     "share": "Delen",
     "no_games_found": "Geen spellen gevonden",
     "no_results": "Geen resultaten",
-    "login_tudex": "Inloggen"
+    "login_tudex": "Inloggen",
+    "logout": "Uitloggen",
+    "my_account": "Mijn Account (Tudex Networks)"
 }

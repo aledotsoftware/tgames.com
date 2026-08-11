@@ -52,5 +52,7 @@
     "share": "Dela",
     "no_games_found": "Inga spel hittades",
     "no_results": "Inga resultat",
-    "login_tudex": "Logga in"
+    "login_tudex": "Logga in",
+    "logout": "Logga ut",
+    "my_account": "Mitt Konto (Tudex Networks)"
 }

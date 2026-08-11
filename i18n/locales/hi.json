@@ -52,5 +52,7 @@
     "share": "साझा करें",
     "no_games_found": "कोई गेम नहीं मिला",
     "no_results": "कोई परिणाम नहीं",
-    "login_tudex": "साइन इन करें"
+    "login_tudex": "साइन इन करें",
+    "logout": "साइन आउट",
+    "my_account": "मेरा खाता (Tudex Networks)"
 }

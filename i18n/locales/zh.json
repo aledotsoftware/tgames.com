@@ -52,5 +52,7 @@
     "share": "分享",
     "no_games_found": "未找到游戏",
     "no_results": "无结果",
-    "login_tudex": "登录"
+    "login_tudex": "登录",
+    "logout": "退出登录",
+    "my_account": "我的账户 (Tudex Networks)"
 }

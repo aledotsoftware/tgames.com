@@ -52,5 +52,7 @@
     "share": "Поделиться",
     "no_games_found": "Игры не найдены",
     "no_results": "Нет результатов",
-    "login_tudex": "Войти"
+    "login_tudex": "Войти",
+    "logout": "Выйти",
+    "my_account": "Мой аккаунт (Tudex Networks)"
 }

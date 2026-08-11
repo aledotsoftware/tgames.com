@@ -52,5 +52,7 @@
     "share": "Paylaş",
     "no_games_found": "Oyun bulunamadı",
     "no_results": "Sonuç yok",
-    "login_tudex": "Giriş Yap"
+    "login_tudex": "Giriş Yap",
+    "logout": "Çıkış Yap",
+    "my_account": "Hesabım (Tudex Networks)"
 }

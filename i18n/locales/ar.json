@@ -52,5 +52,7 @@
     "share": "مشاركة",
     "no_games_found": "لم يتم العثور على ألعاب",
     "no_results": "لا توجد نتائج",
-    "login_tudex": "تسجيل الدخول"
+    "login_tudex": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "my_account": "حسابي (Tudex Networks)"
 }

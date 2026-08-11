@@ -63,11 +63,11 @@
                   <div class="user-card-divider"></div>
                   <a href="https://passport.tudexnetworks.com" target="_blank" rel="noopener" class="user-card-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span>Mi Cuenta (Tudex Networks)</span>
+                    <span>{{ $t('my_account') }}</span>
                   </a>
                   <button @click="logoutTudex" class="user-card-item danger">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                    <span>Cerrar Sesión</span>
+                    <span>{{ $t('logout') }}</span>
                   </button>
                 </div>
               </Transition>

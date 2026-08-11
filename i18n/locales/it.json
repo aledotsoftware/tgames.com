@@ -52,5 +52,7 @@
     "share": "Condividi",
     "no_games_found": "Nessun gioco trovato",
     "no_results": "Nessun risultato",
-    "login_tudex": "Accedi"
+    "login_tudex": "Accedi",
+    "logout": "Esci",
+    "my_account": "Il Mio Account (Tudex Networks)"
 }
