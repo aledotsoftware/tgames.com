@@ -22,7 +22,7 @@
   --glass-blur: blur(20px) saturate(180%);
 
   /* Spacing & Sizes */
-  --container-max: 1400px;
+  --container-max: 100%;
   --header-height: 72px;
 
   /* Physics Transitions */
@@ -88,7 +88,7 @@ button {
 .container {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 2.5rem;
 }
 
 .section-padding {
@@ -164,29 +164,7 @@ button {
   animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Global Navbar Improvements */
-.navbar {
-  position: sticky;
-  top: 1rem;
-  z-index: 1000;
-  margin: 1rem auto;
-  max-width: var(--container-max);
-  padding: 0 1rem;
-}
 
-.navbar-inner {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: 999px;
-  height: var(--header-height);
-  padding: 0 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-}
 
 /* Double-Bezel Game Card Architecture */
 .game-card {

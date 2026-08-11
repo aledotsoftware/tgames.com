@@ -125,7 +125,7 @@ const closeSearch = () => {
   align-items: center;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 999px;
+  border-radius: 8px;
   padding: 0 1.1rem;
   transition: var(--transition-smooth);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -172,7 +172,7 @@ const closeSearch = () => {
 .clear-btn {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
-  border-radius: 50%;
+  border-radius: 4px;
   color: var(--text-secondary);
   line-height: 1;
 }
@@ -184,14 +184,14 @@ const closeSearch = () => {
 
 .premium-search-dropdown {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 8px);
   left: 0;
   right: 0;
   background: rgba(10, 10, 14, 0.96);
   backdrop-filter: blur(28px) saturate(200%);
   -webkit-backdrop-filter: blur(28px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 20px;
+  border-radius: 8px;
   max-height: 420px;
   overflow-y: auto;
   z-index: 1100;

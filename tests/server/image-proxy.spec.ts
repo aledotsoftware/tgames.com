@@ -1,6 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { handleMultiDomainImageProxy } from '../../server/utils/imageProxy'
 
+vi.mock('../../server/utils/mongo', () => ({
+  useGamesCollection: vi.fn().mockResolvedValue(null)
+}))
+
 // Mock h3 functions and global fetch
 vi.stubGlobal('useRuntimeConfig', () => ({
   mediaDomains: ['https://domain-a.com', 'https://domain-b.com']

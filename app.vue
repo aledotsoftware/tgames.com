@@ -5,22 +5,7 @@
         <!-- Logo -->
         <NuxtLink :to="localePath('/')" class="logo-wrapper">
           <span class="logo-text font-logo">tudexgames</span>
-          <span class="pulse-indicator" title="Online">
-            <span class="pulse-ring"></span>
-            <span class="pulse-dot"></span>
-          </span>
         </NuxtLink>
-
-        <!-- Desktop Category Nav -->
-        <nav class="desktop-nav" aria-label="Main Navigation">
-          <NuxtLink :to="localePath('/')" class="nav-pill-link" active-class="active">
-            <span class="nav-text">{{ $t('home') || 'Inicio' }}</span>
-          </NuxtLink>
-          <NuxtLink :to="localePath('/upload')" class="nav-pill-link upload-btn" active-class="active">
-            <span class="upload-plus">+</span>
-            <span class="nav-text">{{ $t('upload') || 'Subir' }}</span>
-          </NuxtLink>
-        </nav>
 
         <!-- Nav Actions -->
         <div class="nav-actions">
@@ -31,7 +16,11 @@
           <!-- Language Selector -->
           <div class="lang-switcher-wrap desktop-only">
             <div class="custom-select-container">
-              <span class="globe-icon">🌐</span>
+              <svg class="globe-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
               <select :value="locale" @change="handleLanguageChange" class="premium-lang-select" aria-label="Select Language">
                 <option v-for="loc in locales" :key="loc.code" :value="loc.code">
                   {{ loc.name ? `${loc.name} (${loc.code.toUpperCase()})` : loc.code.toUpperCase() }}
@@ -60,18 +49,21 @@
           </div>
           <div class="mobile-nav-links">
             <NuxtLink :to="localePath('/')" @click="mobileMenuOpen = false" class="mobile-nav-item">
-              <span class="item-icon">🏠</span>
+              <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
               <span>{{ $t('home') || 'Inicio' }}</span>
-            </NuxtLink>
-            <NuxtLink :to="localePath('/upload')" @click="mobileMenuOpen = false" class="mobile-nav-item upload-item">
-              <span class="item-icon">🚀</span>
-              <span>{{ $t('upload') || 'Subir Juego' }}</span>
             </NuxtLink>
           </div>
           <div class="mobile-lang-wrap">
             <label class="mobile-lang-label">{{ $t('select_language') || 'Idioma' }}</label>
             <div class="mobile-select-box">
-              <span class="globe-icon">🌐</span>
+              <svg class="globe-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
               <select :value="locale" @change="handleMobileLanguageChange" class="mobile-lang-select">
                 <option v-for="loc in locales" :key="loc.code" :value="loc.code">
                   {{ loc.name ? `${loc.name} (${loc.code.toUpperCase()})` : loc.code.toUpperCase() }}
@@ -176,55 +168,45 @@ onUnmounted(() => {
 }
 
 /* ==========================================================================
-   HIGH-END GRAPHIC NAVBAR DESIGN SYSTEM
+   MINIMALIST MONOCHROME NAVBAR DESIGN
    ========================================================================== */
 
 .navbar {
   position: sticky;
-  top: 1.25rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
-  margin: 0 auto;
-  max-width: var(--container-max);
-  padding: 0 1.25rem;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s ease;
-}
-
-.navbar.scrolled {
-  top: 0.75rem;
-}
-
-.navbar-inner {
-  background: rgba(10, 10, 14, 0.78);
+  margin: 0;
+  padding: 0;
+  background: rgba(10, 10, 14, 0.88);
   backdrop-filter: blur(24px) saturate(200%);
   -webkit-backdrop-filter: blur(24px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 999px;
-  height: 68px;
-  padding: 0 1.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.2), 
-    0 20px 40px rgba(0, 0, 0, 0.7),
-    0 0 30px rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
   transition: var(--transition-smooth);
 }
 
-.navbar.scrolled .navbar-inner {
-  background: rgba(8, 8, 10, 0.92);
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.3), 
-    0 24px 48px rgba(0, 0, 0, 0.85),
-    0 0 40px rgba(255, 255, 255, 0.05);
+.navbar.scrolled {
+  background: rgba(6, 6, 8, 0.96);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
 }
 
-/* Logo & Live Indicator */
+.navbar-inner {
+  width: 100%;
+  height: 72px;
+  padding: 0 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Clean Logo */
 .logo-wrapper {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
   text-decoration: none;
 }
 
@@ -236,44 +218,10 @@ onUnmounted(() => {
   -webkit-text-fill-color: transparent;
   transition: var(--transition-smooth);
   letter-spacing: -0.05em;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
 .logo-wrapper:hover .logo-text {
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
-  opacity: 0.95;
-}
-
-/* Pulsing Cyber Dot */
-.pulse-indicator {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 10px;
-  height: 10px;
-}
-
-.pulse-dot {
-  width: 7px;
-  height: 7px;
-  background: #00ff87;
-  border-radius: 50%;
-  box-shadow: 0 0 10px #00ff87;
-}
-
-.pulse-ring {
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  border: 1.5px solid #00ff87;
-  animation: pulseRing 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-}
-
-@keyframes pulseRing {
-  0% { transform: scale(0.6); opacity: 0.9; }
-  50% { transform: scale(1.6); opacity: 0.2; }
-  100% { transform: scale(2.2); opacity: 0; }
+  opacity: 0.85;
 }
 
 /* Desktop Category Navigation Tabs */
@@ -284,7 +232,7 @@ onUnmounted(() => {
 }
 
 .nav-pill-link {
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-secondary);
   padding: 0.5rem 1.1rem;
@@ -304,131 +252,145 @@ onUnmounted(() => {
 
 .nav-pill-link.active {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.25);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .upload-btn {
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .upload-btn:hover {
-  border-color: #ffffff;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .upload-plus {
+  font-size: 0.95rem;
   font-weight: 700;
-  font-size: 1rem;
   line-height: 1;
 }
 
-/* Nav Actions */
+/* Actions Section */
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .search-wrap {
-  width: 300px;
+  width: 240px;
+  transition: var(--transition-smooth);
 }
 
-/* Premium Language Selector */
+.search-wrap:focus-within {
+  width: 320px;
+}
+
+/* Language Switcher */
+.lang-switcher-wrap {
+  position: relative;
+}
+
 .custom-select-container {
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 0 0.85rem;
+  transition: var(--transition-smooth);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.globe-icon {
-  position: absolute;
-  left: 12px;
-  font-size: 0.85rem;
-  pointer-events: none;
-  opacity: 0.85;
+.custom-select-container:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.globe-svg-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  margin-right: 0.4rem;
 }
 
 .premium-lang-select {
-  appearance: none;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  border: none;
   color: var(--text-primary);
-  padding: 0.5rem 2.2rem 0.5rem 2.2rem;
-  border-radius: 999px;
-  font-size: 0.775rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.03em;
+  padding: 0.5rem 1.4rem 0.5rem 0;
   cursor: pointer;
-  transition: var(--transition-smooth);
-  min-width: 140px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .premium-lang-select option {
   background: #0d0d12;
   color: #ffffff;
-  padding: 8px;
-}
-
-.premium-lang-select:hover {
-  border-color: var(--border-glow);
-  background: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.08);
+  padding: 0.5rem;
 }
 
 .select-arrow {
   position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 0.85rem;
   width: 0;
   height: 0;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 4px solid var(--text-primary);
+  border-top: 5px solid var(--text-secondary);
   pointer-events: none;
+  transition: var(--transition-smooth);
 }
 
 /* Mobile Toggle */
 .mobile-toggle-btn {
   display: none;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 0.6rem;
-  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   transition: var(--transition-smooth);
 }
 
 .mobile-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.14);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .hamburger-icon {
-  width: 20px;
-  height: 14px;
+  width: 18px;
+  height: 12px;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
 }
 
 .hamburger-icon span {
   display: block;
-  height: 2px;
   width: 100%;
+  height: 2px;
   background: #ffffff;
   border-radius: 2px;
-  transition: var(--transition-smooth);
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .hamburger-icon.open span:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
+  transform: translateY(5px) rotate(45deg);
 }
 
 .hamburger-icon.open span:nth-child(2) {
@@ -436,47 +398,47 @@ onUnmounted(() => {
 }
 
 .hamburger-icon.open span:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
+  transform: translateY(-5px) rotate(-45deg);
 }
 
-/* Mobile Drawer Overlay */
+/* Mobile Drawer */
 .mobile-menu-drawer {
-  position: absolute;
-  top: calc(68px + 1rem);
-  left: 1.25rem;
-  right: 1.25rem;
-  background: rgba(10, 10, 14, 0.95);
+  margin-top: 0.75rem;
+  padding: 1.25rem;
+  border-radius: 8px;
+  background: rgba(10, 10, 14, 0.96);
   backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 24px;
-  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  box-shadow: 
-    0 30px 60px rgba(0, 0, 0, 0.9), 
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .mobile-nav-links {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
 .mobile-nav-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 1.1rem;
-  border-radius: 16px;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.925rem;
+  transition: var(--transition-smooth);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  transition: var(--transition-smooth);
+}
+
+.nav-svg-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary);
 }
 
 .mobile-nav-item:hover {
@@ -487,16 +449,16 @@ onUnmounted(() => {
 .mobile-lang-wrap {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  border-top: 1px solid var(--border-color);
-  padding-top: 1.25rem;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .mobile-lang-label {
-  font-size: 0.725rem;
+  font-size: 0.75rem;
   color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   font-weight: 600;
 }
 
@@ -504,33 +466,75 @@ onUnmounted(() => {
   position: relative;
   display: flex;
   align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 0 0.85rem;
 }
 
 .mobile-lang-select {
   width: 100%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-color);
+  background: transparent;
+  border: none;
   color: #ffffff;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
-  border-radius: 14px;
-  font-weight: 600;
+  padding: 0.75rem 0.5rem 0.75rem 0;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.mobile-drawer-enter-active,
+.mobile-drawer-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-drawer-enter-from,
+.mobile-drawer-leave-to {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+/* Layout Main Content */
+.main-content {
+  flex: 1;
+}
+
+/* Footer */
+.main-footer {
+  margin-top: 4rem;
+  background: #08080a;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 0 2rem;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.footer-subtitle {
+  color: var(--text-dim);
   font-size: 0.875rem;
 }
 
-/* Drawer Animation */
-.mobile-drawer-enter-active, .mobile-drawer-leave-active {
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+.footer-bottom {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-dim);
 }
 
-.mobile-drawer-enter-from, .mobile-drawer-leave-to {
-  opacity: 0;
-  transform: translateY(-14px) scale(0.97);
-}
-
-/* Responsive Rules */
 @media (max-width: 900px) {
-  .desktop-only, .desktop-nav { display: none; }
-  .mobile-toggle-btn { display: block; }
-  .logo-text { font-size: 1.45rem; }
+  .desktop-only { display: none; }
+  .mobile-toggle-btn { display: flex; }
+  .desktop-nav { display: none; }
+  .search-wrap { width: 100%; }
 }
 </style>
